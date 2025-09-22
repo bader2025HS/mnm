@@ -1,5 +1,7 @@
-<!-- PORTFOLIO — v31 (desktop menu framed, phone skills fixed)
-     Changes: map & quiz removed; Publications scroller added; Experience cards equal height. -->
+<!-- PORTFOLIO — v33
+     Fixes: equal-height Experience cards, hamburger menu works, mobile Languages wrap.
+     Also: Publications as horizontal scroller (no images); map & quiz removed.
+-->
 
 <!-- Viewport (safety) -->
 <script>
@@ -131,7 +133,6 @@
   .btn:hover{transform:translateY(-1px)}
   .btn:after{content:""; position:absolute; inset:auto; top:0; left:0; width:0; height:100%; background:rgba(255,255,255,.15); transition:width .25s}
 
-  /* Boxes plain white */
   .card{background:#fff !important; border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:clamp(14px,2vw,18px); transition:transform .2s, box-shadow .2s}
   .card:hover{transform:translateY(-2px); box-shadow:0 14px 36px rgba(2,6,23,.11)}
   .chip-mini{background:#fff}
@@ -167,11 +168,18 @@
   }
   .flag img{width:100%; height:100%; object-fit:cover; display:block; image-rendering:auto}
 
+  /* ===== Phone fixes for Languages (overflow-proof) ===== */
   @media (max-width:780px){
     .lang-card .lang-title{margin-bottom:6px;}
     .lang-wrap{margin-top:4px;}
-    .lang-row{overflow:visible; padding:0; gap:8px; display:grid; grid-template-columns:1fr 1fr;}
-    .lang-pill{font-size:.9rem; padding:5px 8px; gap:6px}
+    .lang-row{
+      display:flex; flex-wrap:wrap; gap:8px; padding:0; overflow:visible;
+    }
+    .lang-pill{
+      font-size:.88rem; padding:6px 8px; gap:6px;
+      white-space:normal; line-height:1.2; max-width:100%;
+      word-break:keep-all; overflow-wrap:anywhere;
+    }
     .flag{width:18px; height:18px; flex:0 0 18px}
     #skills .wrap > .lang-card{margin-bottom:16px;}
   }
@@ -179,48 +187,19 @@
   /* Skills layout */
   .skills-2{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:6px}
   .skill-group-title{display:block; font-weight:700}
+  .chips{display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-top:8px}
+  .chip{display:inline-flex; align-items:center; justify-content:center; padding:4px 8px; border:1px solid var(--line); border-radius:999px; font-weight:600; font-size:.9rem; text-align:center; box-shadow:0 1px 2px rgba(2,6,23,.05); white-space:nowrap}
 
-  .chips{
-    display:grid; grid-template-columns:repeat(2,1fr);
-    gap:8px; margin-top:8px;
-  }
-  .chip{
-    display:inline-flex; align-items:center; justify-content:center;
-    padding:4px 8px; border:1px solid var(--line); border-radius:999px;
-    font-weight:600; font-size:.9rem; text-align:center; box-shadow:0 1px 2px rgba(2,6,23,.05);
-    white-space:nowrap;
-  }
-
-  /* === PHONE-ONLY: Soft/Hard skills formatting (only change requested) === */
   @media (max-width:900px){
-    .skills-2{grid-template-columns:1fr; gap:16px;} /* stack sections */
+    .skills-2{grid-template-columns:1fr; gap:16px;}
     .chips{grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px;}
-    .chip{
-      font-size:.84rem; padding:6px 8px;
-      white-space:normal;                /* allow wrapping */
-      line-height:1.2;
-      overflow-wrap:anywhere;            /* break long words if needed */
-      word-break:normal;
-      max-width:100%;
-    }
+    .chip{font-size:.84rem; padding:6px 8px; white-space:normal; line-height:1.2; overflow-wrap:anywhere; word-break:normal; max-width:100%;}
   }
-
-  /* Projects (kept for legacy, not used for Publications anymore) */
-  .projects{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
-  @media (max-width:1000px){.projects{grid-template-columns:1fr}}
-  .project{will-change:transform; transform:translateZ(0); transition:transform .28s, box-shadow .28s}
-  .project:hover{transform:scale(1.12); z-index:6; box-shadow:0 22px 54px rgba(2,6,23,.18)}
-  .thumb{aspect-ratio:16/10; border-radius:14px; border:1px solid var(--line); background:#e6fffb center/cover no-repeat; transition:transform .28s}
-  .project:hover .thumb{transform:scale(1.18)}
-  .project .body{display:grid; grid-template-rows:0fr; transition:grid-template-rows .25s, opacity .25s; opacity:0}
-  .project:hover .body{grid-template-rows:1fr; opacity:1}
-  .project .body>div{overflow:hidden}
-  @media (hover:none){ .project .body{grid-template-rows:1fr; opacity:1} .project:hover,.project:hover .thumb{transform:none} }
 
   /* Experience */
   .timeline{position:relative; margin-top:8px}
   .timeline:before{content:""; position:absolute; left:12px; top:0; bottom:0; width:2px; background:linear-gradient(var(--accent),var(--gold)); opacity:.3}
-  .t{display:grid; grid-template-columns:26px 1fr; gap:12px; margin:14px 0}
+  .t{display:grid; grid-template-columns:26px 1fr; gap:12px; margin:14px 0; align-items:start;}
   .dot{width:22px; height:22px; border-radius:50%; border:2px solid var(--accent); background:radial-gradient(circle at 40% 35%, #d4af37, #f3e8c1); box-shadow:0 0 0 3px rgba(14,165,162,.12)}
   .role{display:flex; align-items:center; justify-content:space-between; gap:12px; white-space:nowrap}
   @media (max-width:520px){ .role{white-space:normal} }
@@ -228,8 +207,15 @@
   .tags{display:flex; gap:6px; flex-wrap:wrap; margin-top:8px}
   .tag{display:inline-block; padding:6px 10px; border:1px solid var(--line); border-radius:999px; font-size:.95rem; color:#0b3b3a; background:#e9fbf9}
 
-  /* Equal-height cards for experience */
-  .timeline .card{min-height:180px; display:flex; flex-direction:column; justify-content:space-between}
+  /* Equal-height Experience cards (desktop/tablet) */
+  .timeline .card{
+    display:grid;
+    grid-template-rows:auto 1fr auto;  /* title / flexible text / tags */
+    min-height:200px;
+  }
+  @media (max-width:700px){
+    .timeline .card{ min-height:unset; grid-template-rows:auto auto auto; }
+  }
 
   /* Education scroller */
   .edu{display:grid; grid-template-columns:1fr; gap:12px}
@@ -247,8 +233,7 @@
   @media (max-width:600px){ #edu-scroll .tray{ gap:12px !important; align-items:stretch !important; padding:0 !important } #edu-scroll .edu-card{ flex:0 0 88vw !important; min-height:unset; padding:12px 12px 14px } #edu-scroll .edu-card .meta{ white-space:normal; flex-wrap:wrap; gap:6px; font-size:.95rem } #edu-scroll .edu-card .school{ font-size:1.06rem } }
   @media (min-width:601px){ #edu-scroll .edu-card:hover{ transform:translateY(-1px); box-shadow:0 6px 16px rgba(0,0,0,.10) } }
 
-  /* ===== NEW: Publications scroller (no images) ===== */
-  #pub-scroll .box{position:relative; background:transparent; border:none; border-radius:0; box-shadow:none; padding:0; overflow:visible}
+  /* Publications scroller (no images) */
   #pub-scroll .tray{display:flex; gap:12px; align-items:stretch; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; padding:0; scrollbar-width:none; -ms-overflow-style:none}
   #pub-scroll .tray::-webkit-scrollbar{ width:0; height:0; background:transparent }
   #pub-scroll .pub-card{scroll-snap-align:center; flex:0 0 300px; display:grid; grid-template-rows:auto auto auto; gap:6px; min-height:140px; background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:clamp(14px,2vw,18px); transition:transform .2s, box-shadow .2s; box-shadow:0 1px 2px rgba(2,6,23,.05)}
@@ -270,7 +255,7 @@
   .to-top{position:fixed; right:18px; bottom:18px; z-index:9997; opacity:0; pointer-events:none; transition:opacity .2s}
   .to-top.show{opacity:1; pointer-events:auto}
 
-  /* === Desktop menu framing (mobile untouched) === */
+  /* Desktop menu framing */
   @media (min-width:761px){
     header .brand{padding:0; border:none; border-radius:0; background:transparent; box-shadow:none;}
     header nav#siteNav{display:flex; align-items:center; gap:8px;}
@@ -282,9 +267,6 @@
     header nav#siteNav a.active{border-color:var(--accent); color:var(--accent); box-shadow:0 0 0 2px rgba(14,165,162,.12) inset}
     #siteNav .mhead{display:none;}
   }
-
-/* ====== EXTRA CSS ONLY FOR NEW EDUCATION SCROLLER (kept) ====== */
-/* (block unchanged except we already included it above) */
 </style>
 
 <div id="progress"></div>
@@ -355,7 +337,6 @@
 
       <!-- Skills -->
       <div class="skills-2">
-        <!-- Clinical & Research -->
         <div class="card reveal fx-from-left">
           <strong class="skill-group-title reveal fx-wipe-l">Clinical & Research</strong>
           <div class="chips">
@@ -370,7 +351,6 @@
           </div>
         </div>
 
-        <!-- Certifications -->
         <div class="card reveal fx-from-right">
           <strong class="skill-group-title reveal fx-wipe-r">Certifications</strong>
           <div class="chips">
@@ -384,13 +364,11 @@
     </div>
   </section>
 
-  <!-- Education (REPLACED with the new horizontal scroller) -->
+  <!-- Education -->
   <section id="education" class="section">
     <div class="wrap">
       <h2 class="reveal fx-wipe-r">Education</h2>
-      <p class="lead reveal fx-from-left" style="margin:.25rem 0 .9rem">
-        Scroll sideways to browse.
-      </p>
+      <p class="lead reveal fx-from-left" style="margin:.25rem 0 .9rem">Scroll sideways to browse.</p>
 
       <div id="edu-scroll" class="reveal fx-zoom">
         <div class="box" role="region" aria-label="Education cards carousel">
@@ -406,7 +384,7 @@
   <section id="experience" class="section">
     <div class="wrap">
       <h2 class="reveal fx-wipe-l">Experience</h2>
-      <p class="lead reveal fx-from-right">Research, peer review, and clinical training.</p>
+    <p class="lead reveal fx-from-right">Research, peer review, and clinical training.</p>
       <div class="timeline">
         <div class="t">
           <div class="dot" aria-hidden="true"></div>
@@ -456,21 +434,19 @@
     </div>
   </section>
 
-  <!-- Publications — NEW horizontal scroller (no images) -->
+  <!-- Publications scroller -->
   <section id="publications" class="section">
     <div class="wrap">
       <h2 class="reveal fx-wipe-r">Publications</h2>
       <p class="lead reveal fx-from-left">Selected peer-reviewed articles. Scroll sideways.</p>
 
       <div id="pub-scroll" class="reveal fx-zoom">
-        <div class="box" role="region" aria-label="Publications cards carousel">
-          <div class="tray" id="pubTray" tabindex="0"></div>
-        </div>
+        <div class="tray" id="pubTray" tabindex="0"></div>
       </div>
     </div>
   </section>
 
-  <!-- Extracurricular Activities — 4 squares -->
+  <!-- Volunteer Work -->
   <section id="activities" class="section">
     <div class="wrap">
       <h2 class="reveal fx-wipe-l">Volunteer Work</h2>
@@ -542,7 +518,33 @@ const onScroll=()=>{
 };
 addEventListener('scroll',onScroll,{passive:true}); onScroll();
 
-/* ========= Build the education cards ========= */
+/* Mobile menu toggle (hamburger) */
+(function(){
+  const menuBtn = document.getElementById('menuBtn');
+  const nav = document.getElementById('siteNav');
+  if(!menuBtn || !nav) return;
+
+  function closeNav(){
+    document.body.classList.remove('nav-open');
+    menuBtn.setAttribute('aria-expanded','false');
+    nav.setAttribute('aria-hidden','true');
+  }
+  function openNav(){
+    document.body.classList.add('nav-open');
+    menuBtn.setAttribute('aria-expanded','true');
+    nav.removeAttribute('aria-hidden');
+  }
+
+  menuBtn.addEventListener('click', ()=>{
+    document.body.classList.contains('nav-open') ? closeNav() : openNav();
+  });
+
+  nav.querySelectorAll('a').forEach(a=>a.addEventListener('click', closeNav));
+  addEventListener('keydown', e=>{ if(e.key==='Escape') closeNav(); });
+  addEventListener('resize', ()=>{ if(innerWidth>760) closeNav(); }, {passive:true});
+})();
+
+/* Build the education cards */
 (function(){
   const data = [
     { year:"Sep 2022", city:"Debrecen, Hungary", code:"hu", school:"Faculty of Medicine — University of Debrecen", program:"Doctor of Medicine (M.D.)", note:"GPA 4.71/5.0" },
@@ -575,7 +577,7 @@ addEventListener('scroll',onScroll,{passive:true}); onScroll();
   }, {passive:false});
 })();
 
-/* ========= NEW: Publications scroller (no images) ========= */
+/* Publications scroller (no images) */
 (function(){
   const pubs = [
     { title:"Deep Brain Stimulation in Addiction Disorders", journal:"Surgical Neurology International (2023)", doi:"https://doi.org/10.25259/SNI_662_2023" },
@@ -591,9 +593,7 @@ addEventListener('scroll',onScroll,{passive:true}); onScroll();
     <article class="pub-card" tabindex="0">
       <div class="title">${p.title}</div>
       <div class="journal">${p.journal}</div>
-      <div class="actions">
-        <a class="btn ghost" href="${p.doi}" target="_blank" rel="noopener">DOI →</a>
-      </div>
+      <div class="actions"><a class="btn ghost" href="${p.doi}" target="_blank" rel="noopener">DOI →</a></div>
     </article>
   `).join('');
 
