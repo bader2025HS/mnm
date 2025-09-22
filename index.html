@@ -340,18 +340,17 @@
   }
 }
 
-   @media (max-width:700px){
-  /* keep the left vertical line + dot column fixed */
+  @media (max-width:700px){
+  /* dot + card column */
   #experience .timeline .t{
     display: grid;
-    grid-template-columns: 26px minmax(0,1fr); /* dot | card fills exactly */
+    grid-template-columns: 26px 1fr;
     align-items: start;
   }
 
-  /* make every card exactly the same width on the right */
   #experience .timeline .card{
-    width: 100% !important;
-    margin-right: 0 !important;   /* remove any drift */
+    width: calc(100% + 8px) !important; /* extend a bit past the grid */
+    margin-right: -8px !important;      /* pull it back so it aligns */
     min-height: unset !important;
     height: auto !important;
   }
