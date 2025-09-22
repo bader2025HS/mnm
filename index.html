@@ -1,6 +1,6 @@
-<!-- PORTFOLIO — v34
-     Fixes: equal-height Experience (titles clamp to 2 lines), hamburger menu works,
-     mobile Languages wrap; Publications scroller (no images). Map & Quiz removed.
+<!-- PORTFOLIO — v35
+     Adds: tight Experience spacing + non-wrapping bullets.
+     Keeps: equal-height Experience, working hamburger, mobile language wrapping, pubs scroller.
 -->
 
 <!-- Viewport (safety) -->
@@ -195,14 +195,15 @@
   .t{display:grid; grid-template-columns:26px 1fr; gap:12px; margin:14px 0; align-items:start;}
   .dot{width:22px; height:22px; border-radius:50%; border:2px solid var(--accent); background:radial-gradient(circle at 40% 35%, #d4af37, #f3e8c1); box-shadow:0 0 0 3px rgba(14,165,162,.12)}
   .where{color:var(--muted)}
+
   .tags{display:flex; gap:6px; flex-wrap:wrap; margin-top:8px}
   .tag{display:inline-block; padding:6px 10px; border:1px solid var(--line); border-radius:999px; font-size:.95rem; color:#0b3b3a; background:#e9fbf9}
 
   /* ===== Experience — FORCE identical heights; title 2-line clamp; desc clamp ===== */
   .timeline .card{
     display:grid;
-    grid-template-rows:auto 1fr auto;  /* title row / flexible description / tags */
-    height:260px;                      /* identical height on desktop/tablet */
+    grid-template-rows:auto 1fr auto;
+    height:260px;
     min-height:260px;
   }
   .timeline .role{
@@ -211,7 +212,7 @@
   .timeline .role strong{
     flex:1 1 480px;
     display:-webkit-box;
-    -webkit-line-clamp:2;             /* title up to 2 lines */
+    -webkit-line-clamp:2;
     -webkit-box-orient:vertical;
     overflow:hidden;
     line-height:1.25;
@@ -220,7 +221,7 @@
     margin:.35rem 0 0;
     overflow:hidden;
     display:-webkit-box;
-    -webkit-line-clamp:3;             /* description up to 3 lines */
+    -webkit-line-clamp:3;
     -webkit-box-orient:vertical;
   }
   @media (max-width:700px){
@@ -280,19 +281,11 @@
     #siteNav .mhead{display:none;}
   }
 
-/* Experience: tighten space between description and chips */
-#experience .timeline .card .lead{
-  margin: .35rem 0 .12rem !important;   /* tiny bottom margin under the paragraph */
-}
-#experience .timeline .card .tags{
-  margin-top: 2px !important;           /* was 8px */
-}
-/* (optional) slimmer chips */
-#experience .timeline .tag{
-  padding: 4px 10px !important;         /* was 6px 10px */
-}
-
-
+  /* ==== LAST-ORDER OVERRIDES (win the cascade) ==== */
+  #experience .where{ white-space:nowrap; }                 /* keep bullet on same line */
+  #experience .timeline .card .lead{ margin:.35rem 0 .12rem !important; }
+  #experience .timeline .card .tags{ margin-top:2px !important; }
+  #experience .timeline .tag{ padding:4px 10px !important; }
 </style>
 
 <div id="progress"></div>
@@ -417,9 +410,9 @@
           <div class="card reveal fx-from-left">
             <div class="role">
               <strong>Researcher & Peer Reviewer — Cureus Journal of Medical Science</strong>
-              <span class="where">San Francisco, CA • May 2023–Jun 2024</span>
+              <span class="where">San Francisco, CA&nbsp;•&nbsp;May 2023–Jun 2024</span>
             </div>
-            <p class="lead" style="margin:.35rem 0 0">Reviewed submissions and contributed to multiple publications spanning neurology, cardiology, and mental health.</p>
+            <p class="lead" style="margin:.35rem 0 .12rem">Reviewed submissions and contributed to multiple publications spanning neurology, cardiology, and mental health.</p>
             <div class="tags"><span class="tag">Peer review</span><span class="tag">Research methods</span><span class="tag">Scientific writing</span></div>
           </div>
         </div>
@@ -428,9 +421,9 @@
           <div class="card reveal fx-from-right">
             <div class="role">
               <strong>Medical Intern (Intern Doctor) — Jordan University Hospital</strong>
-              <span class="where">Amman, Jordan • Nov 2022–Nov 2023</span>
+              <span class="where">Amman, Jordan&nbsp;•&nbsp;Nov 2022–Nov 2023</span>
             </div>
-            <p class="lead" style="margin:.35rem 0 0">Rotations across departments with responsibilities in patient care, documentation, and multidisciplinary teamwork.</p>
+            <p class="lead" style="margin:.35rem 0 .12rem">Rotations across departments with responsibilities in patient care, documentation, and multidisciplinary teamwork.</p>
             <div class="tags"><span class="tag">Clinical rotations</span><span class="tag">Patient care</span><span class="tag">Teamwork</span></div>
           </div>
         </div>
@@ -439,9 +432,9 @@
           <div class="card reveal fx-from-left">
             <div class="role">
               <strong>Visiting Medical Student — Cherubin Family Care (Internal Medicine)</strong>
-              <span class="where">Brooklyn, NY • Jun 2022–Aug 2022</span>
+              <span class="where">Brooklyn, NY&nbsp;•&nbsp;Jun 2022–Aug 2022</span>
             </div>
-            <p class="lead" style="margin:.35rem 0 0">Internal medicine rotations with exposure to US clinical workflows and patient interaction.</p>
+            <p class="lead" style="margin:.35rem 0 .12rem">Internal medicine rotations with exposure to US clinical workflows and patient interaction.</p>
             <div class="tags"><span class="tag">Internal medicine</span><span class="tag">US clinical exposure</span></div>
           </div>
         </div>
@@ -450,9 +443,9 @@
           <div class="card reveal fx-from-right">
             <div class="role">
               <strong>Medical Intern (Sixth Year Medical Student) — University of Debrecen Clinical Center</strong>
-              <span class="where">Debrecen, Hungary • Sep 2021–May 2022</span>
+              <span class="where">Debrecen, Hungary&nbsp;•&nbsp;Sep 2021–May 2022</span>
             </div>
-            <p class="lead" style="margin:.35rem 0 0">Final-year clinical practice in hospital departments under faculty supervision.</p>
+            <p class="lead" style="margin:.35rem 0 .12rem">Final-year clinical practice in hospital departments under faculty supervision.</p>
             <div class="tags"><span class="tag">Clinical practice</span><span class="tag">Documentation</span></div>
           </div>
         </div>
