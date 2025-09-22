@@ -202,9 +202,9 @@
   /* ===== Experience — FORCE identical heights; title 2-line clamp; desc clamp ===== */
   .timeline .card{
     display:grid;
-    grid-template-rows:auto 1fr auto;
-    height:260px;
-    min-height:260px;
+    grid-template-rows:auto auto auto;
+    height:auto;
+    min-height:unset;
   }
   .timeline .role{
     display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap;
