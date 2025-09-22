@@ -188,6 +188,17 @@
     .chips{grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px;}
     .chip{font-size:.84rem; padding:6px 8px; white-space:normal; line-height:1.2; overflow-wrap:anywhere; word-break:normal; max-width:100%;}
   }
+     /* 3-column skills layout */
+.skills-3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-top:6px;
+}
+/* Stack on phones/tablets */
+@media (max-width:900px){
+  .skills-3{ grid-template-columns:1fr; gap:16px; }
+}
 
   /* Experience timeline */
   .timeline{position:relative; margin-top:8px}
@@ -341,44 +352,43 @@
 <section id="skills" class="section">
   <div class="wrap">
     <h2 class="reveal fx-wipe-l">Skills and Languages</h2>
-    <p class="lead reveal fx-from-right">Clinical foundations, research, and communication.</p>
+    <p class="lead reveal fx-from-right">Clinical foundations, certifications, and languages.</p>
 
-    <!-- Clinical & Research (FULL-WIDTH TOP CARD) -->
-    <div class="card reveal fx-zoom">
-      <strong class="skill-group-title reveal fx-wipe-l">Clinical & Research</strong>
-      <div class="chips">
-        <span class="chip">Clinical rotations</span>
-        <span class="chip">Patient assessment</span>
-        <span class="chip">Evidence synthesis</span>
-        <span class="chip">Peer review</span>
-        <span class="chip">Manuscript writing</span>
-        <span class="chip">Literature review</span>
-        <span class="chip">Team collaboration</span>
-        <span class="chip">Medical communication</span>
-      </div>
-    </div>
-
-    <!-- 2-column row: Languages (left) + Certifications (right) -->
-    <div class="skills-2">
-      <!-- Languages (now LEFT column, vertical) -->
-      <div class="card reveal fx-from-left lang-card">
-        <strong class="lang-title reveal fx-wipe-r">Languages</strong>
-        <div class="lang-wrap reveal fx-from-up">
-          <div class="lang-row">
-            <span class="lang-pill"><strong>English</strong> (Proficient, TOEFL 118/120)</span>
-            <span class="lang-pill"><strong>Arabic</strong> (Native)</span>
-          </div>
+    <div class="skills-3">
+      <!-- Clinical & Research -->
+      <div class="card reveal fx-from-left">
+        <strong class="skill-group-title reveal fx-wipe-l">Clinical & Research</strong>
+        <div class="chips">
+          <span class="chip">Clinical rotations</span>
+          <span class="chip">Patient assessment</span>
+          <span class="chip">Evidence synthesis</span>
+          <span class="chip">Peer review</span>
+          <span class="chip">Manuscript writing</span>
+          <span class="chip">Literature review</span>
+          <span class="chip">Team collaboration</span>
+          <span class="chip">Medical communication</span>
         </div>
       </div>
 
-      <!-- Certifications (RIGHT column) -->
-      <div class="card reveal fx-from-right">
+      <!-- Certifications -->
+      <div class="card reveal fx-zoom">
         <strong class="skill-group-title reveal fx-wipe-r">Certifications</strong>
         <div class="chips">
           <span class="chip">ECFMG Certified (Oct 2022)</span>
           <span class="chip">USMLE Step 3 (Dec 2022)</span>
           <span class="chip">USMLE Step 2 (May 2022)</span>
           <span class="chip">USMLE Step 1 (Sep 2021)</span>
+        </div>
+      </div>
+
+      <!-- Languages -->
+      <div class="card reveal fx-from-right lang-card">
+        <strong class="lang-title reveal fx-wipe-r">Languages</strong>
+        <div class="lang-wrap reveal fx-from-up">
+          <div class="lang-row">
+            <span class="lang-pill"><strong>English</strong> (Proficient, TOEFL 118/120)</span>
+            <span class="lang-pill"><strong>Arabic</strong> (Native)</span>
+          </div>
         </div>
       </div>
     </div>
