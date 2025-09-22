@@ -280,16 +280,18 @@
     #siteNav .mhead{display:none;}
   }
 
-     /* Experience spacing tweak: tighten gap between description and chips */
-.timeline .card .lead{
-  margin: .35rem 0 .15rem !important;  /* was .35rem 0 0 — adds a tiny bottom margin */
+/* Experience: tighten space between description and chips */
+#experience .timeline .card .lead{
+  margin: .35rem 0 .12rem !important;   /* tiny bottom margin under the paragraph */
 }
-.timeline .card .tags{
-  margin-top: 4px !important;          /* was 8px */
+#experience .timeline .card .tags{
+  margin-top: 2px !important;           /* was 8px */
+}
+/* (optional) slimmer chips */
+#experience .timeline .tag{
+  padding: 4px 10px !important;         /* was 6px 10px */
 }
 
-/* (optional) make chips a hair slimmer too */
-.timeline .tag{ padding:4px 10px; }     /* was 6px 10px */
 
 </style>
 
