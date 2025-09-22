@@ -340,21 +340,24 @@
   }
 }
 
-  @media (max-width:700px){
+@media (max-width:700px){
   /* dot + card column */
   #experience .timeline .t{
     display: grid;
-    grid-template-columns: 26px 1fr;
+    grid-template-columns: 26px minmax(0,1fr); /* keep dot + card, avoid overflow */
     align-items: start;
   }
 
   #experience .timeline .card{
-    width: calc(100% + 8px) !important; /* extend a bit past the grid */
-    margin-right: -8px !important;      /* pull it back so it aligns */
+    /* remove any custom width you added */
+    width: auto !important;           /* <-- important */
+    margin-right: -8px !important;    /* uniform slight overhang on right */
+    padding-right: calc(clamp(14px,2vw,18px) + 8px); /* keep text off the edge */
     min-height: unset !important;
     height: auto !important;
   }
 }
+
 
      /* Force white background for mini chips (location, email, phone) */
 .chip-mini {
