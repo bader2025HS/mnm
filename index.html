@@ -279,6 +279,18 @@
     header nav#siteNav a.active{border-color:var(--accent); color:var(--accent); box-shadow:0 0 0 2px rgba(14,165,162,.12) inset}
     #siteNav .mhead{display:none;}
   }
+
+     /* Experience spacing tweak: tighten gap between description and chips */
+.timeline .card .lead{
+  margin: .35rem 0 .15rem !important;  /* was .35rem 0 0 — adds a tiny bottom margin */
+}
+.timeline .card .tags{
+  margin-top: 4px !important;          /* was 8px */
+}
+
+/* (optional) make chips a hair slimmer too */
+.timeline .tag{ padding:4px 10px; }     /* was 6px 10px */
+
 </style>
 
 <div id="progress"></div>
