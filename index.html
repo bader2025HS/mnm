@@ -218,6 +218,12 @@
 @media (max-width:900px){
   .skills-3{ grid-template-columns:1fr; gap:16px; }
 }
+     /* Desktop: Certifications wider, Languages narrower */
+@media (min-width:901px){
+  .skills-3{
+    grid-template-columns: 1.05fr 1.4fr 0.65fr;  /* Clinical | Certs | Languages */
+  }
+}
 
   /* Experience timeline */
   .timeline{position:relative; margin-top:8px}
