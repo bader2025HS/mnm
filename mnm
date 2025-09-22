@@ -1,0 +1,615 @@
+<!-- PORTFOLIO — v31 (desktop menu framed, animations kept, map & quiz removed) -->
+
+<!-- Viewport (safety) -->
+<script>
+(function(){
+  if(!document.querySelector('meta[name="viewport"]')){
+    const m=document.createElement('meta');
+    m.name='viewport'; m.content='width=device-width, initial-scale=1';
+    document.head.appendChild(m);
+  }
+})();
+</script>
+
+<style>
+  :root{
+    --header:72px; --maxw:860px;
+    --bg1:#eafaf7; --bg2:#f7fbff; --bg3:#e9f8ff;
+    --text:#0f172a; --muted:#475569; --card:#f8fafc; --line:#e2e8f0;
+    --accent:#0ea5a2; --accent2:#1fbdb9; --gold:#d4af37;
+    --radius:18px; --shadow:0 10px 30px rgba(2,6,23,.07);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth; scroll-padding-top:calc(var(--header) + 14px)}
+  body{
+    margin:0; color:var(--text); font-family:system-ui,-apple-system,Segoe UI,Inter,Roboto,Arial;
+    background:linear-gradient(120deg,var(--bg1),var(--bg2),var(--bg3));
+    background-size:200% 200%; animation:bgShift 22s ease infinite;
+  }
+  @keyframes bgShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+  body:before{
+    content:""; position:fixed; inset:0; z-index:-1; opacity:.05; pointer-events:none;
+    background:
+      repeating-linear-gradient(90deg,#000 0 1px,transparent 1px 26px),
+      repeating-linear-gradient(0deg,#000 0 1px,transparent 1px 26px);
+    mix-blend-mode:soft-light; animation:gridPan 30s linear infinite;
+  }
+  body::after{
+    content:""; position:fixed; inset:0; pointer-events:none; opacity:.18;
+    background:
+      repeating-radial-gradient(circle at 20% 30%, rgba(2,6,23,.08) 0 2px, transparent 2px 18px),
+      repeating-radial-gradient(circle at 75% 60%, rgba(2,6,23,.06) 0 2px, transparent 2px 22px);
+    filter:blur(.2px);
+  }
+  @keyframes gridPan{to{transform:translate3d(-26px,-26px,0)}}
+
+  .wrap{max-width:var(--maxw); margin-inline:auto; padding:clamp(16px,3vw,26px)}
+  .section{margin:clamp(24px,5vw,46px) 0}
+  .section h2{margin:0 0 6px; font-size:clamp(26px,4.2vw,38px)}
+  .section h2 + .lead{margin-top:2px}
+  .lead{color:var(--muted)}
+
+  /* Reveals */
+  .reveal{opacity:0; will-change:transform,filter;
+    transition:opacity .6s cubic-bezier(.2,.7,.2,1),
+               transform .6s cubic-bezier(.2,.7,.2,1),
+               filter .6s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1; transform:none; filter:none}
+  .fx-from-left{transform:translateX(-28px) skewX(-2deg); filter:blur(4px)}
+  .fx-from-right{transform:translateX(28px) skewX(2deg); filter:blur(4px)}
+  .fx-from-up{transform:translateY(-24px); filter:blur(6px)}
+  .fx-from-down{transform:translateY(24px); filter:blur(6px)}
+  .fx-zoom{transform:scale(.94); filter:blur(4px)}
+  .fx-wipe-l,.fx-wipe-r{display:inline-block; will-change:clip-path; transition:clip-path .7s cubic-bezier(.2,.7,.2,1)}
+  .fx-wipe-l{clip-path:inset(0 100% 0 0)} .fx-wipe-r{clip-path:inset(0 0 0 100%)}
+  .fx-wipe-l.in,.fx-wipe-r.in{clip-path:inset(0 0 0 0)}
+
+  /* Header */
+  header{
+    position:sticky; top:0; z-index:9999; height:var(--header);
+    background:rgba(255,255,255,.95); border-bottom:1px solid var(--line);
+    backdrop-filter:saturate(120%) blur(10px);
+  }
+  header .inner{max-width:var(--maxw); height:100%; margin:auto; padding:0 16px;
+    display:flex; align-items:center; justify-content:space-between; gap:12px}
+  .brand{display:flex; align-items:center; gap:10px; font-weight:800; white-space:nowrap}
+  .brand span{display:inline-block}
+  .badge{width:34px; height:34px; border-radius:10px; flex:0 0 34px;
+    background:conic-gradient(from 220deg,var(--accent),var(--accent2));
+    box-shadow:0 6px 18px rgba(2,6,23,.06); animation:spin 10s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* Navbar links */
+  nav a{
+    color:var(--muted); text-decoration:none; font-weight:600; margin-left:14px; position:relative; padding:6px 0
+  }
+  nav a:hover{color:var(--accent)}
+  nav a.active{color:var(--accent)}
+  nav a:after{display:none !important}
+
+  /* Hamburger + mobile overlay */
+  .menu-toggle{display:none; place-items:center; width:42px; height:42px;
+    border:1px solid var(--line); border-radius:12px; background:var(--card); box-shadow:var(--shadow)}
+  .menu-toggle .bar{width:20px; height:2px; background:var(--text); position:relative; transition:transform .25s}
+  .menu-toggle .bar:before,.menu-toggle .bar:after{
+    content:""; position:absolute; left:0; width:20px; height:2px; background:var(--text); transition:.25s}
+  .menu-toggle .bar:before{top:-6px} .menu-toggle .bar:after{top:6px}
+  body.nav-open .menu-toggle .bar{transform:rotate(45deg)}
+  body.nav-open .menu-toggle .bar:before{transform:rotate(-90deg) translateX(-6px); opacity:0}
+  body.nav-open .menu-toggle .bar:after{transform:rotate(-90deg); top:0}
+  body.nav-open{overflow:hidden}
+
+  @media (max-width:760px), (max-device-width:812px){
+    .menu-toggle{display:grid; position:fixed; right:12px; top:12px; z-index:10005}
+    header nav#siteNav{
+      position:fixed; inset:0; z-index:10004; height:100svh;
+      padding:calc(env(safe-area-inset-top,0px) + 84px) 18px 24px;
+      display:flex; flex-direction:column; gap:10px; background:#fff !important;
+      transform:translateY(-100%); opacity:0; visibility:hidden; pointer-events:none;
+      transition:transform .28s ease, opacity .2s ease;
+    }
+    body.nav-open header nav#siteNav{transform:translateY(0); opacity:1; visibility:visible; pointer-events:auto}
+    header nav a{margin:0; padding:16px 14px; border-radius:12px; font-size:1.12rem; background:#fff; border:1px solid var(--line)}
+    header nav a.active{color:var(--accent); border-color:var(--accent)}
+    #siteNav .mhead{
+      display:flex; align-items:center; gap:10px;
+      position:absolute; left:18px; top:calc(env(safe-area-inset-top,0px) + 18px);
+      font-weight:800;
+    }
+  }
+
+  #progress{position:fixed; top:0; left:0; height:3px; width:0; z-index:10000;
+    background:linear-gradient(90deg,var(--accent),#7c61ff,#ff7a6e,#f59e0b)}
+
+  /* Type / buttons / cards */
+  h1{font-size:clamp(44px,7vw,74px); margin:0 0 6px}
+  .btn{display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:14px;
+    border:1px solid var(--line); font-weight:700; text-decoration:none; position:relative; overflow:hidden}
+  .btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; border-color:transparent}
+  .btn.ghost{background:var(--card); color:var(--text)}
+  .btn:hover{transform:translateY(-1px)}
+  .btn:after{content:""; position:absolute; inset:auto; top:0; left:0; width:0; height:100%; background:rgba(255,255,255,.15); transition:width .25s}
+
+  /* Boxes plain white */
+  .card{background:#fff !important; border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:clamp(14px,2vw,18px); transition:transform .2s, box-shadow .2s}
+  .card:hover{transform:translateY(-2px); box-shadow:0 14px 36px rgba(2,6,23,.11)}
+  .chip-mini{background:#fff}
+  .lang-pill{background:#fff}
+  .chip{background:#fff}
+
+  /* Strap under name */
+  .strap{margin:6px 0 12px; display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+  .rotator{font-weight:800; letter-spacing:.2px}
+  .fade{opacity:0; transform:translateY(6px); transition:opacity .25s, transform .25s}
+  .fade.show{opacity:1; transform:none}
+  .chips-mini{display:flex; gap:8px; flex-wrap:wrap}
+  .chip-mini{padding:4px 10px; border:1px solid var(--line); border-radius:999px; font-weight:600; font-size:.92rem}
+
+  /* ===== Skills & Languages ===== */
+
+  /* Languages */
+  .lang-card .lang-title{display:block}
+  .lang-wrap{margin-top:6px;}
+  .lang-row{
+    display:flex; gap:10px; align-items:center;
+    overflow-x:auto; padding:8px 4px 10px; scrollbar-gutter:stable; scroll-snap-type:x proximity;
+  }
+  .lang-pill{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:6px 10px; border:1px solid var(--line); border-radius:999px;
+    white-space:nowrap; scroll-snap-align:center; box-shadow:0 1px 2px rgba(2,6,23,.05);
+    font-weight:600;
+  }
+  .flag{
+    display:inline-block; width:20px; height:20px; border-radius:50%; overflow:hidden; flex:0 0 20px;
+    box-shadow:0 0 0 1px var(--line), 0 1px 2px rgba(2,6,23,.12);
+  }
+  .flag img{width:100%; height:100%; object-fit:cover; display:block; image-rendering:auto}
+
+  @media (max-width:780px){
+    .lang-card .lang-title{margin-bottom:6px;}
+    .lang-wrap{margin-top:4px;}
+    .lang-row{overflow:visible; padding:0; gap:8px; display:grid; grid-template-columns:1fr 1fr;}
+    .lang-pill{font-size:.9rem; padding:5px 8px; gap:6px}
+    .flag{width:18px; height:18px; flex:0 0 18px}
+    #skills .wrap > .lang-card{margin-bottom:16px;}
+  }
+
+  /* Skills layout */
+  .skills-2{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:6px}
+  .skill-group-title{display:block; font-weight:700}
+
+  .chips{display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-top:8px}
+  .chip{display:inline-flex; align-items:center; justify-content:center; padding:4px 8px; border:1px solid var(--line); border-radius:999px; font-weight:600; font-size:.9rem; text-align:center; box-shadow:0 1px 2px rgba(2,6,23,.05); white-space:nowrap}
+
+  /* PHONE-ONLY: Soft/Hard skills formatting */
+  @media (max-width:900px){
+    .skills-2{grid-template-columns:1fr; gap:16px;}
+    .chips{grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px;}
+    .chip{font-size:.84rem; padding:6px 8px; white-space:normal; line-height:1.2; overflow-wrap:anywhere; word-break:normal; max-width:100%;}
+  }
+
+  /* Projects (repurposed for Publications) */
+  .projects{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
+  @media (max-width:1000px){.projects{grid-template-columns:1fr}}
+  .project{will-change:transform; transform:translateZ(0); transition:transform .28s, box-shadow .28s}
+  .project:hover{transform:scale(1.12); z-index:6; box-shadow:0 22px 54px rgba(2,6,23,.18)}
+  .thumb{aspect-ratio:16/10; border-radius:14px; border:1px solid var(--line); background:#eef6ff center/cover no-repeat; transition:transform .28s}
+  .project:hover .thumb{transform:scale(1.18)}
+  .project .body{display:grid; grid-template-rows:0fr; transition:grid-template-rows .25s, opacity .25s; opacity:0}
+  .project:hover .body{grid-template-rows:1fr; opacity:1}
+  .project .body>div{overflow:hidden}
+  @media (hover:none){ .project .body{grid-template-rows:1fr; opacity:1} .project:hover,.project:hover .thumb{transform:none} }
+
+  /* Experience */
+  .timeline{position:relative; margin-top:8px}
+  .timeline:before{content:""; position:absolute; left:12px; top:0; bottom:0; width:2px; background:linear-gradient(var(--accent),var(--gold)); opacity:.3}
+  .t{display:grid; grid-template-columns:26px 1fr; gap:12px; margin:14px 0}
+  .dot{width:22px; height:22px; border-radius:50%; border:2px solid var(--accent); background:radial-gradient(circle at 40% 35%, #d4af37, #f3e8c1); box-shadow:0 0 0 3px rgba(14,165,162,.12)}
+  .role{display:flex; align-items:center; justify-content:space-between; gap:12px; white-space:nowrap}
+  @media (max-width:520px){ .role{white-space:normal} }
+  .where{color:var(--muted)}
+  .tags{display:flex; gap:6px; flex-wrap:wrap; margin-top:8px}
+  .tag{display:inline-block; padding:6px 10px; border:1px solid var(--line); border-radius:999px; font-size:.95rem; color:#0b3b3a; background:#e9fbf9}
+
+  /* Education scroller */
+  .edu{display:grid; grid-template-columns:1fr; gap:12px}
+  #edu-scroll .box{position:relative; background:transparent; border:none; border-radius:0; box-shadow:none; padding:0; overflow:visible}
+  #edu-scroll .tray-wrap{ position:relative; }
+  #edu-scroll .tray{display:flex; gap:12px; align-items:center; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; padding:0; scrollbar-width:none; -ms-overflow-style:none}
+  #edu-scroll .tray::-webkit-scrollbar{ width:0; height:0; background:transparent }
+  #edu-scroll .edu-card{scroll-snap-align:center; flex:0 0 300px; display:grid; grid-template-rows:auto auto 1fr; gap:8px; min-height:240px; background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:clamp(14px,2vw,18px); transition:transform .2s, box-shadow .2s; box-shadow:0 1px 2px rgba(2,6,23,.05)}
+  #edu-scroll .edu-card .meta{display:flex; align-items:center; gap:8px; color:var(--muted); font-size:1rem; white-space:nowrap; word-break:keep-all}
+  #edu-scroll .edu-card .flag-ico{width:24px; height:16px; object-fit:cover; border-radius:2px; box-shadow:0 0 0 1px var(--line)}
+  #edu-scroll .edu-card .school{font-weight:800; font-size:1.14rem; line-height:1.25}
+  #edu-scroll .edu-card .desc{font-size:1.02rem; line-height:1.38}
+  #edu-scroll .edu-card .note{font-size:.94rem; color:var(--muted)}
+  @media (min-width:1200px){ #edu-scroll .edu-card{ flex:0 0 320px } }
+  @media (max-width:600px){ #edu-scroll .tray{ gap:12px !important; align-items:stretch !important; padding:0 !important } #edu-scroll .edu-card{ flex:0 0 88vw !important; min-height:unset; padding:12px 12px 14px } #edu-scroll .edu-card .meta{ white-space:normal; flex-wrap:wrap; gap:6px; font-size:.95rem } #edu-scroll .edu-card .school{ font-size:1.06rem } }
+  @media (min-width:601px){ #edu-scroll .edu-card:hover{ transform:translateY(-1px); box-shadow:0 6px 16px rgba(0,0,0,.10) } }
+
+  /* Activities */
+  .activities-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px}
+  @media (max-width:900px){ .activities-grid{grid-template-columns:repeat(2,1fr)} }
+  @media (max-width:420px){ .activities-grid{grid-template-columns:repeat(2,1fr)} }
+  .activity{aspect-ratio:1/1; display:grid; place-items:center; text-align:center; padding:12px}
+  .activity .title{font-weight:800}
+
+  /* Footer */
+  footer{border-top:1px solid var(--line); color:var(--muted); padding:10px 0; margin-top:24px; background:#fff; backdrop-filter:saturate(120%) blur(10px); font-size:.92rem}
+  .to-top{position:fixed; right:18px; bottom:18px; z-index:9997; opacity:0; pointer-events:none; transition:opacity .2s}
+  .to-top.show{opacity:1; pointer-events:auto}
+
+  /* Desktop menu framing */
+  @media (min-width:761px){
+    header .brand{padding:0; border:none; border-radius:0; background:transparent; box-shadow:none}
+    header nav#siteNav{display:flex; align-items:center; gap:8px}
+    header nav#siteNav a{margin:0; padding:8px 12px; border:1px solid var(--line); border-radius:12px; background:rgba(255,255,255,.9); text-decoration:none; color:var(--muted)}
+    header nav#siteNav a:hover{border-color:var(--accent); color:var(--accent)}
+    header nav#siteNav a.active{border-color:var(--accent); color:var(--accent); box-shadow:0 0 0 2px rgba(14,165,162,.12) inset}
+    #siteNav .mhead{display:none}
+  }
+</style>
+
+<div id="progress"></div>
+
+<header>
+  <div class="inner">
+    <div class="brand"><div class="badge" aria-hidden="true"></div><span>Mohammad Mansour</span></div>
+
+    <!-- Hamburger -->
+    <button class="menu-toggle" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">
+      <span class="bar"></span>
+    </button>
+
+    <nav id="siteNav">
+      <div class="mhead"><div class="badge" aria-hidden="true"></div><span>Mohammad Mansour</span></div>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#education">Education</a>
+      <a href="#experience">Experience</a>
+      <a href="#publications">Publications</a>
+      <a href="#activities">Activities</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- About -->
+  <section id="about" class="section">
+    <div class="wrap reveal fx-from-down">
+      <h1 class="reveal fx-wipe-l">Mohammad Mansour</h1>
+
+      <div class="strap reveal fx-from-right">
+        <span class="rotator"><span id="rotate" class="fade">Medical Doctor</span></span>
+        <div class="chips-mini">
+          <span class="chip-mini">Poughkeepsie, NY</span>
+          <span class="chip-mini">mohdn.mansour2@gmail.com</span>
+          <span class="chip-mini">+1‑646‑271‑4559</span>
+        </div>
+      </div>
+
+      <div class="card reveal fx-zoom">
+        <strong class="reveal fx-wipe-r">About</strong>
+        <p class="lead reveal fx-from-left" style="margin:.4rem 0 0">
+          MD graduate (University of Debrecen, GPA 4.71/5.0) with clinical internship experience in Jordan and Hungary, peer‑review and authorship with <em>Cureus</em>, and interests spanning neurology, cardiology, and public health. Comfortable collaborating across teams, synthesizing evidence, and communicating findings clearly.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills & Languages -->
+  <section id="skills" class="section">
+    <div class="wrap">
+      <h2 class="reveal fx-wipe-l">Skills and Languages</h2>
+      <p class="lead reveal fx-from-right">Clinical foundations, research, and communication.</p>
+
+      <!-- Languages -->
+      <div class="card reveal fx-zoom lang-card">
+        <strong class="lang-title reveal fx-wipe-r">Languages</strong>
+        <div class="lang-wrap reveal fx-from-up">
+          <div class="lang-row">
+            <span class="lang-pill"><span class="flag"><img src="https://flagcdn.com/w40/us.png" alt="English"/></span><strong>English</strong> (Proficient — TOEFL 118/120, Jun 2023)</span>
+            <span class="lang-pill"><span class="flag"><img src="https://flagcdn.com/w40/sa.png" alt="Arabic"/></span><strong>Arabic</strong> (Native)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Skills -->
+      <div class="skills-2">
+        <!-- Clinical & Research -->
+        <div class="card reveal fx-from-left">
+          <strong class="skill-group-title reveal fx-wipe-l">Clinical & Research</strong>
+          <div class="chips">
+            <span class="chip">Clinical rotations</span>
+            <span class="chip">Patient assessment</span>
+            <span class="chip">Evidence synthesis</span>
+            <span class="chip">Peer review</span>
+            <span class="chip">Manuscript writing</span>
+            <span class="chip">Literature review</span>
+            <span class="chip">Team collaboration</span>
+            <span class="chip">Medical communication</span>
+          </div>
+        </div>
+
+        <!-- Certifications -->
+        <div class="card reveal fx-from-right">
+          <strong class="skill-group-title reveal fx-wipe-r">Certifications</strong>
+          <div class="chips">
+            <span class="chip">ECFMG Certified (Oct 2022)</span>
+            <span class="chip">USMLE Step 3 (Dec 2022)</span>
+            <span class="chip">USMLE Step 2 (May 2022)</span>
+            <span class="chip">USMLE Step 1 (Sep 2021)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Education (horizontal scroller) -->
+  <section id="education" class="section">
+    <div class="wrap">
+      <h2 class="reveal fx-wipe-r">Education</h2>
+      <p class="lead reveal fx-from-left" style="margin:.25rem 0 .9rem">Scroll sideways to browse.</p>
+
+      <div id="edu-scroll" class="reveal fx-zoom">
+        <div class="box" role="region" aria-label="Education cards carousel">
+          <div class="tray-wrap">
+            <div class="tray" id="eduTray" tabindex="0"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience -->
+  <section id="experience" class="section">
+    <div class="wrap">
+      <h2 class="reveal fx-wipe-l">Experience</h2>
+      <p class="lead reveal fx-from-right">Research, peer review, and clinical training.</p>
+      <div class="timeline">
+        <div class="t">
+          <div class="dot" aria-hidden="true"></div>
+          <div class="card reveal fx-from-left">
+            <div class="role">
+              <strong>Researcher & Peer Reviewer — Cureus Journal of Medical Science</strong>
+              <span class="where">San Francisco, CA • May 2023–Jun 2024</span>
+            </div>
+            <p class="lead" style="margin:.35rem 0 0">Reviewed submissions and contributed to multiple publications spanning neurology, cardiology, and mental health.</p>
+            <div class="tags"><span class="tag">Peer review</span><span class="tag">Research methods</span><span class="tag">Scientific writing</span></div>
+          </div>
+        </div>
+
+        <div class="t">
+          <div class="dot"></div>
+          <div class="card reveal fx-from-right">
+            <div class="role">
+              <strong>Medical Intern (Intern Doctor) — Jordan University Hospital</strong>
+              <span class="where">Amman, Jordan • Nov 2022–Nov 2023</span>
+            </div>
+            <p class="lead" style="margin:.35rem 0 0">Rotations across departments with responsibilities in patient care, documentation, and multidisciplinary teamwork.</p>
+            <div class="tags"><span class="tag">Clinical rotations</span><span class="tag">Patient care</span><span class="tag">Teamwork</span></div>
+          </div>
+        </div>
+
+        <div class="t">
+          <div class="dot"></div>
+          <div class="card reveal fx-from-left">
+            <div class="role">
+              <strong>Visiting Medical Student — Cherubin Family Care (Internal Medicine)</strong>
+              <span class="where">Brooklyn, NY • Jun 2022–Aug 2022</span>
+            </div>
+            <p class="lead" style="margin:.35rem 0 0">Internal medicine rotations with exposure to US clinical workflows and patient interaction.</p>
+            <div class="tags"><span class="tag">Internal medicine</span><span class="tag">US clinical exposure</span></div>
+          </div>
+        </div>
+
+        <div class="t">
+          <div class="dot"></div>
+          <div class="card reveal fx-from-right">
+            <div class="role">
+              <strong>Medical Intern (Sixth Year Medical Student) — University of Debrecen Clinical Center</strong>
+              <span class="where">Debrecen, Hungary • Sep 2021–May 2022</span>
+            </div>
+            <p class="lead" style="margin:.35rem 0 0">Final‑year clinical practice in hospital departments under faculty supervision.</p>
+            <div class="tags"><span class="tag">Clinical practice</span><span class="tag">Documentation</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Publications (as project cards) -->
+  <section id="publications" class="section">
+    <div class="wrap">
+      <h2 class="reveal fx-wipe-r">Publications</h2>
+      <p class="lead reveal fx-from-left">Selected peer‑reviewed articles.</p>
+      <div class="projects">
+        <article class="card project reveal fx-zoom">
+          <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1600&auto=format&fit=crop');"></div>
+          <h3 style="margin:10px 0">Deep Brain Stimulation in Addiction Disorders</h3>
+          <div class="body"><div>
+            <p class="lead"><em>Surgical Neurology International</em>, 2023.</p>
+            <p><a class="btn ghost" href="https://doi.org/10.25259/SNI_662_2023" target="_blank" rel="noopener">DOI →</a></p>
+          </div></div>
+        </article>
+
+        <article class="card project reveal fx-zoom">
+          <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1580281657527-47f249e8f5ee?q=80&w=1600&auto=format&fit=crop');"></div>
+          <h3 style="margin:10px 0">Frailty in Aging HIV‑Positive Individuals</h3>
+          <div class="body"><div>
+            <p class="lead"><em>Cureus</em>, 2023.</p>
+            <p><a class="btn ghost" href="https://doi.org/10.7759/cureus.50539" target="_blank" rel="noopener">DOI →</a></p>
+          </div></div>
+        </article>
+
+        <article class="card project reveal fx-zoom">
+          <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1581594693700-21e9c5d9ad8e?q=80&w=1600&auto=format&fit=crop');"></div>
+          <h3 style="margin:10px 0">Revascularization in Acute Coronary Syndrome</h3>
+          <div class="body"><div>
+            <p class="lead"><em>Cureus</em>, 2023.</p>
+            <p><a class="btn ghost" href="https://doi.org/10.7759/cureus.47207" target="_blank" rel="noopener">DOI →</a></p>
+          </div></div>
+        </article>
+
+        <article class="card project reveal fx-zoom">
+          <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1559757175-0886aa6b6246?q=80&w=1600&auto=format&fit=crop');"></div>
+          <h3 style="margin:10px 0">Reperfusion Beyond Conventional Window (Ischemic Stroke)</h3>
+          <div class="body"><div>
+            <p class="lead"><em>Cureus</em>, 2023.</p>
+            <p><a class="btn ghost" href="https://doi.org/10.7759/cureus.45864" target="_blank" rel="noopener">DOI →</a></p>
+          </div></div>
+        </article>
+
+        <article class="card project reveal fx-zoom">
+          <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1600&auto=format&fit=crop');"></div>
+          <h3 style="margin:10px 0">PTSD: Pharmacological & Psychotherapeutic Interventions</h3>
+          <div class="body"><div>
+            <p class="lead"><em>Cureus</em>, 2023.</p>
+            <p><a class="btn ghost" href="https://doi.org/10.7759/cureus.44905" target="_blank" rel="noopener">DOI →</a></p>
+          </div></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Activities / Volunteering -->
+  <section id="activities" class="section">
+    <div class="wrap">
+      <h2 class="reveal fx-wipe-l">Volunteer Work</h2>
+      <p class="lead reveal fx-from-right">Community and student engagement.</p>
+
+      <div class="activities-grid">
+        <article class="card activity reveal fx-zoom"><div class="title">SharesEasy — Community Manager (NY, USA) • Nov 2023–Jun 2024</div></article>
+        <article class="card activity reveal fx-zoom"><div class="title">THRIVE Lifeline — Virtual Crisis Responder & Mentor (FL, USA) • Nov 2022–Jun 2024</div></article>
+        <article class="card activity reveal fx-zoom"><div class="title">Cureus — Community Volunteer (San Francisco, USA) • Jun 2022–Aug 2022</div></article>
+        <article class="card activity reveal fx-zoom"><div class="title">International Student Union — Administrative Volunteer (Debrecen, Hungary)</div></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Awards -->
+  <section id="awards" class="section">
+    <div class="wrap">
+      <h2 class="reveal fx-wipe-r">Prizes & Awards</h2>
+      <p class="lead reveal fx-from-left">Recognition and scholarships.</p>
+      <div class="timeline">
+        <div class="t">
+          <div class="dot"></div>
+          <div class="card reveal fx-from-left">
+            <div class="role"><strong>Summa Scholar Award — Cureus Journal of Medical Science</strong><span class="where">Dec 2023</span></div>
+          </div>
+        </div>
+        <div class="t">
+          <div class="dot"></div>
+          <div class="card reveal fx-from-right">
+            <div class="role"><strong>Summa Cum Laude (Highest Distinction) — Univ. of Debrecen Faculty of Medicine</strong><span class="where">Sep 2022</span></div>
+          </div>
+        </div>
+        <div class="t">
+          <div class="dot"></div>
+          <div class="card reveal fx-from-left">
+            <div class="role"><strong>President of the ISU Volunteer Award — Cureus Journal of Medical Science</strong><span class="where">Sep 2022</span></div>
+          </div>
+        </div>
+        <div class="t">
+          <div class="dot"></div>
+          <div class="card reveal fx-from-right">
+            <div class="role"><strong>Stipendium Hungaricum Scholarship — Tempus Public Foundation</strong><span class="where">Sep 2016</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="section">
+    <div class="wrap reveal fx-from-up">
+      <div class="card reveal fx-zoom">
+        <h2 class="reveal fx-wipe-r">Get in touch</h2>
+        <p class="lead reveal fx-from-left">Open to research, clinical, and academic opportunities.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a class="btn primary" href="mailto:mohdn.mansour2@gmail.com">Email me</a>
+          <a class="btn ghost" href="#" onclick="alert('Add your LinkedIn URL'); return false;">LinkedIn</a>
+          <a class="btn ghost" href="#" onclick="alert('Attach your latest CV PDF and update this link'); return false;">Download CV</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap">© 2025 Mohammad Mansour</div></footer>
+<a href="#about" class="btn primary to-top" id="toTop">↑ Top</a>
+
+<script>
+/* Reveal on scroll */
+(function(){
+  const els=[...document.querySelectorAll('.reveal')];
+  if(!('IntersectionObserver'in window)){els.forEach(e=>e.classList.add('in'))}
+  else{
+    const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{root:null,rootMargin:'0px 0px -10% 0px',threshold:0});
+    els.forEach(e=>io.observe(e));
+  }
+  const kick=()=>els.forEach(e=>{const r=e.getBoundingClientRect(); if(r.top<innerHeight*.9&&r.bottom>0)e.classList.add('in')});
+  requestAnimationFrame(kick); addEventListener('load',kick,{once:true}); addEventListener('resize',kick); addEventListener('orientationchange',kick);
+})();
+
+// Rotating tagline
+const words=["Medical Doctor","Peer Reviewer","Researcher","Clinician-in-Training"]; let wi=0;
+const rot=document.getElementById("rotate");
+function cycle(){ if(!rot) return; rot.classList.remove('show'); setTimeout(()=>{ wi=(wi+1)%words.length; rot.textContent=words[wi]; rot.classList.add('show'); },220); }
+if(rot){ rot.classList.add('show'); setInterval(cycle,1800); }
+
+// Back to top
+const toTop=document.getElementById('toTop');
+const toggleTop=()=>{ scrollY>400 ? toTop.classList.add('show') : toTop.classList.remove('show') };
+addEventListener('scroll',toggleTop,{passive:true}); toggleTop();
+
+// Active nav highlight + progress bar
+const links=[...document.querySelectorAll('nav a')];
+const ids=links.map(a=>a.getAttribute('href')).filter(h=>h.startsWith('#'));
+const secs=ids.map(id=>document.querySelector(id));
+let prog=document.getElementById('progress'); if(!prog){prog=document.createElement('div');prog.id='progress';document.body.appendChild(prog);} 
+const onScroll=()=>{
+  const h=document.documentElement; const scrolled=(h.scrollTop)/(h.scrollHeight-h.clientHeight);
+  prog.style.width=(scrolled*100)+'%';
+  let idx=0; secs.forEach((s,i)=>{const r=s.getBoundingClientRect(); if(r.top<=innerHeight*0.4) idx=i;});
+  const atBottom=Math.ceil(scrollY+innerHeight)>=document.body.scrollHeight-2; if(atBottom) idx=secs.length-1;
+  links.forEach(a=>a.classList.remove('active')); const active=document.querySelector(`nav a[href="${ids[idx]}"]`); if(active) active.classList.add('active');
+};
+addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+/* Build the education cards */
+(function(){
+  const data = [
+    { year:"Sep 2022", city:"Debrecen, Hungary", code:"hu", school:"Faculty of Medicine — University of Debrecen", program:"Doctor of Medicine (M.D.)", note:"GPA 4.71/5.0" },
+    { year:"May 2016", city:"Abu Dhabi, UAE", code:"ae", school:"Rawafed Private School", program:"High School Diploma (H.S.D.)", note:"Average 99.1%" }
+  ];
+
+  const tray = document.getElementById('eduTray');
+  if (!tray) return;
+  tray.innerHTML = data.map(d => `
+    <article class="edu-card" tabindex="0">
+      <div class="meta">
+        <img class="flag-ico" src="https://flagcdn.com/w40/${d.code}.png" alt="${d.city} flag" loading="lazy" width="24" height="16">
+        <span>${d.year} • ${d.city}</span>
+      </div>
+      <div class="school">${d.school}</div>
+      <div class="desc">${d.program}</div>
+      ${d.note ? `<div class="note">${d.note}</div>`:''}
+    </article>
+  `).join('');
+
+  // Drag to scroll
+  let down=false,startX=0,sl=0,pid=null;
+  tray.addEventListener('pointerdown', e=>{down=true;startX=e.clientX;sl=tray.scrollLeft;pid=e.pointerId;tray.setPointerCapture(pid);});
+  tray.addEventListener('pointermove', e=>{if(!down)return; tray.scrollLeft=sl-(e.clientX-startX);});
+  tray.addEventListener('pointerup', ()=>{down=false; try{tray.releasePointerCapture(pid);}catch{} });
+
+  // Wheel → horizontal
+  tray.addEventListener('wheel', e=>{
+    if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){ tray.scrollLeft += e.deltaY; e.preventDefault(); }
+  }, {passive:false});
+})();
+</script>
