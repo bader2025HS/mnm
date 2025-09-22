@@ -199,13 +199,14 @@
   .tags{display:flex; gap:6px; flex-wrap:wrap; margin-top:8px}
   .tag{display:inline-block; padding:6px 10px; border:1px solid var(--line); border-radius:999px; font-size:.95rem; color:#0b3b3a; background:#e9fbf9}
 
-  /* ===== Experience — FORCE identical heights; title 2-line clamp; desc clamp ===== */
-  .timeline .card{
-    display:grid;
-    grid-template-rows:auto 1fr auto;
-    height:260px;
-    min-height:260px;
-  }
+  /* Experience — same fixed height, but no stretch between text and chips */
+.timeline .card{
+  display:grid;
+  grid-template-rows:auto auto auto; /* stack rows normally */
+  height:260px;
+  min-height:260px;
+  align-content:start;               /* keep content packed at the top */
+}
   .timeline .role{
     display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap;
   }
