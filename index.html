@@ -1,4 +1,5 @@
-<!-- PORTFOLIO — v32 (horizontal publications scroller, aligned experience cards, animations kept) -->
+<!-- PORTFOLIO — v31 (desktop menu framed, phone skills fixed)
+     Changes: map & quiz removed; Publications scroller added; Experience cards equal height. -->
 
 <!-- Viewport (safety) -->
 <script>
@@ -22,19 +23,34 @@
   *{box-sizing:border-box}
   html{scroll-behavior:smooth; scroll-padding-top:calc(var(--header) + 14px)}
   body{
-    margin:0; color:var(--text);
-    font-family:system-ui,-apple-system,Segoe UI,Inter,Roboto,Arial;
+    margin:0; color:var(--text); font-family:system-ui,-apple-system,Segoe UI,Inter,Roboto,Arial;
     background:linear-gradient(120deg,var(--bg1),var(--bg2),var(--bg3));
     background-size:200% 200%; animation:bgShift 22s ease infinite;
   }
   @keyframes bgShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+  body:before{
+    content:""; position:fixed; inset:0; z-index:-1; opacity:.05; pointer-events:none;
+    background:
+      repeating-linear-gradient(90deg,#000 0 1px,transparent 1px 26px),
+      repeating-linear-gradient(0deg,#000 0 1px,transparent 1px 26px);
+    mix-blend-mode:soft-light; animation:gridPan 30s linear infinite;
+  }
+  body::after{
+    content:""; position:fixed; inset:0; pointer-events:none; opacity:.18;
+    background:
+      repeating-radial-gradient(circle at 20% 30%, rgba(2,6,23,.08) 0 2px, transparent 2px 18px),
+      repeating-radial-gradient(circle at 75% 60%, rgba(2,6,23,.06) 0 2px, transparent 2px 22px);
+    filter:blur(.2px);
+  }
+  @keyframes gridPan{to{transform:translate3d(-26px,-26px,0)}}
 
   .wrap{max-width:var(--maxw); margin-inline:auto; padding:clamp(16px,3vw,26px)}
   .section{margin:clamp(24px,5vw,46px) 0}
   .section h2{margin:0 0 6px; font-size:clamp(26px,4.2vw,38px)}
+  .section h2 + .lead{margin-top:2px}
   .lead{color:var(--muted)}
 
-  /* ===== Reveal animations ===== */
+  /* Reveals */
   .reveal{opacity:0; will-change:transform,filter;
     transition:opacity .6s cubic-bezier(.2,.7,.2,1),
                transform .6s cubic-bezier(.2,.7,.2,1),
@@ -49,7 +65,7 @@
   .fx-wipe-l{clip-path:inset(0 100% 0 0)} .fx-wipe-r{clip-path:inset(0 0 0 100%)}
   .fx-wipe-l.in,.fx-wipe-r.in{clip-path:inset(0 0 0 0)}
 
-  /* ===== Header / Nav ===== */
+  /* Header */
   header{
     position:sticky; top:0; z-index:9999; height:var(--header);
     background:rgba(255,255,255,.95); border-bottom:1px solid var(--line);
@@ -64,6 +80,7 @@
     box-shadow:0 6px 18px rgba(2,6,23,.06); animation:spin 10s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
 
+  /* Navbar links */
   nav a{
     color:var(--muted); text-decoration:none; font-weight:600; margin-left:14px; position:relative; padding:6px 0
   }
@@ -71,7 +88,41 @@
   nav a.active{color:var(--accent)}
   nav a:after{display:none !important}
 
-  /* ===== Buttons / Cards ===== */
+  /* Hamburger + mobile overlay */
+  .menu-toggle{display:none; place-items:center; width:42px; height:42px;
+    border:1px solid var(--line); border-radius:12px; background:var(--card); box-shadow:var(--shadow)}
+  .menu-toggle .bar{width:20px; height:2px; background:var(--text); position:relative; transition:transform .25s}
+  .menu-toggle .bar:before,.menu-toggle .bar:after{
+    content:""; position:absolute; left:0; width:20px; height:2px; background:var(--text); transition:.25s}
+  .menu-toggle .bar:before{top:-6px} .menu-toggle .bar:after{top:6px}
+  body.nav-open .menu-toggle .bar{transform:rotate(45deg)}
+  body.nav-open .menu-toggle .bar:before{transform:rotate(-90deg) translateX(-6px); opacity:0}
+  body.nav-open .menu-toggle .bar:after{transform:rotate(-90deg); top:0}
+  body.nav-open{overflow:hidden}
+
+  @media (max-width:760px), (max-device-width:812px){
+    .menu-toggle{display:grid; position:fixed; right:12px; top:12px; z-index:10005}
+    header nav#siteNav{
+      position:fixed; inset:0; z-index:10004; height:100svh;
+      padding:calc(env(safe-area-inset-top,0px) + 84px) 18px 24px;
+      display:flex; flex-direction:column; gap:10px; background:#fff !important;
+      transform:translateY(-100%); opacity:0; visibility:hidden; pointer-events:none;
+      transition:transform .28s ease, opacity .2s ease;
+    }
+    body.nav-open header nav#siteNav{transform:translateY(0); opacity:1; visibility:visible; pointer-events:auto}
+    header nav a{margin:0; padding:16px 14px; border-radius:12px; font-size:1.12rem; background:#fff; border:1px solid var(--line)}
+    header nav a.active{color:var(--accent); border-color:var(--accent)}
+    #siteNav .mhead{
+      display:flex; align-items:center; gap:10px;
+      position:absolute; left:18px; top:calc(env(safe-area-inset-top,0px) + 18px);
+      font-weight:800;
+    }
+  }
+
+  #progress{position:fixed; top:0; left:0; height:3px; width:0; z-index:10000;
+    background:linear-gradient(90deg,var(--accent),#7c61ff,#ff7a6e,#f59e0b)}
+
+  /* Type / buttons / cards */
   h1{font-size:clamp(44px,7vw,74px); margin:0 0 6px}
   .btn{display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:14px;
     border:1px solid var(--line); font-weight:700; text-decoration:none; position:relative; overflow:hidden}
@@ -80,10 +131,14 @@
   .btn:hover{transform:translateY(-1px)}
   .btn:after{content:""; position:absolute; inset:auto; top:0; left:0; width:0; height:100%; background:rgba(255,255,255,.15); transition:width .25s}
 
-  .card{background:#fff; border:1px solid var(--line); border-radius:var(--radius);
-    box-shadow:var(--shadow); padding:clamp(14px,2vw,18px); transition:transform .2s, box-shadow .2s}
+  /* Boxes plain white */
+  .card{background:#fff !important; border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:clamp(14px,2vw,18px); transition:transform .2s, box-shadow .2s}
   .card:hover{transform:translateY(-2px); box-shadow:0 14px 36px rgba(2,6,23,.11)}
+  .chip-mini{background:#fff}
+  .lang-pill{background:#fff}
+  .chip{background:#fff}
 
+  /* Strap under name */
   .strap{margin:6px 0 12px; display:flex; align-items:center; gap:10px; flex-wrap:wrap}
   .rotator{font-weight:800; letter-spacing:.2px}
   .fade{opacity:0; transform:translateY(6px); transition:opacity .25s, transform .25s}
@@ -91,50 +146,145 @@
   .chips-mini{display:flex; gap:8px; flex-wrap:wrap}
   .chip-mini{padding:4px 10px; border:1px solid var(--line); border-radius:999px; font-weight:600; font-size:.92rem}
 
-  /* ===== Timeline (Experience) — equal heights ===== */
+  /* ===== Skills & Languages ===== */
+
+  /* Languages */
+  .lang-card .lang-title{display:block}
+  .lang-wrap{margin-top:6px;}
+  .lang-row{
+    display:flex; gap:10px; align-items:center;
+    overflow-x:auto; padding:8px 4px 10px; scrollbar-gutter:stable; scroll-snap-type:x proximity;
+  }
+  .lang-pill{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:6px 10px; border:1px solid var(--line); border-radius:999px;
+    white-space:nowrap; scroll-snap-align:center; box-shadow:0 1px 2px rgba(2,6,23,.05);
+    font-weight:600;
+  }
+  .flag{
+    display:inline-block; width:20px; height:20px; border-radius:50%; overflow:hidden; flex:0 0 20px;
+    box-shadow:0 0 0 1px var(--line), 0 1px 2px rgba(2,6,23,.12);
+  }
+  .flag img{width:100%; height:100%; object-fit:cover; display:block; image-rendering:auto}
+
+  @media (max-width:780px){
+    .lang-card .lang-title{margin-bottom:6px;}
+    .lang-wrap{margin-top:4px;}
+    .lang-row{overflow:visible; padding:0; gap:8px; display:grid; grid-template-columns:1fr 1fr;}
+    .lang-pill{font-size:.9rem; padding:5px 8px; gap:6px}
+    .flag{width:18px; height:18px; flex:0 0 18px}
+    #skills .wrap > .lang-card{margin-bottom:16px;}
+  }
+
+  /* Skills layout */
+  .skills-2{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:6px}
+  .skill-group-title{display:block; font-weight:700}
+
+  .chips{
+    display:grid; grid-template-columns:repeat(2,1fr);
+    gap:8px; margin-top:8px;
+  }
+  .chip{
+    display:inline-flex; align-items:center; justify-content:center;
+    padding:4px 8px; border:1px solid var(--line); border-radius:999px;
+    font-weight:600; font-size:.9rem; text-align:center; box-shadow:0 1px 2px rgba(2,6,23,.05);
+    white-space:nowrap;
+  }
+
+  /* === PHONE-ONLY: Soft/Hard skills formatting (only change requested) === */
+  @media (max-width:900px){
+    .skills-2{grid-template-columns:1fr; gap:16px;} /* stack sections */
+    .chips{grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px;}
+    .chip{
+      font-size:.84rem; padding:6px 8px;
+      white-space:normal;                /* allow wrapping */
+      line-height:1.2;
+      overflow-wrap:anywhere;            /* break long words if needed */
+      word-break:normal;
+      max-width:100%;
+    }
+  }
+
+  /* Projects (kept for legacy, not used for Publications anymore) */
+  .projects{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
+  @media (max-width:1000px){.projects{grid-template-columns:1fr}}
+  .project{will-change:transform; transform:translateZ(0); transition:transform .28s, box-shadow .28s}
+  .project:hover{transform:scale(1.12); z-index:6; box-shadow:0 22px 54px rgba(2,6,23,.18)}
+  .thumb{aspect-ratio:16/10; border-radius:14px; border:1px solid var(--line); background:#e6fffb center/cover no-repeat; transition:transform .28s}
+  .project:hover .thumb{transform:scale(1.18)}
+  .project .body{display:grid; grid-template-rows:0fr; transition:grid-template-rows .25s, opacity .25s; opacity:0}
+  .project:hover .body{grid-template-rows:1fr; opacity:1}
+  .project .body>div{overflow:hidden}
+  @media (hover:none){ .project .body{grid-template-rows:1fr; opacity:1} .project:hover,.project:hover .thumb{transform:none} }
+
+  /* Experience */
   .timeline{position:relative; margin-top:8px}
-  .timeline:before{content:""; position:absolute; left:12px; top:0; bottom:0; width:2px;
-    background:linear-gradient(var(--accent),var(--gold)); opacity:.3}
+  .timeline:before{content:""; position:absolute; left:12px; top:0; bottom:0; width:2px; background:linear-gradient(var(--accent),var(--gold)); opacity:.3}
   .t{display:grid; grid-template-columns:26px 1fr; gap:12px; margin:14px 0}
-  .dot{width:22px; height:22px; border-radius:50%; border:2px solid var(--accent);
-    background:radial-gradient(circle at 40% 35%, #d4af37, #f3e8c1); box-shadow:0 0 0 3px rgba(14,165,162,.12)}
-  .timeline .card{min-height:160px; display:flex; flex-direction:column; justify-content:space-between}
+  .dot{width:22px; height:22px; border-radius:50%; border:2px solid var(--accent); background:radial-gradient(circle at 40% 35%, #d4af37, #f3e8c1); box-shadow:0 0 0 3px rgba(14,165,162,.12)}
   .role{display:flex; align-items:center; justify-content:space-between; gap:12px; white-space:nowrap}
   @media (max-width:520px){ .role{white-space:normal} }
   .where{color:var(--muted)}
   .tags{display:flex; gap:6px; flex-wrap:wrap; margin-top:8px}
   .tag{display:inline-block; padding:6px 10px; border:1px solid var(--line); border-radius:999px; font-size:.95rem; color:#0b3b3a; background:#e9fbf9}
 
-  /* ===== Scrollers (Education & Publications) ===== */
-  #edu-scroll .tray, #pub-scroll .tray{
-    display:flex; gap:12px; align-items:stretch;
-    overflow-x:auto; overflow-y:hidden; padding:0;
-    scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
-  }
-  #edu-scroll .tray::-webkit-scrollbar, #pub-scroll .tray::-webkit-scrollbar{display:none}
+  /* Equal-height cards for experience */
+  .timeline .card{min-height:180px; display:flex; flex-direction:column; justify-content:space-between}
 
-  .edu-card, .pub-card{
-    flex:0 0 300px; scroll-snap-align:center;
-    border:1px solid var(--line); border-radius:var(--radius);
-    background:#fff; box-shadow:0 1px 2px rgba(2,6,23,.05);
-    padding:clamp(14px,2vw,18px); display:grid; gap:8px;
-  }
-  @media (min-width:1200px){ .edu-card, .pub-card{flex:0 0 320px} }
+  /* Education scroller */
+  .edu{display:grid; grid-template-columns:1fr; gap:12px}
+  #edu-scroll .box{position:relative; background:transparent; border:none; border-radius:0; box-shadow:none; padding:0; overflow:visible}
+  #edu-scroll .tray-wrap{ position:relative; }
+  #edu-scroll .tray{display:flex; gap:12px; align-items:center; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; padding:0; scrollbar-width:none; -ms-overflow-style:none}
+  #edu-scroll .tray::-webkit-scrollbar{ width:0; height:0; background:transparent }
+  #edu-scroll .edu-card{scroll-snap-align:center; flex:0 0 300px; display:grid; grid-template-rows:auto auto 1fr; gap:8px; min-height:240px; background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:clamp(14px,2vw,18px); transition:transform .2s, box-shadow .2s; box-shadow:0 1px 2px rgba(2,6,23,.05)}
+  #edu-scroll .edu-card .meta{display:flex; align-items:center; gap:8px; color:var(--muted); font-size:1rem; white-space:nowrap; word-break:keep-all}
+  #edu-scroll .edu-card .flag-ico{width:24px; height:16px; object-fit:cover; border-radius:2px; box-shadow:0 0 0 1px var(--line)}
+  #edu-scroll .edu-card .school{font-weight:800; font-size:1.14rem; line-height:1.25}
+  #edu-scroll .edu-card .desc{font-size:1.02rem; line-height:1.38}
+  #edu-scroll .edu-card .note{font-size:.94rem; color:var(--muted)}
+  @media (min-width:1200px){ #edu-scroll .edu-card{ flex:0 0 320px } }
+  @media (max-width:600px){ #edu-scroll .tray{ gap:12px !important; align-items:stretch !important; padding:0 !important } #edu-scroll .edu-card{ flex:0 0 88vw !important; min-height:unset; padding:12px 12px 14px } #edu-scroll .edu-card .meta{ white-space:normal; flex-wrap:wrap; gap:6px; font-size:.95rem } #edu-scroll .edu-card .school{ font-size:1.06rem } }
+  @media (min-width:601px){ #edu-scroll .edu-card:hover{ transform:translateY(-1px); box-shadow:0 6px 16px rgba(0,0,0,.10) } }
 
-  .edu-card .meta, .pub-card .meta{color:var(--muted); font-size:.98rem}
-  .edu-card .school, .pub-card .title{font-weight:800; font-size:1.08rem}
-  .edu-card .desc, .pub-card .journal{font-size:1rem; line-height:1.35}
-  .edu-card .note, .pub-card .note{font-size:.94rem; color:var(--muted)}
+  /* ===== NEW: Publications scroller (no images) ===== */
+  #pub-scroll .box{position:relative; background:transparent; border:none; border-radius:0; box-shadow:none; padding:0; overflow:visible}
+  #pub-scroll .tray{display:flex; gap:12px; align-items:stretch; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; padding:0; scrollbar-width:none; -ms-overflow-style:none}
+  #pub-scroll .tray::-webkit-scrollbar{ width:0; height:0; background:transparent }
+  #pub-scroll .pub-card{scroll-snap-align:center; flex:0 0 300px; display:grid; grid-template-rows:auto auto auto; gap:6px; min-height:140px; background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:clamp(14px,2vw,18px); transition:transform .2s, box-shadow .2s; box-shadow:0 1px 2px rgba(2,6,23,.05)}
+  #pub-scroll .pub-card .title{font-weight:800; font-size:1.06rem; line-height:1.3}
+  #pub-scroll .pub-card .journal{font-size:.98rem; color:var(--muted)}
+  #pub-scroll .pub-card .actions{margin-top:4px}
+  #pub-scroll .pub-card:hover{ transform:translateY(-1px); box-shadow:0 6px 16px rgba(0,0,0,.10) }
 
-  /* ===== Activities grid ===== */
+  /* Activities */
   .activities-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px}
   @media (max-width:900px){ .activities-grid{grid-template-columns:repeat(2,1fr)} }
   @media (max-width:420px){ .activities-grid{grid-template-columns:repeat(2,1fr)} }
   .activity{aspect-ratio:1/1; display:grid; place-items:center; text-align:center; padding:12px}
   .activity .title{font-weight:800}
 
+  /* Footer (small) */
   footer{border-top:1px solid var(--line); color:var(--muted); padding:10px 0; margin-top:24px;
-    background:#fff; backdrop-filter:saturate(120%) blur(10px); font-size:.92rem; text-align:center}
+    background:#fff; backdrop-filter:saturate(120%) blur(10px); font-size:.92rem}
+  .to-top{position:fixed; right:18px; bottom:18px; z-index:9997; opacity:0; pointer-events:none; transition:opacity .2s}
+  .to-top.show{opacity:1; pointer-events:auto}
+
+  /* === Desktop menu framing (mobile untouched) === */
+  @media (min-width:761px){
+    header .brand{padding:0; border:none; border-radius:0; background:transparent; box-shadow:none;}
+    header nav#siteNav{display:flex; align-items:center; gap:8px;}
+    header nav#siteNav a{
+      margin:0; padding:8px 12px; border:1px solid var(--line); border-radius:12px;
+      background:rgba(255,255,255,.9); text-decoration:none; color:var(--muted);
+    }
+    header nav#siteNav a:hover{border-color:var(--accent); color:var(--accent)}
+    header nav#siteNav a.active{border-color:var(--accent); color:var(--accent); box-shadow:0 0 0 2px rgba(14,165,162,.12) inset}
+    #siteNav .mhead{display:none;}
+  }
+
+/* ====== EXTRA CSS ONLY FOR NEW EDUCATION SCROLLER (kept) ====== */
+/* (block unchanged except we already included it above) */
 </style>
 
 <div id="progress"></div>
@@ -142,7 +292,15 @@
 <header>
   <div class="inner">
     <div class="brand"><div class="badge" aria-hidden="true"></div><span>Mohammad Mansour</span></div>
+
+    <!-- Hamburger -->
+    <button class="menu-toggle" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">
+      <span class="bar"></span>
+    </button>
+
     <nav id="siteNav">
+      <div class="mhead"><div class="badge" aria-hidden="true"></div><span>Mohammad Mansour</span></div>
+
       <a href="#about">About</a>
       <a href="#skills">Skills</a>
       <a href="#education">Education</a>
@@ -154,7 +312,7 @@
   </div>
 </header>
 
-<main>
+<main>  
   <!-- About -->
   <section id="about" class="section">
     <div class="wrap reveal fx-from-down">
@@ -184,35 +342,67 @@
       <h2 class="reveal fx-wipe-l">Skills and Languages</h2>
       <p class="lead reveal fx-from-right">Clinical foundations, research, and communication.</p>
 
-      <div class="card reveal fx-zoom">
-        <strong class="reveal fx-wipe-r">Languages</strong>
-        <p class="lead reveal fx-from-left" style="margin:.35rem 0 0">
-          <strong>English</strong> (Proficient — TOEFL 118/120, Jun 2023) • <strong>Arabic</strong> (Native)
-        </p>
+      <!-- Languages -->
+      <div class="card reveal fx-zoom lang-card">
+        <strong class="lang-title reveal fx-wipe-r">Languages</strong>
+        <div class="lang-wrap reveal fx-from-up">
+          <div class="lang-row">
+            <span class="lang-pill"><strong>English</strong> (Proficient — TOEFL 118/120, Jun 2023)</span>
+            <span class="lang-pill"><strong>Arabic</strong> (Native)</span>
+          </div>
+        </div>
       </div>
 
-      <div class="card reveal fx-zoom" style="margin-top:12px">
-        <strong class="reveal fx-wipe-r">Certifications</strong>
-        <p class="lead reveal fx-from-left" style="margin:.35rem 0 0">
-          ECFMG Certified (Oct 2022) • USMLE Step 3 (Dec 2022) • Step 2 (May 2022) • Step 1 (Sep 2021)
-        </p>
+      <!-- Skills -->
+      <div class="skills-2">
+        <!-- Clinical & Research -->
+        <div class="card reveal fx-from-left">
+          <strong class="skill-group-title reveal fx-wipe-l">Clinical & Research</strong>
+          <div class="chips">
+            <span class="chip">Clinical rotations</span>
+            <span class="chip">Patient assessment</span>
+            <span class="chip">Evidence synthesis</span>
+            <span class="chip">Peer review</span>
+            <span class="chip">Manuscript writing</span>
+            <span class="chip">Literature review</span>
+            <span class="chip">Team collaboration</span>
+            <span class="chip">Medical communication</span>
+          </div>
+        </div>
+
+        <!-- Certifications -->
+        <div class="card reveal fx-from-right">
+          <strong class="skill-group-title reveal fx-wipe-r">Certifications</strong>
+          <div class="chips">
+            <span class="chip">ECFMG Certified (Oct 2022)</span>
+            <span class="chip">USMLE Step 3 (Dec 2022)</span>
+            <span class="chip">USMLE Step 2 (May 2022)</span>
+            <span class="chip">USMLE Step 1 (Sep 2021)</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Education (horizontal scroller) -->
+  <!-- Education (REPLACED with the new horizontal scroller) -->
   <section id="education" class="section">
     <div class="wrap">
       <h2 class="reveal fx-wipe-r">Education</h2>
-      <p class="lead reveal fx-from-left" style="margin:.25rem 0 .9rem">Scroll sideways to browse.</p>
+      <p class="lead reveal fx-from-left" style="margin:.25rem 0 .9rem">
+        Scroll sideways to browse.
+      </p>
 
       <div id="edu-scroll" class="reveal fx-zoom">
-        <div class="tray" id="eduTray" tabindex="0"></div>
+        <div class="box" role="region" aria-label="Education cards carousel">
+          <div class="tray-wrap">
+            <div class="tray" id="eduTray" tabindex="0"></div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Experience (equal height cards) -->
+  <!-- Experience -->
   <section id="experience" class="section">
     <div class="wrap">
       <h2 class="reveal fx-wipe-l">Experience</h2>
@@ -221,55 +411,44 @@
         <div class="t">
           <div class="dot" aria-hidden="true"></div>
           <div class="card reveal fx-from-left">
-            <div>
-              <div class="role">
-                <strong>Researcher & Peer Reviewer — Cureus Journal of Medical Science</strong>
-                <span class="where">San Francisco, CA • May 2023–Jun 2024</span>
-              </div>
-              <p class="lead" style="margin:.35rem 0 0">Reviewed submissions and contributed to multiple publications spanning neurology, cardiology, and mental health.</p>
+            <div class="role">
+              <strong>Researcher & Peer Reviewer — Cureus Journal of Medical Science</strong>
+              <span class="where">San Francisco, CA • May 2023–Jun 2024</span>
             </div>
+            <p class="lead" style="margin:.35rem 0 0">Reviewed submissions and contributed to multiple publications spanning neurology, cardiology, and mental health.</p>
             <div class="tags"><span class="tag">Peer review</span><span class="tag">Research methods</span><span class="tag">Scientific writing</span></div>
           </div>
         </div>
-
         <div class="t">
           <div class="dot"></div>
           <div class="card reveal fx-from-right">
-            <div>
-              <div class="role">
-                <strong>Medical Intern (Intern Doctor) — Jordan University Hospital</strong>
-                <span class="where">Amman, Jordan • Nov 2022–Nov 2023</span>
-              </div>
-              <p class="lead" style="margin:.35rem 0 0">Rotations across departments with responsibilities in patient care, documentation, and multidisciplinary teamwork.</p>
+            <div class="role">
+              <strong>Medical Intern (Intern Doctor) — Jordan University Hospital</strong>
+              <span class="where">Amman, Jordan • Nov 2022–Nov 2023</span>
             </div>
+            <p class="lead" style="margin:.35rem 0 0">Rotations across departments with responsibilities in patient care, documentation, and multidisciplinary teamwork.</p>
             <div class="tags"><span class="tag">Clinical rotations</span><span class="tag">Patient care</span><span class="tag">Teamwork</span></div>
           </div>
         </div>
-
         <div class="t">
           <div class="dot"></div>
           <div class="card reveal fx-from-left">
-            <div>
-              <div class="role">
-                <strong>Visiting Medical Student — Cherubin Family Care (Internal Medicine)</strong>
-                <span class="where">Brooklyn, NY • Jun 2022–Aug 2022</span>
-              </div>
-              <p class="lead" style="margin:.35rem 0 0">Internal medicine rotations with exposure to US clinical workflows and patient interaction.</p>
+            <div class="role">
+              <strong>Visiting Medical Student — Cherubin Family Care (Internal Medicine)</strong>
+              <span class="where">Brooklyn, NY • Jun 2022–Aug 2022</span>
             </div>
+            <p class="lead" style="margin:.35rem 0 0">Internal medicine rotations with exposure to US clinical workflows and patient interaction.</p>
             <div class="tags"><span class="tag">Internal medicine</span><span class="tag">US clinical exposure</span></div>
           </div>
         </div>
-
         <div class="t">
           <div class="dot"></div>
           <div class="card reveal fx-from-right">
-            <div>
-              <div class="role">
-                <strong>Medical Intern (Sixth Year Medical Student) — University of Debrecen Clinical Center</strong>
-                <span class="where">Debrecen, Hungary • Sep 2021–May 2022</span>
-              </div>
-              <p class="lead" style="margin:.35rem 0 0">Final-year clinical practice in hospital departments under faculty supervision.</p>
+            <div class="role">
+              <strong>Medical Intern (Sixth Year Medical Student) — University of Debrecen Clinical Center</strong>
+              <span class="where">Debrecen, Hungary • Sep 2021–May 2022</span>
             </div>
+            <p class="lead" style="margin:.35rem 0 0">Final-year clinical practice in hospital departments under faculty supervision.</p>
             <div class="tags"><span class="tag">Clinical practice</span><span class="tag">Documentation</span></div>
           </div>
         </div>
@@ -277,19 +456,21 @@
     </div>
   </section>
 
-  <!-- Publications (horizontal scroller, no images) -->
+  <!-- Publications — NEW horizontal scroller (no images) -->
   <section id="publications" class="section">
     <div class="wrap">
       <h2 class="reveal fx-wipe-r">Publications</h2>
-      <p class="lead reveal fx-from-left">Selected peer-reviewed articles.</p>
+      <p class="lead reveal fx-from-left">Selected peer-reviewed articles. Scroll sideways.</p>
 
       <div id="pub-scroll" class="reveal fx-zoom">
-        <div class="tray" id="pubTray" tabindex="0"></div>
+        <div class="box" role="region" aria-label="Publications cards carousel">
+          <div class="tray" id="pubTray" tabindex="0"></div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Volunteer Work -->
+  <!-- Extracurricular Activities — 4 squares -->
   <section id="activities" class="section">
     <div class="wrap">
       <h2 class="reveal fx-wipe-l">Volunteer Work</h2>
@@ -303,7 +484,7 @@
       </div>
     </div>
   </section>
-
+  
   <!-- Contact -->
   <section id="contact" class="section">
     <div class="wrap reveal fx-from-up">
@@ -348,10 +529,10 @@ const toggleTop=()=>{ scrollY>400 ? toTop.classList.add('show') : toTop.classLis
 addEventListener('scroll',toggleTop,{passive:true}); toggleTop();
 
 // Active nav highlight + progress bar
-let prog=document.getElementById('progress'); if(!prog){prog=document.createElement('div');prog.id='progress';document.body.appendChild(prog);}
 const links=[...document.querySelectorAll('nav a')];
 const ids=links.map(a=>a.getAttribute('href')).filter(h=>h.startsWith('#'));
 const secs=ids.map(id=>document.querySelector(id));
+let prog=document.getElementById('progress'); if(!prog){prog=document.createElement('div');prog.id='progress';document.body.appendChild(prog);}
 const onScroll=()=>{
   const h=document.documentElement; const scrolled=(h.scrollTop)/(h.scrollHeight-h.clientHeight);
   prog.style.width=(scrolled*100)+'%';
@@ -361,57 +542,70 @@ const onScroll=()=>{
 };
 addEventListener('scroll',onScroll,{passive:true}); onScroll();
 
-/* Build the education cards */
+/* ========= Build the education cards ========= */
 (function(){
   const data = [
-    { year:"Sep 2022", city:"Debrecen, Hungary", school:"Faculty of Medicine — University of Debrecen", program:"Doctor of Medicine (M.D.)", note:"GPA 4.71/5.0" },
-    { year:"May 2016", city:"Abu Dhabi, UAE", school:"Rawafed Private School", program:"High School Diploma (H.S.D.)", note:"Average 99.1%" }
+    { year:"Sep 2022", city:"Debrecen, Hungary", code:"hu", school:"Faculty of Medicine — University of Debrecen", program:"Doctor of Medicine (M.D.)", note:"GPA 4.71/5.0" },
+    { year:"May 2016", city:"Abu Dhabi, UAE", code:"ae", school:"Rawafed Private School", program:"High School Diploma (H.S.D.)", note:"Average 99.1%" }
   ];
+
   const tray = document.getElementById('eduTray');
   if (!tray) return;
   tray.innerHTML = data.map(d => `
     <article class="edu-card" tabindex="0">
-      <div class="meta">${d.year} • ${d.city}</div>
+      <div class="meta">
+        <img class="flag-ico" src="https://flagcdn.com/w40/${d.code}.png" alt="${d.city} flag" loading="lazy" width="24" height="16">
+        <span>${d.year} • ${d.city}</span>
+      </div>
       <div class="school">${d.school}</div>
       <div class="desc">${d.program}</div>
       ${d.note ? `<div class="note">${d.note}</div>`:''}
     </article>
   `).join('');
 
-  // drag-to-scroll
+  // Drag to scroll
   let down=false,startX=0,sl=0,pid=null;
   tray.addEventListener('pointerdown', e=>{down=true;startX=e.clientX;sl=tray.scrollLeft;pid=e.pointerId;tray.setPointerCapture(pid);});
   tray.addEventListener('pointermove', e=>{if(!down)return; tray.scrollLeft=sl-(e.clientX-startX);});
   tray.addEventListener('pointerup', ()=>{down=false; try{tray.releasePointerCapture(pid);}catch{} });
-  // wheel -> horizontal
-  tray.addEventListener('wheel', e=>{ if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){ tray.scrollLeft += e.deltaY; e.preventDefault(); } }, {passive:false});
+
+  // Wheel → horizontal
+  tray.addEventListener('wheel', e=>{
+    if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){ tray.scrollLeft += e.deltaY; e.preventDefault(); }
+  }, {passive:false});
 })();
 
-/* Build the publications scroller (no images) */
+/* ========= NEW: Publications scroller (no images) ========= */
 (function(){
   const pubs = [
     { title:"Deep Brain Stimulation in Addiction Disorders", journal:"Surgical Neurology International (2023)", doi:"https://doi.org/10.25259/SNI_662_2023" },
     { title:"Frailty in Aging HIV-Positive Individuals", journal:"Cureus (2023)", doi:"https://doi.org/10.7759/cureus.50539" },
     { title:"Revascularization in Acute Coronary Syndrome", journal:"Cureus (2023)", doi:"https://doi.org/10.7759/cureus.47207" },
     { title:"Reperfusion Beyond Conventional Window (Ischemic Stroke)", journal:"Cureus (2023)", doi:"https://doi.org/10.7759/cureus.45864" },
-    { title:"PTSD: Pharmacological & Psychotherapeutic Interventions", journal:"Cureus (2023)", doi:"https://doi.org/10.7759/cureus.44905" },
+    { title:"PTSD: Pharmacological & Psychotherapeutic Interventions", journal:"Cureus (2023)", doi:"https://doi.org/10.7759/cureus.44905" }
   ];
+
   const tray = document.getElementById('pubTray');
   if (!tray) return;
   tray.innerHTML = pubs.map(p => `
     <article class="pub-card" tabindex="0">
       <div class="title">${p.title}</div>
       <div class="journal">${p.journal}</div>
-      <div class="note"><a class="btn ghost" href="${p.doi}" target="_blank" rel="noopener">DOI →</a></div>
+      <div class="actions">
+        <a class="btn ghost" href="${p.doi}" target="_blank" rel="noopener">DOI →</a>
+      </div>
     </article>
   `).join('');
 
-  // drag-to-scroll
+  // Drag to scroll
   let down=false,startX=0,sl=0,pid=null;
   tray.addEventListener('pointerdown', e=>{down=true;startX=e.clientX;sl=tray.scrollLeft;pid=e.pointerId;tray.setPointerCapture(pid);});
   tray.addEventListener('pointermove', e=>{if(!down)return; tray.scrollLeft=sl-(e.clientX-startX);});
   tray.addEventListener('pointerup', ()=>{down=false; try{tray.releasePointerCapture(pid);}catch{} });
-  // wheel -> horizontal
-  tray.addEventListener('wheel', e=>{ if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){ tray.scrollLeft += e.deltaY; e.preventDefault(); } }, {passive:false});
+
+  // Wheel → horizontal
+  tray.addEventListener('wheel', e=>{
+    if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){ tray.scrollLeft += e.deltaY; e.preventDefault(); }
+  }, {passive:false});
 })();
 </script>
