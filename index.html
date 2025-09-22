@@ -152,6 +152,25 @@
     display:flex; gap:10px; align-items:center;
     overflow-x:auto; padding:8px 4px 10px; scrollbar-gutter:stable; scroll-snap-type:x proximity;
   }
+     /* Force vertical stack inside certifications and languages cards */
+.cert-list, .lang-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px; /* spacing between items */
+}
+
+.cert-item, .lang-item {
+  display: inline-block;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: .9rem;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(2,6,23,.05);
+  background: #fff;
+}
+
   .lang-pill{
     display:inline-flex; align-items:center; gap:8px;
     padding:6px 10px; border:1px solid var(--line); border-radius:999px;
