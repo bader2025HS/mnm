@@ -871,7 +871,6 @@
 
 
      <!-- Skills & Languages -->
-<!-- Skills & Languages -->
 <section id="skills" class="section">
   <div class="wrap">
     <h2 class="reveal fx-wipe-l">Skills and Languages</h2>
@@ -880,32 +879,44 @@
     <!-- Full-width skills card -->
     <div class="card reveal fx-from-left">
       <strong class="skill-group-title reveal fx-wipe-l">Clinical, Research &amp; Data Skills</strong>
-      <div class="chips">
-        <!-- existing skills -->
-        <span class="chip">Clinical rotations</span>
-        <span class="chip">Patient assessment</span>
-        <span class="chip">Evidence synthesis</span>
-        <span class="chip">Peer review</span>
-        <span class="chip">Manuscript writing</span>
-        <span class="chip">Literature review</span>
-        <span class="chip">Team collaboration</span>
-        <span class="chip">Communication</span>
 
-        <!-- new data / QI / EMR skills (split so they fit without overflow) -->
-        <span class="chip">Data cleaning (NIS/NRD)</span>
-        <span class="chip">ICD-10 mapping</span>
-        <span class="chip">Simulation design</span>
-        <span class="chip">Debriefing frameworks</span>
-        <span class="chip">QI methods (PDSA)</span>
-        <span class="chip">Root-cause analysis</span>
-        <span class="chip">Process mapping</span>
-        <span class="chip">EMR: Cerner</span>
-        <span class="chip">EMR: HealthBridge</span>
-        <span class="chip">EMR: Epic</span>
+      <!-- Two-column layout inside the card -->
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:8px;">
+        <!-- Column 1: Clinical & Research -->
+        <div>
+          <div style="font-weight:600;font-size:.9rem;margin-bottom:4px;">Clinical &amp; Research</div>
+          <div class="chips" style="grid-template-columns:1fr;">
+            <span class="chip">Clinical rotations</span>
+            <span class="chip">Patient assessment</span>
+            <span class="chip">Team collaboration</span>
+            <span class="chip">Communication</span>
+            <span class="chip">Evidence synthesis</span>
+            <span class="chip">Literature review</span>
+            <span class="chip">Manuscript writing</span>
+            <span class="chip">Peer review</span>
+          </div>
+        </div>
+
+        <!-- Column 2: Data, QI & EMR -->
+        <div>
+          <div style="font-weight:600;font-size:.9rem;margin-bottom:4px;">Data, QI &amp; EMR</div>
+          <div class="chips" style="grid-template-columns:1fr;">
+            <span class="chip">Data cleaning (NIS/NRD)</span>
+            <span class="chip">ICD-10 mapping</span>
+            <span class="chip">QI methods (PDSA)</span>
+            <span class="chip">Root-cause analysis</span>
+            <span class="chip">Process mapping</span>
+            <span class="chip">Simulation design</span>
+            <span class="chip">Debriefing frameworks</span>
+            <span class="chip">EMR: Cerner</span>
+            <span class="chip">EMR: HealthBridge</span>
+            <span class="chip">EMR: Epic</span>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Two-column grid for Certifications + Languages -->
+    <!-- Two-column grid for Certifications + Languages (unchanged) -->
     <div class="skills-2" style="margin-top:16px;">
       <!-- Certifications -->
       <div class="card reveal fx-zoom">
@@ -929,6 +940,7 @@
     </div>
   </div>
 </section>
+
 
   <!-- Volunteer Work -->
   <section id="activities" class="section">
