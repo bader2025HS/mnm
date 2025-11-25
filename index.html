@@ -679,9 +679,80 @@
       <p class="lead reveal fx-from-left">Selected peer-reviewed articles. Scroll sideways.</p>
 
       <div id="pub-scroll" class="reveal fx-zoom">
-        <div class="tray" id="pubTray" tabindex="0"></div>
+  <div class="tray" tabindex="0">
+    <article class="pub-card" tabindex="0">
+      <div class="title">
+        Advancements in Pancreatic Cancer Detection: Integrating Biomarkers, Imaging Technologies, and Machine Learning for Early Diagnosis
       </div>
-    </div>
+      <div class="journal">
+        Daher H, Punchayil SA, Ismail AAE, Fernandes RR, Jacob J, Algazzar MH, Mansour M. Cureus. 2024 Mar 20;16(3):e56583.
+      </div>
+      <div class="actions">
+        <a class="btn ghost" href="https://doi.org/10.7759/cureus.56583" target="_blank" rel="noopener">DOI →</a>
+      </div>
+    </article>
+
+    <article class="pub-card" tabindex="0">
+      <div class="title">
+        Role of Deep Brain Stimulation (DBS) in Addiction Disorders
+      </div>
+      <div class="journal">
+        Iqbal J, Mansour MNM, Saboor HA, Suyambu J, Lak MA, Zeeshan MH, Hafeez MH, Arain M, Mehmood M, Mehmood D, Ashraf M. Surg Neurol Int. 2023 Dec 22;14:434.
+      </div>
+      <div class="actions">
+        <a class="btn ghost" href="https://doi.org/10.25259/SNI_662_2023" target="_blank" rel="noopener">DOI →</a>
+      </div>
+    </article>
+
+    <article class="pub-card" tabindex="0">
+      <div class="title">
+        Frailty in Aging HIV-Positive Individuals: An Evolving Healthcare Landscape
+      </div>
+      <div class="journal">
+        Mansour M, Augustine M, Kumar M, Butt AN, Thugu TR, Kaur P, Patel NJ, Gaudani A, Jahania MB, Jami E, Sharifa M, Raj R, Mehmood D. Cureus. 2023 Dec 14;15(12):e50539.
+      </div>
+      <div class="actions">
+        <a class="btn ghost" href="https://doi.org/10.7759/cureus.50539" target="_blank" rel="noopener">DOI →</a>
+      </div>
+    </article>
+
+    <article class="pub-card" tabindex="0">
+      <div class="title">
+        Revascularization Modalities in Acute Coronary Syndrome: A Review of the Current State of Evidence
+      </div>
+      <div class="journal">
+        Surve TA, Kazim MA, Sughra M, Mirza AMW, Murugan SK, Shebani KAM, Karishma F, Trada IJ, Mansour M, Asif K, Kaur L, Kamal A, Unachukwu N, Naveed A. Cureus. 2023 Oct 17;15(10):e47207.
+      </div>
+      <div class="actions">
+        <a class="btn ghost" href="https://doi.org/10.7759/cureus.47207" target="_blank" rel="noopener">DOI →</a>
+      </div>
+    </article>
+
+    <article class="pub-card" tabindex="0">
+      <div class="title">
+        Reperfusion Therapies in Acute Ischemic Stroke Beyond the Conventional Time Window: A Narrative Review
+      </div>
+      <div class="journal">
+        Mansour M. Cureus. 2023 Sep 24;15(9):e45864.
+      </div>
+      <div class="actions">
+        <a class="btn ghost" href="https://doi.org/10.7759/cureus.45864" target="_blank" rel="noopener">DOI →</a>
+      </div>
+    </article>
+
+    <article class="pub-card" tabindex="0">
+      <div class="title">
+        Post-traumatic Stress Disorder: A Narrative Review of Pharmacological and Psychotherapeutic Interventions
+      </div>
+      <div class="journal">
+        Mansour M, Joseph GR, Joy GK, Khanal S, Dasireddy RR, Menon A, Barrie Mason I, Kataria J, Patel T, Modi S. Cureus. 2023 Sep 8;15(9):e44905.
+      </div>
+      <div class="actions">
+        <a class="btn ghost" href="https://doi.org/10.7759/cureus.44905" target="_blank" rel="noopener">DOI →</a>
+      </div>
+    </article>
+  </div>
+</div>         
   </section>
 
      <!-- Skills & Languages -->
@@ -843,64 +914,6 @@ addEventListener('scroll',onScroll,{passive:true}); onScroll();
       <div class="school">${d.school}</div>
       <div class="desc">${d.program}</div>
       ${d.note ? `<div class="note">${d.note}</div>`:''}
-    </article>
-  `).join('');
-
-  // Drag to scroll
-  let down=false,startX=0,sl=0,pid=null;
-  tray.addEventListener('pointerdown', e=>{down=true;startX=e.clientX;sl=tray.scrollLeft;pid=e.pointerId;tray.setPointerCapture(pid);});
-  tray.addEventListener('pointermove', e=>{if(!down)return; tray.scrollLeft=sl-(e.clientX-startX);});
-  tray.addEventListener('pointerup', ()=>{down=false; try{tray.releasePointerCapture(pid);}catch{} });
-
-  // Wheel → horizontal
-  tray.addEventListener('wheel', e=>{
-    if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){ tray.scrollLeft += e.deltaY; e.preventDefault(); }
-  }, {passive:false});
-})();
-
-/* Publications scroller (no images) */
-/* Publications scroller (no images) */
-(function(){
-  const pubs = [
-    {
-      title: "Advancements in Pancreatic Cancer Detection: Integrating Biomarkers, Imaging Technologies, and Machine Learning for Early Diagnosis",
-      journal: "Cureus. 2024 Mar 20;16(3):e56583.",
-      doi: "https://doi.org/10.7759/cureus.56583"
-    },
-    {
-      title: "Role of Deep Brain Stimulation (DBS) in Addiction Disorders",
-      journal: "Surg Neurol Int. 2023 Dec 22;14:434.",
-      doi: "https://doi.org/10.25259/SNI_662_2023"
-    },
-    {
-      title: "Frailty in Aging HIV-Positive Individuals: An Evolving Healthcare Landscape",
-      journal: "Cureus. 2023 Dec 14;15(12):e50539.",
-      doi: "https://doi.org/10.7759/cureus.50539"
-    },
-    {
-      title: "Revascularization Modalities in Acute Coronary Syndrome: A Review of the Current State of Evidence",
-      journal: "Cureus. 2023 Oct 17;15(10):e47207.",
-      doi: "https://doi.org/10.7759/cureus.47207"
-    },
-    {
-      title: "Reperfusion Therapies in Acute Ischemic Stroke Beyond the Conventional Time Window: A Narrative Review",
-      journal: "Cureus. 2023 Sep 24;15(9):e45864.",
-      doi: "https://doi.org/10.7759/cureus.45864"
-    },
-    {
-      title: "Post-traumatic Stress Disorder: A Narrative Review of Pharmacological and Psychotherapeutic Interventions",
-      journal: "Cureus. 2023 Sep 8;15(9):e44905.",
-      doi: "https://doi.org/10.7759/cureus.44905"
-    }
-  ];
-
-  const tray = document.getElementById('pubTray');
-  if (!tray) return;
-  tray.innerHTML = pubs.map(p => `
-    <article class="pub-card" tabindex="0">
-      <div class="title">${p.title}</div>
-      <div class="journal">${p.journal}</div>
-      <div class="actions"><a class="btn ghost" href="${p.doi}" target="_blank" rel="noopener">DOI →</a></div>
     </article>
   `).join('');
 
