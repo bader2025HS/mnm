@@ -859,13 +859,39 @@ addEventListener('scroll',onScroll,{passive:true}); onScroll();
 })();
 
 /* Publications scroller (no images) */
+/* Publications scroller (no images) */
 (function(){
   const pubs = [
-    { title:"Deep Brain Stimulation in Addiction Disorders", journal:"Surgical Neurology International (2023)", doi:"https://doi.org/10.25259/SNI_662_2023" },
-    { title:"Frailty in Aging HIV-Positive Individuals", journal:"Cureus (2023)", doi:"https://doi.org/10.7759/cureus.50539" },
-    { title:"Revascularization in Acute Coronary Syndrome", journal:"Cureus (2023)", doi:"https://doi.org/10.7759/cureus.47207" },
-    { title:"Reperfusion Beyond Conventional Window (Ischemic Stroke)", journal:"Cureus (2023)", doi:"https://doi.org/10.7759/cureus.45864" },
-    { title:"PTSD: Pharmacological & Psychotherapeutic Interventions", journal:"Cureus (2023)", doi:"https://doi.org/10.7759/cureus.44905" }
+    {
+      title: "Advancements in Pancreatic Cancer Detection: Integrating Biomarkers, Imaging Technologies, and Machine Learning for Early Diagnosis",
+      journal: "Cureus. 2024 Mar 20;16(3):e56583.",
+      doi: "https://doi.org/10.7759/cureus.56583"
+    },
+    {
+      title: "Role of Deep Brain Stimulation (DBS) in Addiction Disorders",
+      journal: "Surg Neurol Int. 2023 Dec 22;14:434.",
+      doi: "https://doi.org/10.25259/SNI_662_2023"
+    },
+    {
+      title: "Frailty in Aging HIV-Positive Individuals: An Evolving Healthcare Landscape",
+      journal: "Cureus. 2023 Dec 14;15(12):e50539.",
+      doi: "https://doi.org/10.7759/cureus.50539"
+    },
+    {
+      title: "Revascularization Modalities in Acute Coronary Syndrome: A Review of the Current State of Evidence",
+      journal: "Cureus. 2023 Oct 17;15(10):e47207.",
+      doi: "https://doi.org/10.7759/cureus.47207"
+    },
+    {
+      title: "Reperfusion Therapies in Acute Ischemic Stroke Beyond the Conventional Time Window: A Narrative Review",
+      journal: "Cureus. 2023 Sep 24;15(9):e45864.",
+      doi: "https://doi.org/10.7759/cureus.45864"
+    },
+    {
+      title: "Post-traumatic Stress Disorder: A Narrative Review of Pharmacological and Psychotherapeutic Interventions",
+      journal: "Cureus. 2023 Sep 8;15(9):e44905.",
+      doi: "https://doi.org/10.7759/cureus.44905"
+    }
   ];
 
   const tray = document.getElementById('pubTray');
@@ -889,4 +915,5 @@ addEventListener('scroll',onScroll,{passive:true}); onScroll();
     if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){ tray.scrollLeft += e.deltaY; e.preventDefault(); }
   }, {passive:false});
 })();
+
 </script>
