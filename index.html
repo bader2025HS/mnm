@@ -871,22 +871,20 @@
 
 
      <!-- Skills & Languages -->
-<!-- Skills & Languages -->
 <section id="skills" class="section">
   <div class="wrap">
     <h2 class="reveal fx-wipe-l">Skills and Languages</h2>
-    <p class="lead reveal fx-from-right">
-      Clinical, research, data &amp; QI skills, plus languages.
-    </p>
+    <p class="lead reveal fx-from-right">Clinical foundations, data &amp; QI skills, certifications, and languages.</p>
 
-    <!-- SKILLS: one big card, 2 internal columns -->
+    <!-- Full-width skills card -->
     <div class="card reveal fx-from-left">
-      <strong class="skill-group-title reveal fx-wipe-l">Skills</strong>
+      <strong class="skill-group-title reveal fx-wipe-l">Clinical, Research &amp; Data Skills</strong>
 
-      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:8px;">
+      <!-- Two-column layout inside the card -->
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:8px;">
         <!-- Column 1: Clinical & Research -->
         <div>
-          <div style="font-weight:600;font-size:.9rem;margin-bottom:6px;">Clinical &amp; Research</div>
+          <div style="font-weight:600;font-size:.9rem;margin-bottom:4px;">Clinical &amp; Research</div>
           <div class="chips" style="grid-template-columns:1fr;">
             <span class="chip">Clinical rotations</span>
             <span class="chip">Patient assessment</span>
@@ -901,7 +899,7 @@
 
         <!-- Column 2: Data, QI & EMR -->
         <div>
-          <div style="font-weight:600;font-size:.9rem;margin-bottom:6px;">Data, QI &amp; EMR</div>
+          <div style="font-weight:600;font-size:.9rem;margin-bottom:4px;">Data, QI &amp; EMR</div>
           <div class="chips" style="grid-template-columns:1fr;">
             <span class="chip">Data cleaning (NIS/NRD)</span>
             <span class="chip">ICD-10 mapping</span>
@@ -918,12 +916,30 @@
       </div>
     </div>
 
-    <!-- LANGUAGES: separate card under skills -->
-    <div class="card reveal fx-from-right lang-card" style="margin-top:16px;">
-      <strong class="lang-title reveal fx-wipe-r">Languages</strong>
-      <div class="lang-list" style="margin-top:6px;">
-        <span class="lang-item"><strong>English</strong></span>
-        <span class="lang-item"><strong>Ara
+    <!-- Two-column grid for Certifications + Languages (unchanged) -->
+    <div class="skills-2" style="margin-top:16px;">
+      <!-- Certifications -->
+      <div class="card reveal fx-zoom">
+        <strong class="skill-group-title reveal fx-wipe-r">Certifications</strong>
+        <div class="cert-list">
+          <span class="cert-item">ECFMG Certified (Oct 2022)</span>
+          <span class="cert-item">USMLE Step 3 (Dec 2022)</span>
+          <span class="cert-item">USMLE Step 2 (May 2022)</span>
+          <span class="cert-item">USMLE Step 1 (Sep 2021)</span>
+        </div>
+      </div>
+
+      <!-- Languages -->
+      <div class="card reveal fx-from-right lang-card">
+        <strong class="lang-title reveal fx-wipe-r">Languages</strong>
+        <div class="lang-list">
+          <span class="lang-item"><strong>English</strong></span>
+          <span class="lang-item"><strong>Arabic</strong></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 
   <!-- Volunteer Work -->
@@ -1061,4 +1077,3 @@ addEventListener('scroll',onScroll,{passive:true}); onScroll();
 </script>
      </body>
      </html>
-
