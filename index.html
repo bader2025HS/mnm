@@ -1,1255 +1,625 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mohammad Mansour, M.D. — Portfolio</title>
-  <<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-  <link rel="shortcut icon" type="image/png" href="favicon-32x32.png">
-</head>
-
-<body>
-<!-- Viewport (safety) -->
-<script>
-(function(){
-  if(!document.querySelector('meta[name="viewport"]')){
-    const m=document.createElement('meta');
-    m.name='viewport'; m.content='width=device-width, initial-scale=1';
-    document.head.appendChild(m);
-  }
-})();
-</script>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mohammad Mansour, M.D. — Portfolio</title>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="shortcut icon" type="image/png" href="favicon-32x32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --header:72px; --maxw:860px;
-    --bg1:#eafaf7; --bg2:#f7fbff; --bg3:#e9f8ff;
-    --text:#0f172a; --muted:#475569; --card:#f8fafc; --line:#e2e8f0;
-    --accent:#0ea5a2; --accent2:#1fbdb9; --gold:#d4af37;
-    --radius:18px; --shadow:0 10px 30px rgba(2,6,23,.07);
-  }
-  *{box-sizing:border-box}
-  html{scroll-behavior:smooth; scroll-padding-top:calc(var(--header) + 14px)}
-  body{
-    margin:0; color:var(--text); font-family:system-ui,-apple-system,Segoe UI,Inter,Roboto,Arial;
-    background:linear-gradient(120deg,var(--bg1),var(--bg2),var(--bg3));
-    background-size:200% 200%; animation:bgShift 22s ease infinite;
-  }
-  @keyframes bgShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-  body:before{
-    content:""; position:fixed; inset:0; z-index:-1; opacity:.05; pointer-events:none;
-    background:
-      repeating-linear-gradient(90deg,#000 0 1px,transparent 1px 26px),
-      repeating-linear-gradient(0deg,#000 0 1px,transparent 1px 26px);
-    mix-blend-mode:soft-light; animation:gridPan 30s linear infinite;
-  }
-  body::after{
-    content:""; position:fixed; inset:0; pointer-events:none; opacity:.18;
-    background:
-      repeating-radial-gradient(circle at 20% 30%, rgba(2,6,23,.08) 0 2px, transparent 2px 18px),
-      repeating-radial-gradient(circle at 75% 60%, rgba(2,6,23,.06) 0 2px, transparent 2px 22px);
-    filter:blur(.2px);
-  }
-  @keyframes gridPan{to{transform:translate3d(-26px,-26px,0)}}
-
-  .wrap{max-width:var(--maxw); margin-inline:auto; padding:clamp(16px,3vw,26px)}
-  .section{margin:clamp(24px,5vw,46px) 0}
-  .section h2{margin:0 0 6px; font-size:clamp(26px,4.2vw,38px)}
-  .section h2 + .lead{margin-top:2px}
-  .lead{color:var(--muted)}
-
-  /* Reveals */
-  .reveal{opacity:0; will-change:transform,filter;
-    transition:opacity .6s cubic-bezier(.2,.7,.2,1),
-               transform .6s cubic-bezier(.2,.7,.2,1),
-               filter .6s cubic-bezier(.2,.7,.2,1)}
-  .reveal.in{opacity:1; transform:none; filter:none}
-  .fx-from-left{transform:translateX(-28px) skewX(-2deg); filter:blur(4px)}
-  .fx-from-right{transform:translateX(28px) skewX(2deg); filter:blur(4px)}
-  .fx-from-up{transform:translateY(-24px); filter:blur(6px)}
-  .fx-from-down{transform:translateY(24px); filter:blur(6px)}
-  .fx-zoom{transform:scale(.94); filter:blur(4px)}
-  .fx-wipe-l,.fx-wipe-r{display:inline-block; will-change:clip-path; transition:clip-path .7s cubic-bezier(.2,.7,.2,1)}
-  .fx-wipe-l{clip-path:inset(0 100% 0 0)} .fx-wipe-r{clip-path:inset(0 0 0 100%)}
-  .fx-wipe-l.in,.fx-wipe-r.in{clip-path:inset(0 0 0 0)}
-
-  /* Header */
-  header{
-    position:sticky; top:0; z-index:9999; height:var(--header);
-    background:rgba(255,255,255,.95); border-bottom:1px solid var(--line);
-    backdrop-filter:saturate(120%) blur(10px);
-  }
-  header .inner{max-width:var(--maxw); height:100%; margin:auto; padding:0 16px;
-    display:flex; align-items:center; justify-content:space-between; gap:12px}
-  .brand{display:flex; align-items:center; gap:10px; font-weight:800; white-space:nowrap}
-  .brand span{display:inline-block}
-  .badge{width:34px; height:34px; border-radius:10px; flex:0 0 34px;
-    background:conic-gradient(from 220deg,var(--accent),var(--accent2));
-    box-shadow:0 6px 18px rgba(2,6,23,.06); animation:spin 10s linear infinite}
-  @keyframes spin{to{transform:rotate(360deg)}}
-
-  /* Navbar links */
-  nav a{
-    color:var(--muted); text-decoration:none; font-weight:600; margin-left:14px; position:relative; padding:6px 0
-  }
-  nav a:hover{color:var(--accent)}
-  nav a.active{color:var(--accent)}
-  nav a:after{display:none !important}
-
-  /* Hamburger + mobile overlay */
-  .menu-toggle{display:none; place-items:center; width:42px; height:42px;
-    border:1px solid var(--line); border-radius:12px; background:var(--card); box-shadow:var(--shadow)}
-  .menu-toggle .bar{width:20px; height:2px; background:var(--text); position:relative; transition:transform .25s}
-  .menu-toggle .bar:before,.menu-toggle .bar:after{
-    content:""; position:absolute; left:0; width:20px; height:2px; background:var(--text); transition:.25s}
-  .menu-toggle .bar:before{top:-6px} .menu-toggle .bar:after{top:6px}
-  body.nav-open .menu-toggle .bar{transform:rotate(45deg)}
-  body.nav-open .menu-toggle .bar:before{transform:rotate(-90deg) translateX(-6px); opacity:0}
-  body.nav-open .menu-toggle .bar:after{transform:rotate(-90deg); top:0}
-  body.nav-open{overflow:hidden}
-
-  @media (max-width:760px), (max-device-width:812px){
-    .menu-toggle{display:grid; position:fixed; right:12px; top:12px; z-index:10005}
-    header nav#siteNav{
-      position:fixed; inset:0; z-index:10004; height:100svh;
-      padding:calc(env(safe-area-inset-top,0px) + 84px) 18px 24px;
-      display:flex; flex-direction:column; gap:10px; background:#fff !important;
-      transform:translateY(-100%); opacity:0; visibility:hidden; pointer-events:none;
-      transition:transform .28s ease, opacity .2s ease;
-    }
-    body.nav-open header nav#siteNav{transform:translateY(0); opacity:1; visibility:visible; pointer-events:auto}
-    header nav a{margin:0; padding:16px 14px; border-radius:12px; font-size:1.12rem; background:#fff; border:1px solid var(--line)}
-    header nav a.active{color:var(--accent); border-color:var(--accent)}
-    #siteNav .mhead{
-      display:flex; align-items:center; gap:10px;
-      position:absolute; left:18px; top:calc(env(safe-area-inset-top,0px) + 18px);
-      font-weight:800;
-    }
-  }
-
-  #progress{position:fixed; top:0; left:0; height:3px; width:0; z-index:10000;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));}
-
-  /* Type / buttons / cards */
-  h1{font-size:clamp(44px,7vw,74px); margin:0 0 6px}
-  .btn{display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:14px;
-    border:1px solid var(--line); font-weight:700; text-decoration:none; position:relative; overflow:hidden}
-  .btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; border-color:transparent}
-  .btn.ghost{background:var(--card); color:var(--text)}
-  .btn:hover{transform:translateY(-1px)}
-  .btn:after{content:""; position:absolute; inset:auto; top:0; left:0; width:0; height:100%; background:rgba(255,255,255,.15); transition:width .25s}
-
-  .card{background:#fff !important; border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:clamp(14px,2vw,18px); transition:transform .2s, box-shadow .2s}
-  .card:hover{transform:translateY(-2px); box-shadow:0 14px 36px rgba(2,6,23,.11)}
-
-  .strap{margin:6px 0 12px; display:flex; align-items:center; gap:10px; flex-wrap:wrap}
-  .rotator{font-weight:800; letter-spacing:.2px}
-  .fade{opacity:0; transform:translateY(6px); transition:opacity .25s, transform .25s}
-  .fade.show{opacity:1; transform:none}
-  .chips-mini{display:flex; gap:8px; flex-wrap:wrap}
-  .chip-mini{padding:4px 10px; border:1px solid var(--line); border-radius:999px; font-weight:600; font-size:.92rem}
-
-  /* ===== Skills & Languages ===== */
-
-  /* Languages (desktop default) */
-  .lang-card .lang-title{display:block}
-  .lang-wrap{margin-top:6px;}
-  .lang-row{
-    display:flex; gap:10px; align-items:center;
-    overflow-x:auto; padding:8px 4px 10px; scrollbar-gutter:stable; scroll-snap-type:x proximity;
-  }
-     /* Force vertical stack inside certifications and languages cards */
-.cert-list, .lang-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px; /* spacing between items */
+:root{
+  --dark:#12382b; --deep:#1d4738; --green:#1f5644; --mid:#287d5e;
+  --mint:#8ed4bf; --pale:#dcefe7; --bg:#f6fbf8; --soft:#eef8f3;
+  --line:rgba(18,56,43,.16); --white:#fff; --max:1450px;
 }
-
-.cert-item, .lang-item {
-  display: inline-block;
-  padding: 6px 10px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  font-weight: 600;
-  font-size: .9rem;
-  text-align: center;
-  box-shadow: 0 1px 2px rgba(2,6,23,.05);
-  background: #fff;
-}
-
-  .lang-pill{
-    display:inline-flex; align-items:center; gap:8px;
-    padding:6px 10px; border:1px solid var(--line); border-radius:999px;
-    white-space:nowrap; scroll-snap-align:center; box-shadow:0 1px 2px rgba(2,6,23,.05);
-    font-weight:600;
-  }
-  .flag{
-    display:inline-block; width:20px; height:20px; border-radius:50%; overflow:hidden; flex:0 0 20px;
-    box-shadow:0 0 0 1px var(--line), 0 1px 2px rgba(2,6,23,.12);
-  }
-  .flag img{width:100%; height:100%; object-fit:cover; display:block; image-rendering:auto}
-
-  /* Phone fixes for Languages — prevent overflow / wrap nicely */
-  @media (max-width:780px){
-    .lang-card .lang-title{margin-bottom:6px;}
-    .lang-wrap{margin-top:4px;}
-    .lang-row{display:flex; flex-wrap:wrap; gap:8px; padding:0; overflow:visible;}
-    .lang-pill{
-      font-size:.88rem; padding:6px 8px; gap:6px;
-      white-space:normal; line-height:1.2; max-width:100%;
-      word-break:keep-all; overflow-wrap:anywhere;
-    }
-    .flag{width:18px; height:18px; flex:0 0 18px}
-    #skills .wrap > .lang-card{margin-bottom:16px;}
-  }
-
-  /* Skills layout */
-  .skills-2{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:6px}
-  .skill-group-title{display:block; font-weight:700}
-  .chips{display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-top:8px}
-  .chip{display:inline-flex; align-items:center; justify-content:center; padding:4px 8px; border:1px solid var(--line); border-radius:999px; font-weight:600; font-size:.9rem; text-align:center; box-shadow:0 1px 2px rgba(2,6,23,.05); white-space:nowrap}
-  @media (max-width:900px){
-    .skills-2{grid-template-columns:1fr; gap:16px;}
-    .chips{grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px;}
-    .chip{font-size:.84rem; padding:6px 8px; white-space:normal; line-height:1.2; overflow-wrap:anywhere; word-break:normal; max-width:100%;}
-  }
-     /* 3-column skills layout */
-.skills-3{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:18px;
-  margin-top:6px;
-}
-/* Stack on phones/tablets */
-@media (max-width:900px){
-  .skills-3{ grid-template-columns:1fr; gap:16px; }
-}
-     /* Desktop: Certifications wider, Languages narrower */
-@media (min-width:901px){
-  .skills-3{
-    grid-template-columns: 1.05fr 1.4fr 0.65fr;  /* Clinical | Certs | Languages */
-  }
-}
-     /* Extra spacing under Certifications and Languages titles on desktop */
-@media (min-width:901px){
-  .skill-group-title,
-  .lang-title {
-    margin-bottom: 10px;  /* adjust value as you like */
-    display: block;
-  }
-}
-
-/* ===== Gallery hover + lightbox ===== */
-.gallery-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(240px,1fr));
-  gap:18px;
-  margin-top:16px;
-}
-
-.gallery-item{
-  position:relative;
-  overflow:hidden;
-  border-radius:18px;
-  padding:0;
-  border:none;
-  background:transparent;
-  cursor:zoom-in;
-}
-
-.gallery-item img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-  transition:transform .35s ease;
-}
-
-.gallery-item:hover img{
-  transform:scale(1.06);
-}
-
-/* Lightbox overlay */
-.lightbox{
-  position:fixed;
-  inset:0;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  background:rgba(15,23,42,.85);
-  z-index:10050;
-}
-
-.lightbox.open{
-  display:flex;
-}
-
-.lightbox img{
-  max-width:90vw;
-  max-height:80vh;
-  border-radius:18px;
-  box-shadow:0 18px 50px rgba(0,0,0,.4);
-}
-
-.lightbox-btn{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  background:rgba(15,23,42,.7);
-  color:#fff;
-  border:none;
-  border-radius:999px;
-  width:40px;
-  height:40px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:1.4rem;
-  cursor:pointer;
-}
-
-.lightbox-prev{ left:26px; }
-.lightbox-next{ right:26px; }
-
-.lightbox-close{
-  top:22px;
-  right:26px;
-  transform:none;
-  width:34px;
-  height:34px;
-  font-size:1.1rem;
-}
-
-@media (max-width:700px){
-  .lightbox img{
-    max-width:94vw;
-    max-height:75vh;
-  }
-}
-
-  /* Experience timeline */
-  .timeline{position:relative; margin-top:8px}
-  .timeline:before{content:""; position:absolute; left:12px; top:0; bottom:0; width:2px; background:linear-gradient(var(--accent),var(--gold)); opacity:.3}
-  .t{display:grid; grid-template-columns:26px 1fr; gap:12px; margin:14px 0; align-items:start;}
-  .dot{width:22px; height:22px; border-radius:50%; border:2px solid var(--accent); background:radial-gradient(circle at 40% 35%, #d4af37, #f3e8c1); box-shadow:0 0 0 3px rgba(14,165,162,.12)}
-  .where{color:var(--muted)}
-
-  .tags{display:flex; gap:6px; flex-wrap:wrap; margin-top:8px}
-  .tag{display:inline-block; padding:6px 10px; border:1px solid var(--line); border-radius:999px; font-size:.95rem; color:#0b3b3a; background:#e9fbf9}
-
-  /* ===== Experience — FORCE identical heights; title 2-line clamp; desc clamp ===== */
-  .timeline .card{
-    display:grid;
-    grid-template-rows:auto auto auto;
-    height:auto;
-    min-height:unset;
-  }
-  .timeline .role{
-    display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap;
-  }
-  .timeline .role strong{
-    flex:1 1 480px;
-    display:-webkit-box;
-    -webkit-line-clamp:2;
-    -webkit-box-orient:vertical;
-    overflow:hidden;
-    line-height:1.25;
-  }
-  .timeline .card .lead{
-    margin:.35rem 0 0;
-    overflow:hidden;
-    display:-webkit-box;
-    -webkit-line-clamp:3;
-    -webkit-box-orient:vertical;
-  }
-  @media (max-width:700px){
-    .timeline .card{ height:auto; min-height:unset; grid-template-rows:auto auto auto; }
-    .timeline .role strong{ -webkit-line-clamp:unset; }
-    .timeline .card .lead{ -webkit-line-clamp:unset; }
-  }
-
-  /* Education scroller */
-  .edu{display:grid; grid-template-columns:1fr; gap:12px}
-  #edu-scroll .box{position:relative; background:transparent; border:none; border-radius:0; box-shadow:none; padding:0; overflow:visible}
-  #edu-scroll .tray-wrap{ position:relative; }
-  #edu-scroll .tray{display:flex; gap:12px; align-items:center; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; padding:0; scrollbar-width:none; -ms-overflow-style:none}
-  #edu-scroll .tray::-webkit-scrollbar{ width:0; height:0; background:transparent }
-  #edu-scroll .edu-card{scroll-snap-align:center; flex:0 0 300px; display:grid; grid-template-rows:auto auto 1fr; gap:8px; min-height:240px; background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:clamp(14px,2vw,18px); transition:transform .2s, box-shadow .2s; box-shadow:0 1px 2px rgba(2,6,23,.05)}
-  #edu-scroll .edu-card .meta{display:flex; align-items:center; gap:8px; color:var(--muted); font-size:1rem; white-space:nowrap; word-break:keep-all}
-  #edu-scroll .edu-card .flag-ico{width:24px; height:16px; object-fit:cover; border-radius:2px; box-shadow:0 0 0 1px var(--line)}
-  #edu-scroll .edu-card .school{font-weight:800; font-size:1.14rem; line-height:1.25}
-  #edu-scroll .edu-card .desc{font-size:1.02rem; line-height:1.38}
-  #edu-scroll .edu-card .note{font-size:.94rem; color:var(--muted)}
-  @media (min-width:1200px){ #edu-scroll .edu-card{ flex:0 0 320px } }
-  @media (max-width:600px){ #edu-scroll .tray{ gap:12px !important; align-items:stretch !important; padding:0 !important } #edu-scroll .edu-card{ flex:0 0 88vw !important; min-height:unset; padding:12px 12px 14px } #edu-scroll .edu-card .meta{ white-space:normal; flex-wrap:wrap; gap:6px; font-size:.95rem } #edu-scroll .edu-card .school{ font-size:1.06rem } }
-  @media (min-width:601px){ #edu-scroll .edu-card:hover{ transform:translateY(-1px); box-shadow:0 6px 16px rgba(0,0,0,.10) } }
-
-  /* Publications scroller (no images) */
-  #pub-scroll .tray{display:flex; gap:12px; align-items:stretch; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; padding:0; scrollbar-width:none; -ms-overflow-style:none}
-  #pub-scroll .tray::-webkit-scrollbar{ width:0; height:0; background:transparent }
-  #pub-scroll .pub-card{scroll-snap-align:center; flex:0 0 300px; display:grid; grid-template-rows:auto auto auto; gap:6px; min-height:140px; background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:clamp(14px,2vw,18px); transition:transform .2s, box-shadow .2s; box-shadow:0 1px 2px rgba(2,6,23,.05)}
-  #pub-scroll .pub-card .title{font-weight:800; font-size:1.06rem; line-height:1.3}
-  #pub-scroll .pub-card .journal{font-size:.98rem; color:var(--muted)}
-  #pub-scroll .pub-card .actions{margin-top:4px}
-  #pub-scroll .pub-card:hover{ transform:translateY(-1px); box-shadow:0 6px 16px rgba(0,0,0,.10) }
-
-  /* Activities */
-  .activities-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px}
-  @media (max-width:900px){ .activities-grid{grid-template-columns:repeat(2,1fr)} }
-  @media (max-width:420px){ .activities-grid{grid-template-columns:repeat(2,1fr)} }
-  .activity{aspect-ratio:1/1; display:grid; place-items:center; text-align:center; padding:12px}
-  .activity .title{font-weight:800}
-
-  /* Footer (small) */
-  footer{border-top:1px solid var(--line); color:var(--muted); padding:10px 0; margin-top:24px;
-    background:#fff; backdrop-filter:saturate(120%) blur(10px); font-size:.92rem}
-  .to-top{position:fixed; right:18px; bottom:18px; z-index:9997; opacity:0; pointer-events:none; transition:opacity .2s}
-  .to-top.show{opacity:1; pointer-events:auto}
-
-  /* Desktop menu framing */
-  @media (min-width:761px){
-    header .brand{padding:0; border:none; border-radius:0; background:transparent; box-shadow:none;}
-    header nav#siteNav{display:flex; align-items:center; gap:8px;}
-    header nav#siteNav a{
-      margin:0; padding:8px 12px; border:1px solid var(--line); border-radius:12px;
-      background:rgba(255,255,255,.9); text-decoration:none; color:var(--muted);
-    }
-    header nav#siteNav a:hover{border-color:var(--accent); color:var(--accent)}
-    header nav#siteNav a.active{border-color:var(--accent); color:var(--accent); box-shadow:0 0 0 2px rgba(14,165,162,.12) inset}
-    #siteNav .mhead{display:none;}
-  }
-
-  /* ==== LAST-ORDER OVERRIDES (win the cascade) ==== */
-  #experience .where{ white-space:nowrap; }                 /* keep bullet on same line */
-  #experience .timeline .card .lead{ margin:.35rem 0 .12rem !important; }
-  #experience .timeline .card .tags{ margin-top:6px !important; }
-  #experience .timeline .tag{ padding:4px 10px !important; }
-
-@media (max-width:900px){
-  /* Add space between "Certifications" title and the first pill */
-  #skills .cert-list{
-    margin-top: 10px !important;   /* tweak 6–12px to taste */
-    margin-bottom: 20px !important; /* keeps space below the list */
-  }
-}
-
-@media (max-width:700px){
-  /* dot + card column */
-  #experience .timeline .t{
-    display: grid;
-    grid-template-columns: 26px minmax(0,1fr); /* keep dot + card, avoid overflow */
-    align-items: start;
-  }
-
-  #experience .timeline .card{
-    /* remove any custom width you added */
-    width: auto !important;           /* <-- important */
-    margin-right: -8px !important;    /* uniform slight overhang on right */
-    padding-right: calc(clamp(14px,2vw,18px) + 8px); /* keep text off the edge */
-    min-height: unset !important;
-    height: auto !important;
-  }
-}
-
-
-     /* Force white background for mini chips (location, email, phone) */
-.chip-mini {
-  background: #fff !important;
-  color: var(--text) !important;
-}
-
-     
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:110px}
+body{font-family:"Manrope",Arial,sans-serif;background:var(--bg);color:var(--dark);overflow-x:hidden}
+h1,h2,h3,.logo,.nav-link,.role strong,.school,.title,.skill-group-title{font-family:"Space Grotesk",Arial,sans-serif}
+a{color:inherit}
+button{font:inherit}
+.header{position:fixed;top:18px;left:50%;transform:translateX(-50%);width:calc(100% - 44px);max-width:var(--max);z-index:9999;display:flex;justify-content:space-between;align-items:center;gap:18px;pointer-events:none}
+.logo{pointer-events:auto;display:inline-flex;align-items:center;justify-content:center;padding:15px 24px;border-radius:16px;background:var(--pale);color:var(--dark);text-decoration:none;font-size:.82rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+.navbar{pointer-events:auto;position:relative;display:flex;align-items:stretch;background:var(--pale);border-radius:16px;overflow:hidden}
+.slider{position:absolute;inset:0 auto 0 0;width:0;background:var(--mint);border-radius:16px;z-index:1;transition:transform .35s cubic-bezier(.22,1,.36,1),width .35s cubic-bezier(.22,1,.36,1)}
+.nav-link{position:relative;z-index:2;padding:15px 18px;color:var(--dark);text-decoration:none;font-size:.72rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+.menu-toggle{display:none;pointer-events:auto;width:48px;height:48px;border:0;border-radius:14px;background:var(--pale);padding:13px;cursor:pointer}
+.menu-toggle span{display:block;height:2px;background:var(--dark);margin:5px 0;transition:.25s}
+section{padding:120px 8vw;min-height:auto}
+.section-inner,.wrap{width:100%;max-width:var(--max);margin:auto}
+#home{min-height:100vh;background:var(--deep);color:var(--bg);display:flex;align-items:center;padding-top:150px}
+.hero{width:100%;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr);gap:clamp(48px,7vw,110px);align-items:center}
+.hero-title{font-size:clamp(4.6rem,8.2vw,8rem);line-height:.9;letter-spacing:-.07em;margin-bottom:34px}
+.hero-kicker{font-family:"Space Grotesk";font-size:.82rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mint);margin-bottom:18px;font-weight:700}
+.hero-description{font-size:clamp(1rem,1.35vw,1.2rem);line-height:1.85;color:rgba(255,255,255,.84);max-width:760px}
+.hero-description strong{color:#fff}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.hero-meta span{border:1px solid rgba(255,255,255,.25);padding:10px 14px;font-size:.84rem}
+.hero-visual{display:grid;place-items:center}
+.hero-circle{width:min(390px,32vw);aspect-ratio:1;border:2px solid var(--mint);border-radius:50%;position:relative;display:grid;place-items:center}
+.hero-circle:before,.hero-circle:after{content:"";position:absolute;border-radius:50%;border:1px solid rgba(142,212,191,.35)}
+.hero-circle:before{inset:-18px}.hero-circle:after{inset:-34px;border-style:dashed;animation:spin 18s linear infinite}
+.hero-monogram{font-family:"Space Grotesk";font-size:clamp(4rem,8vw,8rem);font-weight:700;letter-spacing:-.08em;color:var(--mint)}
+@keyframes spin{to{transform:rotate(360deg)}}
+#gallery{background:var(--soft)}
+#experience{background:#ddefe7}
+#education{background:#f1f8f4}
+#publications{background:var(--green);color:#f6fbf8}
+#skills{background:#cfe8dd}
+#activities{background:#e8f4ee}
+#contact{background:#d9ece3}
+.section h2,.wrap>h2{font-size:clamp(3.2rem,7vw,7rem);line-height:.9;letter-spacing:-.06em;margin-bottom:42px}
+.section h2:before,.wrap>h2:before{content:attr(data-label);display:block;font-size:.76rem;letter-spacing:.22em;text-transform:uppercase;color:var(--mid);margin-bottom:18px;font-weight:700}
+#publications h2:before{color:var(--mint)}
+.lead{color:rgba(18,56,43,.72);line-height:1.72}
+#publications .lead{color:rgba(255,255,255,.75)}
+.card{background:rgba(255,255,255,.82);border:1px solid var(--line);padding:28px;border-radius:0;box-shadow:none;transition:.3s}
+.card:hover{background:var(--green);color:#fff;transform:translateY(-3px)}
+.card:hover .lead,.card:hover .where{color:rgba(255,255,255,.78)}
+.gallery-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:240px;gap:12px}
+.gallery-item{position:relative;overflow:hidden;border:0;background:transparent;cursor:zoom-in;border-radius:0}
+.gallery-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s ease,filter .45s ease}
+.gallery-item:hover img{transform:scale(1.06);filter:brightness(.9)}
+.timeline{position:relative;margin:0 0 54px;padding-left:36px}
+.timeline:before{content:"";position:absolute;left:8px;top:0;bottom:0;width:1px;background:rgba(18,56,43,.25)}
+.t{position:relative;margin:0 0 14px}
+.dot{position:absolute;left:-36px;top:26px;width:17px;height:17px;border:3px solid #ddefe7;background:var(--mid);border-radius:0;box-shadow:0 0 0 1px var(--mid)}
+.role{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:start}
+.role strong{font-size:1.15rem;line-height:1.35}
+.where{font-size:.86rem;color:rgba(18,56,43,.65);white-space:nowrap}
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+.tag{border:1px solid rgba(18,56,43,.18);padding:6px 10px;font-size:.78rem;background:transparent;color:inherit}
+.card:hover .tag{border-color:rgba(255,255,255,.3)}
+#experience h3,#publications h3{font-size:.82rem;letter-spacing:.2em;text-transform:uppercase;margin:52px 0 18px}
+#edu-scroll .box{background:transparent;border:0;padding:0}.tray{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}.tray::-webkit-scrollbar{display:none}
+.edu-card,.pub-card{flex:0 0 360px;scroll-snap-align:start;border:1px solid currentColor;padding:28px;background:rgba(255,255,255,.78);min-height:250px;display:flex;flex-direction:column;gap:12px;transition:.3s}
+.edu-card:hover{background:var(--green);color:#fff;transform:translateY(-3px)}
+.edu-card .meta{display:flex;align-items:center;gap:8px;font-size:.84rem}.flag-ico{width:24px;height:16px;object-fit:cover}.school{font-size:1.25rem;font-weight:700}.desc{line-height:1.55}.note{margin-top:auto;opacity:.7}
+.pub-card{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.28);min-height:300px}.pub-card:hover{background:#fff;color:var(--green)}.pub-card .title{font-size:1.15rem;font-weight:700;line-height:1.35}.journal{line-height:1.55;opacity:.76}.actions{margin-top:auto}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 16px;text-decoration:none;border:1px solid currentColor;font-weight:700;font-size:.82rem;background:transparent;color:inherit;border-radius:0;transition:.25s}.btn:hover{background:var(--dark);color:#fff;border-color:var(--dark)}
+#publications .btn:hover{background:var(--mint);color:var(--dark);border-color:var(--mint)}
+#publications .reveal[style*="display:grid"]{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+#publications .reveal[style*="display:grid"] .card{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.25)}
+#publications .reveal[style*="display:grid"] .card:hover{background:#fff;color:var(--green)}
+#skills .card{padding:34px!important;background:rgba(255,255,255,.65)}
+.skill-group-title{display:block;font-size:.9rem;letter-spacing:.18em;text-transform:uppercase}
+#skills .card>div{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+.chip{display:flex!important;align-items:center;justify-content:center;min-height:58px;border:1px solid var(--line)!important;border-radius:0!important;background:#f8fbf9;font-weight:650!important;white-space:normal!important;transition:.25s}
+.chip:hover{background:var(--green);color:#fff;border-color:var(--green)!important}
+.activities-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.activity{min-height:280px;display:flex;align-items:flex-end}.activity .title{font-size:1.1rem;line-height:1.45}
+#contact .card{background:var(--green);color:#fff;padding:48px}#contact h2{margin-bottom:28px}#contact .btn.primary{background:var(--mint);color:var(--dark);border-color:var(--mint)}
+footer{background:var(--deep);color:rgba(255,255,255,.72);padding:28px 8vw}.footer-inner{max-width:var(--max);margin:auto;display:flex;justify-content:space-between;gap:20px;font-size:.85rem}
+.lightbox{position:fixed;inset:0;z-index:10050;background:rgba(8,25,20,.94);display:none;align-items:center;justify-content:center;padding:40px}.lightbox.open{display:flex}.lightbox img{max-width:min(1100px,82vw);max-height:82vh;border:10px solid #fff;object-fit:contain}.lightbox-btn{position:absolute;border:0;background:#fff;color:var(--dark);width:48px;height:48px;font-size:1.5rem;cursor:pointer}.lightbox-prev{left:24px}.lightbox-next{right:24px}.lightbox-close{top:24px;right:24px}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}.reveal.in{opacity:1;transform:none}
+@media(max-width:1100px){.header{top:12px;width:calc(100% - 24px);flex-direction:column;align-items:flex-start}.logo{padding:13px 18px}.navbar{width:100%;overflow-x:auto}.nav-link{padding:14px 16px}section{padding:140px 5vw 90px}.hero{grid-template-columns:1fr 300px}.gallery-grid{grid-template-columns:repeat(2,1fr)}#skills .card>div{grid-template-columns:repeat(2,1fr)!important}}
+@media(max-width:760px){html{scroll-padding-top:88px}.header{flex-direction:row;align-items:center}.menu-toggle{display:block}.navbar{position:fixed;inset:0;width:100%;height:100svh;background:var(--pale);border-radius:0;display:flex;flex-direction:column;padding:100px 18px 28px;transform:translateY(-105%);transition:.3s;overflow-y:auto}.navbar.open{transform:none}.slider{display:none}.nav-link{font-size:.9rem;padding:16px;border-bottom:1px solid var(--line)}body.nav-open{overflow:hidden}section{padding:90px 16px}.hero{grid-template-columns:1fr;text-align:left}.hero-visual{order:-1;justify-content:start}.hero-circle{width:210px}.hero-title{font-size:clamp(3.2rem,15vw,5rem)}.gallery-grid{grid-template-columns:1fr;grid-auto-rows:260px}.gallery-item{grid-column:auto!important;grid-row:auto!important}.timeline{padding-left:25px}.dot{left:-25px}.role{grid-template-columns:1fr}.where{white-space:normal}.card{padding:22px}.edu-card,.pub-card{flex-basis:86vw;min-height:auto}#publications .reveal[style*="display:grid"]{grid-template-columns:1fr!important}#skills .card>div{grid-template-columns:1fr!important}.activities-grid{grid-template-columns:1fr}.activity{min-height:190px}#contact .card{padding:30px 22px}.footer-inner{flex-direction:column}.lightbox{padding:70px 12px}.lightbox img{max-width:92vw;max-height:72vh;border-width:6px}.lightbox-prev{left:10px;bottom:16px;top:auto}.lightbox-next{right:10px;bottom:16px;top:auto}.lightbox-close{top:14px;right:14px}}
 </style>
-
-<div id="progress"></div>
-
-<header>
-  <div class="inner">
-    <div class="brand"><div class="badge" aria-hidden="true"></div><span>Mohammad Mansour</span></div>
-
-    <!-- Hamburger -->
-    <button class="menu-toggle" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">
-      <span class="bar"></span>
-    </button>
-
-    <nav id="siteNav">
-      <div class="mhead"><div class="badge" aria-hidden="true"></div><span>Mohammad Mansour</span></div>
-
-      <a href="#about">About</a>
-      <a href="#experience">Experience</a>
-      <a href="#education">Education</a>
-      <a href="#publications">Publications</a>
-      <a href="#skills">Skills</a>
-      <a href="#activities">Activities</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </div>
-</header>
-
-<main>  
-  <!-- About -->
-  <section id="about" class="section">
-    <div class="wrap reveal fx-from-down">
-      <h1 class="reveal fx-wipe-l">Mohammad Mansour</h1>
-
-      <div class="strap reveal fx-from-right">
-        <span class="rotator"><span id="rotate" class="fade">Medical Doctor</span></span>
-        <div class="chips-mini">
-          <span class="chip-mini">Poughkeepsie, NY</span>
-          <span class="chip-mini">mohammad.mansour@nuvancehealth.org</span>
-        </div>
-      </div>
-
-      <div class="card reveal fx-zoom">
-        <strong class="reveal fx-wipe-r">About</strong>
-        <p class="lead reveal fx-from-left" style="margin:.4rem 0 0">
- Internal Medicine resident with a growing focus on Pulmonary and Critical Care Medicine, dedicated to
+</head>
+<body>
+<header class="header">
+<a class="logo" href="#home">Mohammad Mansour</a>
+<button class="menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false"><span></span><span></span><span></span></button>
+<nav class="navbar" id="navbar"><span class="slider"></span>
+<a class="nav-link active" href="#home">Home</a><a class="nav-link" href="#gallery">Gallery</a><a class="nav-link" href="#experience">Experience</a><a class="nav-link" href="#education">Education</a><a class="nav-link" href="#publications">Publications</a><a class="nav-link" href="#skills">Skills</a><a class="nav-link" href="#activities">Volunteer</a><a class="nav-link" href="#contact">Contact</a>
+</nav></header>
+<main>
+<section id="home"><div class="section-inner hero"><div class="hero-content reveal"><div class="hero-kicker"><span id="rotate">Medical Doctor</span></div><h1 class="hero-title">Mohammad<br>Mansour</h1><p class="hero-description">Internal Medicine resident with a growing focus on Pulmonary and Critical Care Medicine, dedicated to
  improving patient safety and clinical systems through evidence-based research, quality improvement,
  and simulation-based training. I aim to build a career that integrates critical care practice with impactful,
- scalable innovations in airway safety, diagnostic stewardship, and multidisciplinary training.
-        </p>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- Image Gallery (before Experience) -->
-<section id="gallery" class="section">
-  <div class="wrap reveal fx-from-up">
-    <h2 class="reveal fx-wipe-l">Gallery</h2>
-    <p class="lead reveal fx-from-right">A glimpse into my clinical life.</p>
-
-    <div class="gallery-grid">
-      <button class="gallery-item" data-gallery-index="0">
-        <img src="image13.jpeg" alt="Gallery image 1">
-      </button>
-
-      <!-- image11: wide (2 columns) -->
-      <button class="gallery-item" data-gallery-index="1"
-        style="grid-column:span 2;">
-        <img src="image11.jpeg" alt="Gallery image 2">
-      </button>
-
-      <!-- image12: hero (2 columns x 2 rows) -->
-      <button class="gallery-item" data-gallery-index="2"
-        style="grid-column:span 2; grid-row:span 2;">
-        <img src="image12.jpeg" alt="Gallery image 3">
-      </button>
-
-      <button class="gallery-item" data-gallery-index="3">
-        <img src="image10.jpeg" alt="Gallery image 4">
-      </button>
-
-      <button class="gallery-item" data-gallery-index="4">
-        <img src="image14.jpeg" alt="Gallery image 5">
-      </button>
-
-      <!-- image15: wide (2 columns) -->
-      <button class="gallery-item" data-gallery-index="5"
-        style="grid-column:span 2;">
-        <img src="image15.jpeg" alt="Gallery image 6">
-      </button>
-
-      <button class="gallery-item" data-gallery-index="6">
-        <img src="image16.jpeg" alt="Gallery image 7">
-      </button>
-    </div>
-  </div>
+ scalable innovations in airway safety, diagnostic stewardship, and multidisciplinary training.</p><div class="hero-meta"><span>Poughkeepsie, NY</span><span>mohammad.mansour@nuvancehealth.org</span></div></div><div class="hero-visual reveal"><div class="hero-circle"><span class="hero-monogram">MM</span></div></div></div></section>
+<section class="section" id="gallery">
+<div class="wrap reveal fx-from-up">
+<h2 class="reveal fx-wipe-l" data-label="Clinical life">Gallery</h2>
+<p class="lead reveal fx-from-right">A glimpse into my clinical life.</p>
+<div class="gallery-grid">
+<button class="gallery-item" data-gallery-index="0">
+<img alt="Gallery image 1" src="image13.jpeg"/>
+</button>
+<!-- image11: wide (2 columns) -->
+<button class="gallery-item" data-gallery-index="1" style="grid-column:span 2;">
+<img alt="Gallery image 2" src="image11.jpeg"/>
+</button>
+<!-- image12: hero (2 columns x 2 rows) -->
+<button class="gallery-item" data-gallery-index="2" style="grid-column:span 2; grid-row:span 2;">
+<img alt="Gallery image 3" src="image12.jpeg"/>
+</button>
+<button class="gallery-item" data-gallery-index="3">
+<img alt="Gallery image 4" src="image10.jpeg"/>
+</button>
+<button class="gallery-item" data-gallery-index="4">
+<img alt="Gallery image 5" src="image14.jpeg"/>
+</button>
+<!-- image15: wide (2 columns) -->
+<button class="gallery-item" data-gallery-index="5" style="grid-column:span 2;">
+<img alt="Gallery image 6" src="image15.jpeg"/>
+</button>
+<button class="gallery-item" data-gallery-index="6">
+<img alt="Gallery image 7" src="image16.jpeg"/>
+</button>
+</div>
+</div>
 </section>
-  
-  <!-- Experience -->
-  <section id="experience" class="section">
-    <div class="wrap">
-      <h2 class="reveal fx-wipe-l">Experience</h2>
-
-      <!-- POSTGRADUATE TRAINING & WORK EXPERIENCE -->
-      <h3 style="margin:16px 0 6px;font-size:1.02rem;letter-spacing:.06em;text-transform:uppercase;">
+<section class="section" id="experience">
+<div class="wrap">
+<h2 class="reveal fx-wipe-l" data-label="Practice &amp; research">Experience</h2>
+<!-- POSTGRADUATE TRAINING & WORK EXPERIENCE -->
+<h3 style="margin:16px 0 6px;font-size:1.02rem;letter-spacing:.06em;text-transform:uppercase;">
         POSTGRADUATE TRAINING &amp; WORK EXPERIENCE
       </h3>
-
-      <div class="timeline">
-        <!-- Internal Medicine Resident Physician – PGY2 -->
-        <div class="t">
-          <div class="dot" aria-hidden="true"></div>
-          <div class="card reveal fx-from-left">
-            <div class="role">
-              <strong>Internal Medicine Resident Physician – PGY2 — Zucker School of Medicine at Hofstra/Northwell, Nuvance Health</strong>
-              <span class="where">Vassar Brothers Medical Center, Poughkeepsie, NY&nbsp;•&nbsp;Jun 2024–Present</span>
-            </div>
-            <p class="lead" style="margin:.35rem 0 .12rem">
+<div class="timeline">
+<!-- Internal Medicine Resident Physician – PGY2 -->
+<div class="t">
+<div aria-hidden="true" class="dot"></div>
+<div class="card reveal fx-from-left">
+<div class="role">
+<strong>Internal Medicine Resident Physician – PGY2 — Zucker School of Medicine at Hofstra/Northwell, Nuvance Health</strong>
+<span class="where">Vassar Brothers Medical Center, Poughkeepsie, NY • Jun 2024–Present</span>
+</div>
+<p class="lead" style="margin:.35rem 0 .12rem">
               Lead resident for ICU blood culture stewardship and hospital-wide intubation checklist safety initiatives; co-developer of PCCM simulation curriculum, mentor for simulation-based airway training, and presenter at Code Blue Committee, Morbidity &amp; Mortality lectures, and ICU QI meetings.
             </p>
-            <div class="tags">
-              <span class="tag">Internal medicine residency</span>
-              <span class="tag">ICU quality improvement</span>
-              <span class="tag">Airway safety</span>
-              <span class="tag">Simulation training</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Visiting Internal Medicine Resident Physician -->
-        <div class="t">
-          <div class="dot" aria-hidden="true"></div>
-          <div class="card reveal fx-from-right">
-            <div class="role">
-              <strong>Visiting Internal Medicine Resident Physician — Pulmonary Medicine, SUNY Downstate Health Science University</strong>
-              <span class="where">Brooklyn, NY&nbsp;•&nbsp;Oct 2025–Nov 2025</span>
-            </div>
-            <p class="lead" style="margin:.35rem 0 .12rem">
+<div class="tags">
+<span class="tag">Internal medicine residency</span>
+<span class="tag">ICU quality improvement</span>
+<span class="tag">Airway safety</span>
+<span class="tag">Simulation training</span>
+</div>
+</div>
+</div>
+<!-- Visiting Internal Medicine Resident Physician -->
+<div class="t">
+<div aria-hidden="true" class="dot"></div>
+<div class="card reveal fx-from-right">
+<div class="role">
+<strong>Visiting Internal Medicine Resident Physician — Pulmonary Medicine, SUNY Downstate Health Science University</strong>
+<span class="where">Brooklyn, NY • Oct 2025–Nov 2025</span>
+</div>
+<p class="lead" style="margin:.35rem 0 .12rem">
               Visiting pulmonary medicine resident with exposure to ICU consults, imaging interpretation, and multidisciplinary PE and respiratory failure care.
             </p>
-            <div class="tags">
-              <span class="tag">Pulmonary medicine</span>
-              <span class="tag">ICU exposure</span>
-              <span class="tag">Visiting resident</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Medical Intern — Jordan University Hospital -->
-        <div class="t">
-          <div class="dot" aria-hidden="true"></div>
-          <div class="card reveal fx-from-left">
-            <div class="role">
-              <strong>Medical Intern — Jordan University Hospital</strong>
-              <span class="where">Amman, Jordan&nbsp;•&nbsp;Nov 2022–Nov 2023</span>
-            </div>
-            <p class="lead" style="margin:.35rem 0 .12rem">
+<div class="tags">
+<span class="tag">Pulmonary medicine</span>
+<span class="tag">ICU exposure</span>
+<span class="tag">Visiting resident</span>
+</div>
+</div>
+</div>
+<!-- Medical Intern — Jordan University Hospital -->
+<div class="t">
+<div aria-hidden="true" class="dot"></div>
+<div class="card reveal fx-from-left">
+<div class="role">
+<strong>Medical Intern — Jordan University Hospital</strong>
+<span class="where">Amman, Jordan • Nov 2022–Nov 2023</span>
+</div>
+<p class="lead" style="margin:.35rem 0 .12rem">
               Completed rotating internships across core specialties with responsibilities in inpatient care, documentation, and multidisciplinary team coordination.
             </p>
-            <div class="tags">
-              <span class="tag">Medical internship</span>
-              <span class="tag">Patient care</span>
-              <span class="tag">Multidisciplinary teams</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Visiting Medical Student – Internal Medicine Rotations -->
-        <div class="t">
-          <div class="dot" aria-hidden="true"></div>
-          <div class="card reveal fx-from-right">
-            <div class="role">
-              <strong>Visiting Medical Student – Internal Medicine Rotations</strong>
-              <span class="where">Brooklyn, NY &amp; Staten Island, NY&nbsp;•&nbsp;Jun 2022–Aug 2022</span>
-            </div>
-            <p class="lead" style="margin:.35rem 0 .12rem">
+<div class="tags">
+<span class="tag">Medical internship</span>
+<span class="tag">Patient care</span>
+<span class="tag">Multidisciplinary teams</span>
+</div>
+</div>
+</div>
+<!-- Visiting Medical Student – Internal Medicine Rotations -->
+<div class="t">
+<div aria-hidden="true" class="dot"></div>
+<div class="card reveal fx-from-right">
+<div class="role">
+<strong>Visiting Medical Student – Internal Medicine Rotations</strong>
+<span class="where">Brooklyn, NY &amp; Staten Island, NY • Jun 2022–Aug 2022</span>
+</div>
+<p class="lead" style="margin:.35rem 0 .12rem">
               Internal medicine rotations with exposure to US clinical workflows, outpatient and inpatient encounters, and EMR-based care coordination.
             </p>
-            <div class="tags">
-              <span class="tag">Internal medicine</span>
-              <span class="tag">US clinical exposure</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Medical Intern (Sixth-Year Medical Student) -->
-        <div class="t">
-          <div class="dot" aria-hidden="true"></div>
-          <div class="card reveal fx-from-left">
-            <div class="role">
-              <strong>Medical Intern (Sixth-Year Medical Student) — University of Debrecen Clinical Center</strong>
-              <span class="where">Debrecen, Hungary&nbsp;•&nbsp;Sep 2021–May 2022</span>
-            </div>
-            <p class="lead" style="margin:.35rem 0 .12rem">
+<div class="tags">
+<span class="tag">Internal medicine</span>
+<span class="tag">US clinical exposure</span>
+</div>
+</div>
+</div>
+<!-- Medical Intern (Sixth-Year Medical Student) -->
+<div class="t">
+<div aria-hidden="true" class="dot"></div>
+<div class="card reveal fx-from-left">
+<div class="role">
+<strong>Medical Intern (Sixth-Year Medical Student) — University of Debrecen Clinical Center</strong>
+<span class="where">Debrecen, Hungary • Sep 2021–May 2022</span>
+</div>
+<p class="lead" style="margin:.35rem 0 .12rem">
               Final-year clinical practice in hospital departments under faculty supervision, focusing on internal medicine, emergency care, and patient communication.
             </p>
-            <div class="tags">
-              <span class="tag">Clinical clerkships</span>
-              <span class="tag">Internal medicine</span>
-              <span class="tag">Hungary</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- RESEARCH EXPERIENCE -->
-      <h3 style="margin:22px 0 6px;font-size:1.02rem;letter-spacing:.06em;text-transform:uppercase;">
+<div class="tags">
+<span class="tag">Clinical clerkships</span>
+<span class="tag">Internal medicine</span>
+<span class="tag">Hungary</span>
+</div>
+</div>
+</div>
+</div>
+<!-- RESEARCH EXPERIENCE -->
+<h3 style="margin:22px 0 6px;font-size:1.02rem;letter-spacing:.06em;text-transform:uppercase;">
         RESEARCH EXPERIENCE
       </h3>
-
-      <div class="timeline">
-        <!-- Obesity and Mechanical Ventilation Outcomes Using the NIS Database -->
-        <div class="t">
-          <div class="dot" aria-hidden="true"></div>
-          <div class="card reveal fx-from-right">
-            <div class="role">
-              <strong>Obesity and Mechanical Ventilation Outcomes Using the NIS Database</strong>
-              <span class="where">National Inpatient Sample (NIS)&nbsp;•&nbsp;Jan 2025–Present</span>
-            </div>
-            <p class="lead" style="margin:.35rem 0 .12rem">
+<div class="timeline">
+<!-- Obesity and Mechanical Ventilation Outcomes Using the NIS Database -->
+<div class="t">
+<div aria-hidden="true" class="dot"></div>
+<div class="card reveal fx-from-right">
+<div class="role">
+<strong>Obesity and Mechanical Ventilation Outcomes Using the NIS Database</strong>
+<span class="where">National Inpatient Sample (NIS) • Jan 2025–Present</span>
+</div>
+<p class="lead" style="margin:.35rem 0 .12rem">
               Lead author and investigator designing a retrospective study of BMI and intubation/mechanical ventilation outcomes, overseeing ICD-10 mapping, variable construction, and outcome modeling in collaboration with statisticians and faculty mentors.
             </p>
-            <div class="tags">
-              <span class="tag">NIS database</span>
-              <span class="tag">Mechanical ventilation</span>
-              <span class="tag">Obesity</span>
-              <span class="tag">Retrospective study</span>
-            </div>
-          </div>
-        </div>
-        <!-- Post-PE Imaging Surveillance Study – PERT Registry -->
-        <div class="t">
-          <div class="dot" aria-hidden="true"></div>
-          <div class="card reveal fx-from-left">
-               <div class="role">
-               <strong>Post-Pulmonary Embolism (PE) Imaging Surveillance Study – PERT Registry</strong>
-               <span class="where">Apr 2025–Present</span>
-            </div>
-
-            <p class="lead" style="margin:.35rem 0 .12rem">
+<div class="tags">
+<span class="tag">NIS database</span>
+<span class="tag">Mechanical ventilation</span>
+<span class="tag">Obesity</span>
+<span class="tag">Retrospective study</span>
+</div>
+</div>
+</div>
+<!-- Post-PE Imaging Surveillance Study – PERT Registry -->
+<div class="t">
+<div aria-hidden="true" class="dot"></div>
+<div class="card reveal fx-from-left">
+<div class="role">
+<strong>Post-Pulmonary Embolism (PE) Imaging Surveillance Study – PERT Registry</strong>
+<span class="where">Apr 2025–Present</span>
+</div>
+<p class="lead" style="margin:.35rem 0 .12rem">
               Evaluating follow-up and imaging patterns after CDT or systemic thrombolysis and contributing to study design aimed at improving longitudinal PE care.
             </p>
-            <div class="tags">
-              <span class="tag">Pulmonary embolism</span>
-              <span class="tag">PERT Registry</span>
-              <span class="tag">Outcomes research</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- ICU Blood Culture Stewardship QI Study -->
-        <div class="t">
-          <div class="dot" aria-hidden="true"></div>
-          <div class="card reveal fx-from-right">
-            <div class="role">
-              <strong>ICU Blood Culture Stewardship Quality Improvement Study</strong>
-              <span class="where">Vassar Brothers Medical Center ICU&nbsp;•&nbsp;Feb 2025–Present</span>
-            </div>
-            <p class="lead" style="margin:.35rem 0 .12rem">
+<div class="tags">
+<span class="tag">Pulmonary embolism</span>
+<span class="tag">PERT Registry</span>
+<span class="tag">Outcomes research</span>
+</div>
+</div>
+</div>
+<!-- ICU Blood Culture Stewardship QI Study -->
+<div class="t">
+<div aria-hidden="true" class="dot"></div>
+<div class="card reveal fx-from-right">
+<div class="role">
+<strong>ICU Blood Culture Stewardship Quality Improvement Study</strong>
+<span class="where">Vassar Brothers Medical Center ICU • Feb 2025–Present</span>
+</div>
+<p class="lead" style="margin:.35rem 0 .12rem">
               Lead investigator implementing an algorithm to reduce inappropriate blood cultures, integrating balancing measures (e.g., CLABSI rates, SEP-1 compliance) and QR-coded bedside decision tools, with educational rollout to ICU staff.
             </p>
-            <div class="tags">
-              <span class="tag">ICU stewardship</span>
-              <span class="tag">Quality improvement</span>
-              <span class="tag">Blood cultures</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Intubation Checklist & Airway Safety Research/QI Project -->
-        <div class="t">
-          <div class="dot" aria-hidden="true"></div>
-          <div class="card reveal fx-from-left">
-            <div class="role">
-              <strong>Intubation Checklist &amp; Airway Safety Research/QI Project</strong>
-              <span class="where">Vassar Brothers Medical Center ICU&nbsp;•&nbsp;Aug 2024–Present</span>
-            </div>
-            <p class="lead" style="margin:.35rem 0 .12rem">
+<div class="tags">
+<span class="tag">ICU stewardship</span>
+<span class="tag">Quality improvement</span>
+<span class="tag">Blood cultures</span>
+</div>
+</div>
+</div>
+<!-- Intubation Checklist & Airway Safety Research/QI Project -->
+<div class="t">
+<div aria-hidden="true" class="dot"></div>
+<div class="card reveal fx-from-left">
+<div class="role">
+<strong>Intubation Checklist &amp; Airway Safety Research/QI Project</strong>
+<span class="where">Vassar Brothers Medical Center ICU • Aug 2024–Present</span>
+</div>
+<p class="lead" style="margin:.35rem 0 .12rem">
               Lead developer of a structured airway checklist for intubation, including cardiac arrest scenarios, with pre-implementation review by the Code Blue Committee and outcome metrics to assess impact in the critical care setting.
             </p>
-            <div class="tags">
-              <span class="tag">Airway safety</span>
-              <span class="tag">Checklists</span>
-              <span class="tag">Critical care QI</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- PCCM Simulation Curriculum Development -->
-        <div class="t">
-          <div class="dot" aria-hidden="true"></div>
-          <div class="card reveal fx-from-right">
-            <div class="role">
-                 <strong>PCCM Simulation Curriculum Development</strong>
-                 <span class="where">Jun 2025–Present</span>
-            </div>
-            <p class="lead" style="margin:.35rem 0 .12rem">
+<div class="tags">
+<span class="tag">Airway safety</span>
+<span class="tag">Checklists</span>
+<span class="tag">Critical care QI</span>
+</div>
+</div>
+</div>
+<!-- PCCM Simulation Curriculum Development -->
+<div class="t">
+<div aria-hidden="true" class="dot"></div>
+<div class="card reveal fx-from-right">
+<div class="role">
+<strong>PCCM Simulation Curriculum Development</strong>
+<span class="where">Jun 2025–Present</span>
+</div>
+<p class="lead" style="margin:.35rem 0 .12rem">
               Co-developed four high-acuity simulation scenarios (PE, tension pneumothorax, tamponade, severe hyperkalemia/metabolic acidosis), facilitator guides, process maps, ABG tables, DOPE checklists, and surveys, with planned expansion following positive feedback from PCCM fellows.
             </p>
-            <div class="tags">
-              <span class="tag">Simulation curriculum</span>
-              <span class="tag">PCCM</span>
-              <span class="tag">Education</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Additional Research Work -->
-        <div class="t">
-          <div class="dot" aria-hidden="true"></div>
-          <div class="card reveal fx-from-left">
-            <div class="role">
-              <strong>Additional Research Work</strong>
-              <span class="where">NY Metropolitan Area &amp; remote&nbsp;•&nbsp;2023–2024</span>
-            </div>
-            <p class="lead" style="margin:.35rem 0 .12rem">
+<div class="tags">
+<span class="tag">Simulation curriculum</span>
+<span class="tag">PCCM</span>
+<span class="tag">Education</span>
+</div>
+</div>
+</div>
+<!-- Additional Research Work -->
+<div class="t">
+<div aria-hidden="true" class="dot"></div>
+<div class="card reveal fx-from-left">
+<div class="role">
+<strong>Additional Research Work</strong>
+<span class="where">NY Metropolitan Area &amp; remote • 2023–2024</span>
+</div>
+<p class="lead" style="margin:.35rem 0 .12rem">
               Autism risk factor questionnaire project (Jan–Apr 2024); peer reviewer for 17 published manuscripts (Oct 2023–Jan 2024); and several literature reviews across cardiology, neurology, psychiatry, and infectious diseases (2023–2024).
             </p>
-            <div class="tags">
-              <span class="tag">Autism risk factors</span>
-              <span class="tag">Peer review</span>
-              <span class="tag">Literature review</span>
-              <span class="tag">Multispecialty research</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-     
-      <!-- Education -->
-  <section id="education" class="section">
-    <div class="wrap">
-      <h2 class="reveal fx-wipe-r">Education</h2>
-
-      <div id="edu-scroll" class="reveal fx-zoom">
-        <div class="box" role="region" aria-label="Education cards carousel">
-          <div class="tray-wrap">
-            <div class="tray" id="eduTray" tabindex="0"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-   <!-- Publications -->
-  <section id="publications" class="section">
-    <div class="wrap">
-      <h2 class="reveal fx-wipe-r">Publications, Presentations, &amp; Honors</h2>
-
-      <!-- PEER-REVIEWED ARTICLES -->
-      <h3 style="margin:14px 0 6px;font-size:1.02rem;letter-spacing:.06em;text-transform:uppercase;">
+<div class="tags">
+<span class="tag">Autism risk factors</span>
+<span class="tag">Peer review</span>
+<span class="tag">Literature review</span>
+<span class="tag">Multispecialty research</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="section" id="education">
+<div class="wrap">
+<h2 class="reveal fx-wipe-r" data-label="Academic journey">Education</h2>
+<div class="reveal fx-zoom" id="edu-scroll">
+<div aria-label="Education cards carousel" class="box" role="region">
+<div class="tray-wrap">
+<div class="tray" id="eduTray" tabindex="0"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="section" id="publications">
+<div class="wrap">
+<h2 class="reveal fx-wipe-r" data-label="Research output">Publications, Presentations, &amp; Honors</h2>
+<!-- PEER-REVIEWED ARTICLES -->
+<h3 style="margin:14px 0 6px;font-size:1.02rem;letter-spacing:.06em;text-transform:uppercase;">
         PEER-REVIEWED ARTICLES
       </h3>
-
-      <div id="pub-scroll" class="reveal fx-zoom">
-        <div class="tray" tabindex="0">
-          <article class="pub-card" tabindex="0">
-            <div class="title">
+<div class="reveal fx-zoom" id="pub-scroll">
+<div class="tray" tabindex="0">
+<article class="pub-card" tabindex="0">
+<div class="title">
               Advancements in Pancreatic Cancer Detection: Integrating Biomarkers, Imaging Technologies, and Machine Learning for Early Diagnosis
             </div>
-            <div class="journal">
+<div class="journal">
               Daher H, Punchayil SA, Ismail AAE, Fernandes RR, Jacob J, Algazzar MH, Mansour M. Cureus. 2024 Mar 20;16(3):e56583.
             </div>
-            <div class="actions">
-              <a class="btn ghost" href="https://pubmed.ncbi.nlm.nih.gov/38646386/" target="_blank" rel="noopener">DOI →</a>
-            </div>
-          </article>
-
-          <article class="pub-card" tabindex="0">
-            <div class="title">
+<div class="actions">
+<a class="btn ghost" href="https://pubmed.ncbi.nlm.nih.gov/38646386/" rel="noopener" target="_blank">DOI →</a>
+</div>
+</article>
+<article class="pub-card" tabindex="0">
+<div class="title">
               Role of Deep Brain Stimulation (DBS) in Addiction Disorders
             </div>
-            <div class="journal">
+<div class="journal">
               Iqbal J, Mansour MNM, Saboor HA, Suyambu J, Lak MA, Zeeshan MH, Hafeez MH, Arain M, Mehmood M, Mehmood D, Ashraf M. Surg Neurol Int. 2023 Dec 22;14:434.
             </div>
-            <div class="actions">
-              <a class="btn ghost" href="https://pubmed.ncbi.nlm.nih.gov/38213452/" target="_blank" rel="noopener">DOI →</a>
-            </div>
-          </article>
-
-          <article class="pub-card" tabindex="0">
-            <div class="title">
+<div class="actions">
+<a class="btn ghost" href="https://pubmed.ncbi.nlm.nih.gov/38213452/" rel="noopener" target="_blank">DOI →</a>
+</div>
+</article>
+<article class="pub-card" tabindex="0">
+<div class="title">
               Frailty in Aging HIV-Positive Individuals: An Evolving Healthcare Landscape
             </div>
-            <div class="journal">
+<div class="journal">
               Mansour M, Augustine M, Kumar M, Butt AN, Thugu TR, Kaur P, Patel NJ, Gaudani A, Jahania MB, Jami E, Sharifa M, Raj R, Mehmood D. Cureus. 2023 Dec 14;15(12):e50539.
             </div>
-            <div class="actions">
-              <a class="btn ghost" href="https://pubmed.ncbi.nlm.nih.gov/38222136/" target="_blank" rel="noopener">DOI →</a>
-            </div>
-          </article>
-
-          <article class="pub-card" tabindex="0">
-            <div class="title">
+<div class="actions">
+<a class="btn ghost" href="https://pubmed.ncbi.nlm.nih.gov/38222136/" rel="noopener" target="_blank">DOI →</a>
+</div>
+</article>
+<article class="pub-card" tabindex="0">
+<div class="title">
               Revascularization Modalities in Acute Coronary Syndrome: A Review of the Current State of Evidence
             </div>
-            <div class="journal">
+<div class="journal">
               Surve TA, Kazim MA, Sughra M, Mirza AMW, Murugan SK, Shebani KAM, Karishma F, Trada IJ, Mansour M, Asif K, Kaur L, Kamal A, Unachukwu N, Naveed A. Cureus. 2023 Oct 17;15(10):e47207.
             </div>
-            <div class="actions">
-              <a class="btn ghost" href="https://pubmed.ncbi.nlm.nih.gov/38021880/" target="_blank" rel="noopener">DOI →</a>
-            </div>
-          </article>
-
-          <article class="pub-card" tabindex="0">
-            <div class="title">
+<div class="actions">
+<a class="btn ghost" href="https://pubmed.ncbi.nlm.nih.gov/38021880/" rel="noopener" target="_blank">DOI →</a>
+</div>
+</article>
+<article class="pub-card" tabindex="0">
+<div class="title">
               Reperfusion Therapies in Acute Ischemic Stroke Beyond the Conventional Time Window: A Narrative Review
             </div>
-            <div class="journal">
+<div class="journal">
               Mansour M. Cureus. 2023 Sep 24;15(9):e45864.
             </div>
-            <div class="actions">
-              <a class="btn ghost" href="https://pubmed.ncbi.nlm.nih.gov/37881372/" target="_blank" rel="noopener">DOI →</a>
-            </div>
-          </article>
-
-          <article class="pub-card" tabindex="0">
-            <div class="title">
+<div class="actions">
+<a class="btn ghost" href="https://pubmed.ncbi.nlm.nih.gov/37881372/" rel="noopener" target="_blank">DOI →</a>
+</div>
+</article>
+<article class="pub-card" tabindex="0">
+<div class="title">
               Post-traumatic Stress Disorder: A Narrative Review of Pharmacological and Psychotherapeutic Interventions
             </div>
-            <div class="journal">
+<div class="journal">
               Mansour M, Joseph GR, Joy GK, Khanal S, Dasireddy RR, Menon A, Barrie Mason I, Kataria J, Patel T, Modi S. Cureus. 2023 Sep 8;15(9):e44905.
             </div>
-            <div class="actions">
-              <a class="btn ghost" href="https://pubmed.ncbi.nlm.nih.gov/37814755/" target="_blank" rel="noopener">DOI →</a>
-            </div>
-          </article>
-        </div>
-      </div>
-
-      <!-- PRESENTATIONS -->
-      <h3 style="margin:22px 0 6px;font-size:1.02rem;letter-spacing:.06em;text-transform:uppercase;">
+<div class="actions">
+<a class="btn ghost" href="https://pubmed.ncbi.nlm.nih.gov/37814755/" rel="noopener" target="_blank">DOI →</a>
+</div>
+</article>
+</div>
+</div>
+<!-- PRESENTATIONS -->
+<h3 style="margin:22px 0 6px;font-size:1.02rem;letter-spacing:.06em;text-transform:uppercase;">
         PRESENTATIONS
       </h3>
-
-      <div class="reveal fx-from-left" style="display:grid;gap:12px;margin-top:6px;">
-        <div class="card">
-          <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline;">
-            <span>Morbidity and Mortality (M&amp;M) Conference; Cardiogenic Shock Management</span>
-            <span class="where">Oct 23, 2025</span>
-          </div>
-        </div>
-
-        <div class="card">
-          <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline;">
-            <span>Recognizing and Managing Sepsis; are we doing enough?</span>
-            <span class="where">Aug 28, 2025</span>
-          </div>
-        </div>
-
-        <div class="card">
-          <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline;">
-            <span>Structured Intubation: Implementing an Intubation Checklist and the Power of the Time-Out Process</span>
-            <span class="where">Jul 7, 2025</span>
-          </div>
-        </div>
-
-        <div class="card">
-          <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline;">
-            <span>Weathering the Storm: Thyroid Storm-Related Cardiomyopathy and Multi-Organ Failure Managed Successfully with Therapeutic Plasma Exchange, a Case Report; 40th Annual Belsky Research Day VBMC Presentation</span>
-            <span class="where">May 20, 2025</span>
-          </div>
-        </div>
-
-        <div class="card">
-          <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline;">
-            <span>Morbidity and Mortality (M&amp;M) Conference; Sepsis Management and Resuscitation Status Discussions</span>
-            <span class="where">Apr 17, 2025</span>
-          </div>
-        </div>
-
-        <div class="card">
-          <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline;">
-            <span>Graduate Medical Education Lecture; Disability in Medicine and Beyond</span>
-            <span class="where">Mar 5, 2025</span>
-          </div>
-        </div>
-
-        <div class="card">
-          <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline;">
-            <span>Morbidity and Mortality (M&amp;M) Conference; Anticoagulation Reversal</span>
-            <span class="where">Feb 20, 2025</span>
-          </div>
-        </div>
-
-        <div class="card">
-          <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline;">
-            <span>Journal Club; Twice-yearly Lenacapavir or daily F/TAF for HIV prevention in cisgender women</span>
-            <span class="where">Feb 7, 2025</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- AWARDS & HONORS -->
-      <h3 style="margin:22px 0 6px;font-size:1.02rem;letter-spacing:.06em;text-transform:uppercase;">
+<div class="reveal fx-from-left" style="display:grid;gap:12px;margin-top:6px;">
+<div class="card">
+<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline;">
+<span>Morbidity and Mortality (M&amp;M) Conference; Cardiogenic Shock Management</span>
+<span class="where">Oct 23, 2025</span>
+</div>
+</div>
+<div class="card">
+<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline;">
+<span>Recognizing and Managing Sepsis; are we doing enough?</span>
+<span class="where">Aug 28, 2025</span>
+</div>
+</div>
+<div class="card">
+<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline;">
+<span>Structured Intubation: Implementing an Intubation Checklist and the Power of the Time-Out Process</span>
+<span class="where">Jul 7, 2025</span>
+</div>
+</div>
+<div class="card">
+<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline;">
+<span>Weathering the Storm: Thyroid Storm-Related Cardiomyopathy and Multi-Organ Failure Managed Successfully with Therapeutic Plasma Exchange, a Case Report; 40th Annual Belsky Research Day VBMC Presentation</span>
+<span class="where">May 20, 2025</span>
+</div>
+</div>
+<div class="card">
+<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline;">
+<span>Morbidity and Mortality (M&amp;M) Conference; Sepsis Management and Resuscitation Status Discussions</span>
+<span class="where">Apr 17, 2025</span>
+</div>
+</div>
+<div class="card">
+<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline;">
+<span>Graduate Medical Education Lecture; Disability in Medicine and Beyond</span>
+<span class="where">Mar 5, 2025</span>
+</div>
+</div>
+<div class="card">
+<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline;">
+<span>Morbidity and Mortality (M&amp;M) Conference; Anticoagulation Reversal</span>
+<span class="where">Feb 20, 2025</span>
+</div>
+</div>
+<div class="card">
+<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline;">
+<span>Journal Club; Twice-yearly Lenacapavir or daily F/TAF for HIV prevention in cisgender women</span>
+<span class="where">Feb 7, 2025</span>
+</div>
+</div>
+</div>
+<!-- AWARDS & HONORS -->
+<h3 style="margin:22px 0 6px;font-size:1.02rem;letter-spacing:.06em;text-transform:uppercase;">
         AWARDS &amp; HONORS
       </h3>
-
-      <div class="reveal fx-from-right" style="display:grid;gap:12px;margin-top:6px;">
-        <div class="card">
-          <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline;">
-            <span>PGY1 Best Role Model of The Program’s Mission “Excellence in Education and Phenomenal Patient Care” Award; Vassar Brothers Medical Center IM Program</span>
-            <span class="where">2025</span>
-          </div>
-        </div>
-
-        <div class="card">
-          <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline;">
-            <span>Summa Scholar Award; Cureus Journal</span>
-            <span class="where">2023</span>
-          </div>
-        </div>
-
-        <div class="card">
-          <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline;">
-            <span>Summa Cum Laude (Highest Distinction) Award; University of Debrecen</span>
-            <span class="where">2022</span>
-          </div>
-        </div>
-
-        <div class="card">
-          <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline;">
-            <span>President of the International Student Union Volunteer Award; University of Debrecen</span>
-            <span class="where">2022</span>
-          </div>
-        </div>
-
-        <div class="card">
-          <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline;">
-            <span>Stipendium Hungaricum Scholarship (Full Tuition Merit-Based Scholarship); Tempus Public Foundation</span>
-            <span class="where">2016</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-<!-- Skills & Languages -->
-<section id="skills" class="section">
-  <div class="wrap">
-    <h2 class="reveal fx-wipe-l">Skills & Languages</h2>
-
-    <!-- Single clean card with rectangular chips -->
-    <div class="card reveal fx-zoom" style="padding:28px;">
-
-      <!-- SKILLS -->
-      <strong class="skill-group-title">Skills</strong>
-
-      <div
-        style="
-          display:grid;
-          grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
-          gap:10px;
-          margin-top:12px;
-        "
-      >
-        <!-- Clinical & research -->
-        <span class="chip" style="text-align:center;">Clinical Assessment</span>
-        <span class="chip" style="text-align:center;">Evidence Synthesis</span>
-        <span class="chip" style="text-align:center;">Manuscript Writing</span>
-        <span class="chip" style="text-align:center;">Literature Review</span>
-        <span class="chip" style="text-align:center;">Communication</span>
-        <span class="chip" style="text-align:center;">Team Collaboration</span>
-
-        <!-- Data / QI / systems -->
-        <span class="chip" style="text-align:center;">Data Cleaning (NIS/NRD)</span>
-        <span class="chip" style="text-align:center;">ICD-10 Mapping</span>
-        <span class="chip" style="text-align:center;">QI Methods (PDSA, RCA)</span>
-        <span class="chip" style="text-align:center;">Process Mapping</span>
-        <span class="chip" style="text-align:center;">Simulation Design</span>
-        <span class="chip" style="text-align:center;">Debriefing Frameworks</span>
-        <span class="chip" style="text-align:center;">EMR: Cerner</span>
-        <span class="chip" style="text-align:center;">EMR: HealthBridge</span>
-        <span class="chip" style="text-align:center;">EMR: Epic</span>
-      </div>
-
-      <!-- LANGUAGES -->
-      <strong class="skill-group-title" style="margin-top:22px;">Languages</strong>
-
-      <div
-        style="
-          display:grid;
-          grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
-          gap:10px;
-          margin-top:12px;
-        "
-      >
-        <span class="chip" style="text-align:center;">English</span>
-        <span class="chip" style="text-align:center;">Arabic</span>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-  <!-- Volunteer Work -->
-  <section id="activities" class="section">
-    <div class="wrap">
-      <h2 class="reveal fx-wipe-l">Volunteer Work</h2>
-
-      <div class="activities-grid">
-        <article class="card activity reveal fx-zoom"><div class="title">THRIVE Lifeline — Virtual Crisis Responder & Mentor (FL, USA) • Nov 2022–Jun 2024</div></article>
-        <article class="card activity reveal fx-zoom"><div class="title">Cureus — Community Volunteer (San Francisco, USA) • Jun 2022–Aug 2022</div></article>
-        <article class="card activity reveal fx-zoom"><div class="title">International Student Union — Administrative Volunteer (Debrecen, Hungary)</div></article>
-      </div>
-    </div>
-  </section>
-  
-  <!-- Contact -->
-  <section id="contact" class="section">
-    <div class="wrap reveal fx-from-up">
-      <div class="card reveal fx-zoom">
-        <h2 class="reveal fx-wipe-r">Get in touch</h2>
-        <div style="display:flex;gap:10px;flex-wrap:wrap">
-          <a class="btn primary" href="mailto:mohammad.mansour@nuvancehealth.org">Email me</a>
-          <a class="btn ghost" href="https://www.linkedin.com/in/mohammad-mansour-25695a2a5/" target="_blank" rel="noopener">LinkedIn</a>
-          <a class="btn ghost" href="CV.pdf" download="Mohammad_Mansour_CV.pdf">Download CV</a>
-
-        </div>
-      </div>
-    </div>
-  </section>
-</main>
-
-<!-- Lightbox overlay for gallery -->
-<div id="lightbox" class="lightbox" aria-hidden="true">
-  <button class="lightbox-btn lightbox-close" aria-label="Close">×</button>
-  <button class="lightbox-btn lightbox-prev" aria-label="Previous">‹</button>
-  <img id="lightboxImage" src="" alt="Expanded gallery image">
-  <button class="lightbox-btn lightbox-next" aria-label="Next">›</button>
+<div class="reveal fx-from-right" style="display:grid;gap:12px;margin-top:6px;">
+<div class="card">
+<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline;">
+<span>PGY1 Best Role Model of The Program’s Mission “Excellence in Education and Phenomenal Patient Care” Award; Vassar Brothers Medical Center IM Program</span>
+<span class="where">2025</span>
 </div>
-
-  
-<footer><div class="wrap">© 2025 Mohammad Mansour</div></footer>
-<a href="#about" class="btn primary to-top" id="toTop">↑ Top</a>
-
+</div>
+<div class="card">
+<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline;">
+<span>Summa Scholar Award; Cureus Journal</span>
+<span class="where">2023</span>
+</div>
+</div>
+<div class="card">
+<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline;">
+<span>Summa Cum Laude (Highest Distinction) Award; University of Debrecen</span>
+<span class="where">2022</span>
+</div>
+</div>
+<div class="card">
+<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline;">
+<span>President of the International Student Union Volunteer Award; University of Debrecen</span>
+<span class="where">2022</span>
+</div>
+</div>
+<div class="card">
+<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline;">
+<span>Stipendium Hungaricum Scholarship (Full Tuition Merit-Based Scholarship); Tempus Public Foundation</span>
+<span class="where">2016</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="section" id="skills">
+<div class="wrap">
+<h2 class="reveal fx-wipe-l" data-label="Capabilities">Skills &amp; Languages</h2>
+<!-- Single clean card with rectangular chips -->
+<div class="card reveal fx-zoom" style="padding:28px;">
+<!-- SKILLS -->
+<strong class="skill-group-title">Skills</strong>
+<div style="
+          display:grid;
+          grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+          gap:10px;
+          margin-top:12px;
+        ">
+<!-- Clinical & research -->
+<span class="chip" style="text-align:center;">Clinical Assessment</span>
+<span class="chip" style="text-align:center;">Evidence Synthesis</span>
+<span class="chip" style="text-align:center;">Manuscript Writing</span>
+<span class="chip" style="text-align:center;">Literature Review</span>
+<span class="chip" style="text-align:center;">Communication</span>
+<span class="chip" style="text-align:center;">Team Collaboration</span>
+<!-- Data / QI / systems -->
+<span class="chip" style="text-align:center;">Data Cleaning (NIS/NRD)</span>
+<span class="chip" style="text-align:center;">ICD-10 Mapping</span>
+<span class="chip" style="text-align:center;">QI Methods (PDSA, RCA)</span>
+<span class="chip" style="text-align:center;">Process Mapping</span>
+<span class="chip" style="text-align:center;">Simulation Design</span>
+<span class="chip" style="text-align:center;">Debriefing Frameworks</span>
+<span class="chip" style="text-align:center;">EMR: Cerner</span>
+<span class="chip" style="text-align:center;">EMR: HealthBridge</span>
+<span class="chip" style="text-align:center;">EMR: Epic</span>
+</div>
+<!-- LANGUAGES -->
+<strong class="skill-group-title" style="margin-top:22px;">Languages</strong>
+<div style="
+          display:grid;
+          grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+          gap:10px;
+          margin-top:12px;
+        ">
+<span class="chip" style="text-align:center;">English</span>
+<span class="chip" style="text-align:center;">Arabic</span>
+</div>
+</div>
+</div>
+</section>
+<section class="section" id="activities">
+<div class="wrap">
+<h2 class="reveal fx-wipe-l" data-label="Service">Volunteer Work</h2>
+<div class="activities-grid">
+<article class="card activity reveal fx-zoom"><div class="title">THRIVE Lifeline — Virtual Crisis Responder &amp; Mentor (FL, USA) • Nov 2022–Jun 2024</div></article>
+<article class="card activity reveal fx-zoom"><div class="title">Cureus — Community Volunteer (San Francisco, USA) • Jun 2022–Aug 2022</div></article>
+<article class="card activity reveal fx-zoom"><div class="title">International Student Union — Administrative Volunteer (Debrecen, Hungary)</div></article>
+</div>
+</div>
+</section>
+<section class="section" id="contact">
+<div class="wrap reveal fx-from-up">
+<div class="card reveal fx-zoom">
+<h2 class="reveal fx-wipe-r" data-label="Connect">Get in touch</h2>
+<div style="display:flex;gap:10px;flex-wrap:wrap">
+<a class="btn primary" href="mailto:mohammad.mansour@nuvancehealth.org">Email me</a>
+<a class="btn ghost" href="https://www.linkedin.com/in/mohammad-mansour-25695a2a5/" rel="noopener" target="_blank">LinkedIn</a>
+<a class="btn ghost" download="Mohammad_Mansour_CV.pdf" href="CV.pdf">Download CV</a>
+</div>
+</div>
+</div>
+</section>
+</main>
+<div id="lightbox" class="lightbox" aria-hidden="true"><button class="lightbox-btn lightbox-close" aria-label="Close">×</button><button class="lightbox-btn lightbox-prev" aria-label="Previous">‹</button><img id="lightboxImage" src="" alt="Expanded gallery image"><button class="lightbox-btn lightbox-next" aria-label="Next">›</button></div>
+<footer><div class="footer-inner"><span>© 2026 Mohammad Mansour</span><span>Medical portfolio</span><a href="#home">Back to top ↑</a></div></footer>
 <script>
-/* Reveal on scroll */
-(function(){
-  const els=[...document.querySelectorAll('.reveal')];
-  if(!('IntersectionObserver'in window)){els.forEach(e=>e.classList.add('in'))}
-  else{
-    const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{root:null,rootMargin:'0px 0px -10% 0px',threshold:0});
-    els.forEach(e=>io.observe(e));
-  }
-  const kick=()=>els.forEach(e=>{const r=e.getBoundingClientRect(); if(r.top<innerHeight*.9&&r.bottom>0)e.classList.add('in')});
-  requestAnimationFrame(kick); addEventListener('load',kick,{once:true}); addEventListener('resize',kick); addEventListener('orientationchange',kick);
-})();
-
-// Rotating tagline
-const words=["Medical Doctor","Peer Reviewer","Researcher","Clinician-in-Training"]; let wi=0;
-const rot=document.getElementById("rotate");
-function cycle(){ if(!rot) return; rot.classList.remove('show'); setTimeout(()=>{ wi=(wi+1)%words.length; rot.textContent=words[wi]; rot.classList.add('show'); },220); }
-if(rot){ rot.classList.add('show'); setInterval(cycle,1800); }
-
-// Back to top
-const toTop=document.getElementById('toTop');
-const toggleTop=()=>{ scrollY>400 ? toTop.classList.add('show') : toTop.classList.remove('show') };
-addEventListener('scroll',toggleTop,{passive:true}); toggleTop();
-
-// Active nav highlight + progress bar
-const links=[...document.querySelectorAll('nav a')];
-const ids=links.map(a=>a.getAttribute('href')).filter(h=>h.startsWith('#'));
-const secs=ids.map(id=>document.querySelector(id));
-let prog=document.getElementById('progress'); if(!prog){prog=document.createElement('div');prog.id='progress';document.body.appendChild(prog);}
-const onScroll=()=>{
-  const h=document.documentElement; const scrolled=(h.scrollTop)/(h.scrollHeight-h.clientHeight);
-  prog.style.width=(scrolled*100)+'%';
-  let idx=0; secs.forEach((s,i)=>{const r=s.getBoundingClientRect(); if(r.top<=innerHeight*0.4) idx=i;});
-  const atBottom=Math.ceil(scrollY+innerHeight)>=document.body.scrollHeight-2; if(atBottom) idx=secs.length-1;
-  links.forEach(a=>a.classList.remove('active')); const active=document.querySelector(`nav a[href="${ids[idx]}"]`); if(active) active.classList.add('active');
-};
-addEventListener('scroll',onScroll,{passive:true}); onScroll();
-
-/* Mobile menu toggle (hamburger) */
-(function(){
-  const menuBtn = document.getElementById('menuBtn');
-  const nav = document.getElementById('siteNav');
-  if(!menuBtn || !nav) return;
-
-  function closeNav(){
-    document.body.classList.remove('nav-open');
-    menuBtn.setAttribute('aria-expanded','false');
-    nav.setAttribute('aria-hidden','true');
-  }
-  function openNav(){
-    document.body.classList.add('nav-open');
-    menuBtn.setAttribute('aria-expanded','true');
-    nav.removeAttribute('aria-hidden');
-  }
-
-  menuBtn.addEventListener('click', ()=>{
-    document.body.classList.contains('nav-open') ? closeNav() : openNav();
-  });
-
-  nav.querySelectorAll('a').forEach(a=>a.addEventListener('click', closeNav));
-  addEventListener('keydown', e=>{ if(e.key==='Escape') closeNav(); });
-  addEventListener('resize', ()=>{ if(innerWidth>760) closeNav(); }, {passive:true});
-})();
-
-/* Build the education cards */
-(function(){
-  const data = [
-    { year:"Sep 2022", city:"Debrecen, Hungary", code:"hu", school:"Faculty of Medicine — University of Debrecen", program:"Doctor of Medicine (M.D.). Thesis: Reperfusion Therapies in Acute Ischemic Stroke Beyond Conventional Time Window.", note:"GPA 4.71/5.0" },
-    { year:"May 2016", city:"Abu Dhabi, UAE", code:"ae", school:"Rawafed Private School", program:"High School Diploma (H.S.D.)", note:"Science Track. Average: 99.1%" }
-  ];
-
-  const tray = document.getElementById('eduTray');
-  if (!tray) return;
-  tray.innerHTML = data.map(d => `
-    <article class="edu-card" tabindex="0">
-      <div class="meta">
-        <img class="flag-ico" src="https://flagcdn.com/w40/${d.code}.png" alt="${d.city} flag" loading="lazy" width="24" height="16">
-        <span>${d.year} • ${d.city}</span>
-      </div>
-      <div class="school">${d.school}</div>
-      <div class="desc">${d.program}</div>
-      ${d.note ? `<div class="note">${d.note}</div>`:''}
-    </article>
-  `).join('');
-
-  // Drag to scroll
-  let down=false,startX=0,sl=0,pid=null;
-  tray.addEventListener('pointerdown', e=>{down=true;startX=e.clientX;sl=tray.scrollLeft;pid=e.pointerId;tray.setPointerCapture(pid);});
-  tray.addEventListener('pointermove', e=>{if(!down)return; tray.scrollLeft=sl-(e.clientX-startX);});
-  tray.addEventListener('pointerup', ()=>{down=false; try{tray.releasePointerCapture(pid);}catch{} });
-
-  // Wheel → horizontal
-  tray.addEventListener('wheel', e=>{
-    if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){ tray.scrollLeft += e.deltaY; e.preventDefault(); }
-  }, {passive:false});
-})();
-
-/* Gallery lightbox + arrows */
-(function(){
-  const items = [...document.querySelectorAll('.gallery-item')];
-  if(!items.length) return;
-
-  const lightbox = document.getElementById('lightbox');
-  const lightImg = document.getElementById('lightboxImage');
-  const closeBtn = lightbox.querySelector('.lightbox-close');
-  const prevBtn  = lightbox.querySelector('.lightbox-prev');
-  const nextBtn  = lightbox.querySelector('.lightbox-next');
-
-  let current = 0;
-
-  function openLightbox(index){
-    current = (index + items.length) % items.length;
-    const img = items[current].querySelector('img');
-    lightImg.src = img.src;
-    lightImg.alt = img.alt || 'Gallery image';
-    lightbox.classList.add('open');
-    lightbox.setAttribute('aria-hidden','false');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeLightbox(){
-    lightbox.classList.remove('open');
-    lightbox.setAttribute('aria-hidden','true');
-    document.body.style.overflow = '';
-  }
-
-  function step(delta){
-    openLightbox(current + delta);
-  }
-
-  items.forEach((btn, idx) => {
-    btn.addEventListener('click', () => openLightbox(idx));
-  });
-
-  closeBtn.addEventListener('click', closeLightbox);
-
-  // click on dark background closes too
-  lightbox.addEventListener('click', e => {
-    if(e.target === lightbox) closeLightbox();
-  });
-
-  prevBtn.addEventListener('click', () => step(-1));
-  nextBtn.addEventListener('click', () => step(1));
-
-  // keyboard controls
-  addEventListener('keydown', e => {
-    if(!lightbox.classList.contains('open')) return;
-    if(e.key === 'Escape')      closeLightbox();
-    if(e.key === 'ArrowRight')  step(1);
-    if(e.key === 'ArrowLeft')   step(-1);
-  });
-})();
-
-  
+const navbar=document.querySelector('#navbar'),slider=document.querySelector('.slider'),links=[...document.querySelectorAll('.nav-link')],sectionsNav=[...document.querySelectorAll('main section[id]')];
+function moveSlider(link){if(!link||innerWidth<=760)return;const n=navbar.getBoundingClientRect(),l=link.getBoundingClientRect();slider.style.width=l.width+'px';slider.style.transform=`translateX(${l.left-n.left}px)`}
+function setActive(id){links.forEach(a=>a.classList.toggle('active',a.hash==='#'+id));moveSlider(document.querySelector('.nav-link.active'))}
+links.forEach(a=>{a.addEventListener('mouseenter',()=>moveSlider(a));a.addEventListener('click',()=>{setActive(a.hash.slice(1));navbar.classList.remove('open');document.body.classList.remove('nav-open')})});navbar.addEventListener('mouseleave',()=>moveSlider(document.querySelector('.nav-link.active')));
+addEventListener('scroll',()=>{let current='home';sectionsNav.forEach(s=>{if(scrollY>=s.offsetTop-180)current=s.id});setActive(current)},{passive:true});addEventListener('resize',()=>moveSlider(document.querySelector('.nav-link.active')));addEventListener('load',()=>moveSlider(document.querySelector('.nav-link.active')));
+const menuToggle=document.getElementById('menuToggle');menuToggle.addEventListener('click',()=>{const open=navbar.classList.toggle('open');document.body.classList.toggle('nav-open',open);menuToggle.setAttribute('aria-expanded',open)});
+const revealEls=[...document.querySelectorAll('.reveal,.card,.edu-card,.pub-card,.gallery-item')];const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.08});revealEls.forEach(e=>{e.classList.add('reveal');io.observe(e)});
+const words=['Medical Doctor','Peer Reviewer','Researcher','Clinician-in-Training'];let wi=0;setInterval(()=>{wi=(wi+1)%words.length;document.getElementById('rotate').textContent=words[wi]},1800);
+(function(){const data=[{year:'Sep 2022',city:'Debrecen, Hungary',code:'hu',school:'Faculty of Medicine — University of Debrecen',program:'Doctor of Medicine (M.D.). Thesis: Reperfusion Therapies in Acute Ischemic Stroke Beyond Conventional Time Window.',note:'GPA 4.71/5.0'},{year:'May 2016',city:'Abu Dhabi, UAE',code:'ae',school:'Rawafed Private School',program:'High School Diploma (H.S.D.)',note:'Science Track. Average: 99.1%'}];const tray=document.getElementById('eduTray');if(!tray)return;tray.innerHTML=data.map(d=>`<article class="edu-card"><div class="meta"><img class="flag-ico" src="https://flagcdn.com/w40/${d.code}.png" alt="${d.city} flag"><span>${d.year} • ${d.city}</span></div><div class="school">${d.school}</div><div class="desc">${d.program}</div><div class="note">${d.note}</div></article>`).join('')} )();
+(function(){const items=[...document.querySelectorAll('.gallery-item')],lb=document.getElementById('lightbox'),img=document.getElementById('lightboxImage');if(!items.length)return;let current=0;function open(i){current=(i+items.length)%items.length;const source=items[current].querySelector('img');img.src=source.src;img.alt=source.alt;lb.classList.add('open');document.body.style.overflow='hidden'}function close(){lb.classList.remove('open');document.body.style.overflow=''}items.forEach((b,i)=>b.addEventListener('click',()=>open(i)));lb.querySelector('.lightbox-close').onclick=close;lb.querySelector('.lightbox-prev').onclick=()=>open(current-1);lb.querySelector('.lightbox-next').onclick=()=>open(current+1);lb.addEventListener('click',e=>{if(e.target===lb)close()});addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;if(e.key==='Escape')close();if(e.key==='ArrowLeft')open(current-1);if(e.key==='ArrowRight')open(current+1)})})();
 </script>
-     </body>
-     </html>
+</body></html>
